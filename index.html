@@ -10,6 +10,8 @@
     <link href='icons/app_icon_glassnote2-256.png' rel='apple-touch-icon' sizes='256x256'/>
     <link href='icons/app_icon_glassnote2-512.png' rel='apple-touch-icon' sizes='512x512'/>
     <head>
+        
+        <link rel="stylesheet" href="blog.css">
         <link rel="stylesheet" href="styles.css">
         <script src="blog-ui-ajax.js"></script>
         <script src="tinymce/tinymce.min.js"></script>
@@ -45,8 +47,36 @@
             tinymce.init(dfreeBodyConfig);
         </script>
         <style>
-            .post {
+            .top-bar-container {
+                z-index: 51 !important;
+                position: sticky !important;
+                top: 50px !important;
+            }
+            .top-bar {
+                top: -50px;
+                position: absolute;
+            }
+            .page_body .centered {
+                /* position: relative; */
                 z-index: 20;
+                /* top: 50px; */
+            }
+            .post-outer-container {
+                min-height: 40px;
+                padding: 16px;
+                width: auto;
+                border-radius: 12px;
+                background: rgba(254,254,253,0.95);
+                box-shadow: 0px 0px 15px -5px rgba(0,0,0, 0.8);
+                margin-bottom: 16px !important;
+            }
+            @media screen and (max-width: 886px){
+                .post-outer-container {
+                    margin: 0 8px;
+                }
+            }
+            .glassnote-about-msg {
+                margin: 1em 0 0 0;
             }
         </style>
         <script src="/upup.min.js"></script>
@@ -56,6 +86,7 @@
                 'assets' : [
                     'bg.jpg',
                     'styles.css',
+                    'blog.css',
                     'blog-ui-ajax.js',
                     'tinymce/icons/default/icons.min.js',
                     'tinymce/plugins/autolink/plugin.min.js',
@@ -217,65 +248,78 @@
             }
         </script>
     </head>
-    <body>
+    <body class="item-view">
         <script type="text/javascript">changeFontSizeInit();darkModeInit();</script>
         <div class="bg-div"></div>
         <div class="dark_mode_overlay" id="dark_mode_overlay"></div>
-        <div class="centered top-bar-container">
-            <div class="centered-top-container top-bar" id="top-bar">
-            <!-- <a class="return_link ripple" href="https://www.qingsky.hk" onclick="removeAttribute('href');history.back();" title="上一頁">
-                <img class="png_icon light" src="https://1.bp.blogspot.com/-4n5BLk_IUMA/YBqsMpIUaBI/AAAAAAAABb4/DDFj4GJnBTAN-FmE7XjIIIx1Oyr6ZueYACNcBGAsYHQ/s0/Return.png">
-                <img class="png_icon dark" src="https://1.bp.blogspot.com/-IkWxWn7awDQ/YBqsMY8itWI/AAAAAAAABb0/1i9sC0l38UAOqhjiKbgd0WjCKBahkHlNQCNcBGAsYHQ/s0/Return_dark.png">
-            </a>
-            <a class="return_link to_top ripple" onclick="window.scrollTo({top: 0, behavior: 'smooth'});" title="回頁首" target="_blank">
-                <img class="png_icon light" src="https://1.bp.blogspot.com/-T9gVRKpz_gs/YBqsMrYr8GI/AAAAAAAABb8/tISjSpO1uTMeumsepkb9bHR5_U8MzGbAwCNcBGAsYHQ/s0/ToTop.png">
-                <img class="png_icon dark" src="https://1.bp.blogspot.com/-0IlychxoYAc/YBqsM-VORDI/AAAAAAAABcA/nftQHsfts8khJc9rM9BLpBch7h8Xa6nVACNcBGAsYHQ/s0/ToTop_dark.png">
-            </a> -->
-            <div class="right-button-container  flat-icon-button ripple"><div class="splash-wrapper"><span class="splash" style="height: 64px; width: 64px; left: 16px; top: 3px;"></span></div>
-            <a class="return_link dark_mode_button" onclick="darkMode();" title="黑夜模式" target="_blank">
-                <img class="png_icon" src="icons/DarkMode.png">
-            </a>
-            </div>
-            <div class="right-button-container flat-icon-button ripple"><div class="splash-wrapper"><span class="splash" style="height: 64px; width: 64px; left: 10px; top: -5px;"></span></div>
-            <a class="return_link font_size" onclick="changeFontSize();" style="" title="字體大小" target="_blank">
-                <img class="png_icon light" src="icons/FontSize.png">
-                <img class="png_icon dark" src="icons/FontSize_dark.png">
-            </a>
-            </div>
-            <!-- <div class="subscribe-section-container">
-            <a href="/p/about.html#subscribe" target="_blank" title="訂閱"><button class="subscribe-button pill-button">訂閱</button></a>
-            </div> -->
-                <!--copy
-                <div class="right-button-container flat-icon-button ripple">
-                    <a class="return_link font_size" onclick="copyToClipboard();" target="_blank">
-                    <img class="png_icon light" src="https://1.bp.blogspot.com/-JPcY6nSjVfo/YEIRr3HstlI/AAAAAAAABjU/wgzAHkF3HOY89bP7cEY-LNuhKGIY_MYTQCNcBGAsYHQ/s100/export.png">
-                    <img class="png_icon dark" src="https://1.bp.blogspot.com/-1vfgnmF5fAw/YEIRr8lCVLI/AAAAAAAABjY/kaC1orvkVF0epoYKwdYoXKLGx7r3wLD2ACNcBGAsYHQ/s100/export_dark.png">
-                    </a>
-                </div>-->
-            </div>
-        </div>
-        <div class="post">
-            <h3>上次儲存：<span class='last-saved-msg'>-</span>　　　<a style="float: right" href="javascript:void(0)" onclick="clearCurrentAndLocalStorage();">清空</a></h3>
-            <div class="editor-buttons" id="editor-buttons">
-                <!--copy-->
-                <div class="right-button-container flat-icon-button ripple">
-                    <a class="return_link font_size" onclick="copyToClipboard();">
-                    <img class="png_icon light" src="icons/export.png"/>
-                    <img class="png_icon dark" src="icons/export_dark.png"/>
-                    </a>
+        <div class="page_body">
+            <div class="page-upper-part"></div>
+            <div class="centered top-bar-container">
+                <div class="centered-top-container top-bar" id="top-bar">
+                <!-- <a class="return_link ripple" href="https://www.qingsky.hk" onclick="removeAttribute('href');history.back();" title="上一頁">
+                    <img class="png_icon light" src="https://1.bp.blogspot.com/-4n5BLk_IUMA/YBqsMpIUaBI/AAAAAAAABb4/DDFj4GJnBTAN-FmE7XjIIIx1Oyr6ZueYACNcBGAsYHQ/s0/Return.png">
+                    <img class="png_icon dark" src="https://1.bp.blogspot.com/-IkWxWn7awDQ/YBqsMY8itWI/AAAAAAAABb0/1i9sC0l38UAOqhjiKbgd0WjCKBahkHlNQCNcBGAsYHQ/s0/Return_dark.png">
+                </a>
+                <a class="return_link to_top ripple" onclick="window.scrollTo({top: 0, behavior: 'smooth'});" title="回頁首" target="_blank">
+                    <img class="png_icon light" src="https://1.bp.blogspot.com/-T9gVRKpz_gs/YBqsMrYr8GI/AAAAAAAABb8/tISjSpO1uTMeumsepkb9bHR5_U8MzGbAwCNcBGAsYHQ/s0/ToTop.png">
+                    <img class="png_icon dark" src="https://1.bp.blogspot.com/-0IlychxoYAc/YBqsM-VORDI/AAAAAAAABcA/nftQHsfts8khJc9rM9BLpBch7h8Xa6nVACNcBGAsYHQ/s0/ToTop_dark.png">
+                </a> -->
+                <div class="right-button-container  flat-icon-button ripple"><div class="splash-wrapper"><span class="splash" style="height: 64px; width: 64px; left: 16px; top: 3px;"></span></div>
+                <a class="return_link dark_mode_button" onclick="darkMode();" title="黑夜模式" target="_blank">
+                    <img class="png_icon" src="icons/DarkMode.png">
+                </a>
                 </div>
-            </div>
-            <div class='editor' id='editor'>
-                <div class="editor-body entry-content" id='editor-body' contenteditable="true" style="position: relative;" spellcheck="false">
+                <div class="right-button-container flat-icon-button ripple"><div class="splash-wrapper"><span class="splash" style="height: 64px; width: 64px; left: 10px; top: -5px;"></span></div>
+                <a class="return_link font_size" onclick="changeFontSize();" style="" title="字體大小" target="_blank">
+                    <img class="png_icon light" src="icons/FontSize.png">
+                    <img class="png_icon dark" src="icons/FontSize_dark.png">
+                </a>
+                </div>
+                <!-- <div class="subscribe-section-container">
+                <a href="/p/about.html#subscribe" target="_blank" title="訂閱"><button class="subscribe-button pill-button">訂閱</button></a>
+                </div> -->
+                    <!--copy
+                    <div class="right-button-container flat-icon-button ripple">
+                        <a class="return_link font_size" onclick="copyToClipboard();" target="_blank">
+                        <img class="png_icon light" src="https://1.bp.blogspot.com/-JPcY6nSjVfo/YEIRr3HstlI/AAAAAAAABjU/wgzAHkF3HOY89bP7cEY-LNuhKGIY_MYTQCNcBGAsYHQ/s100/export.png">
+                        <img class="png_icon dark" src="https://1.bp.blogspot.com/-1vfgnmF5fAw/YEIRr8lCVLI/AAAAAAAABjY/kaC1orvkVF0epoYKwdYoXKLGx7r3wLD2ACNcBGAsYHQ/s100/export_dark.png">
+                        </a>
+                    </div>-->
                 </div>
             </div>
             
-            <hr />
-            
-            <div id="glassnote-about-msg" class="glassnote-about-msg">
-            <h3>上次儲存：<span class='last-saved-msg'>-</span>　　　<a href="javascript:void(0)" onclick="clearCurrentAndLocalStorage();">清空</a></h3>
-            <p> <em>GlassNote 2.0，<a href="/p/glassnote-about.html" target="_blank">按這裡了解更多</a></em></p>
-            
+            <div class="page-lower-part">
+                <div class="centered" style="position: relative;">
+                    <div class="post-outer-container">
+                        <div class="post-outer post">
+                        <div class="post-body entry-content float-container">
+                            <h3>上次儲存：<span class='last-saved-msg'>-</span>　　　<a style="float: right" href="javascript:void(0)" onclick="clearCurrentAndLocalStorage();">清空</a></h3>
+                            <div class="editor-buttons" id="editor-buttons">
+                                <!--copy-->
+                                <div class="right-button-container flat-icon-button ripple">
+                                    <a class="return_link font_size" onclick="copyToClipboard();">
+                                    <img class="png_icon light" src="icons/export.png"/>
+                                    <img class="png_icon dark" src="icons/export_dark.png"/>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class='editor' id='editor'>
+                                <div class="editor-body entry-content" id='editor-body' contenteditable="true" style="position: relative;" spellcheck="false">
+                                </div>
+                            </div>
+                            <hr />
+                        </div>
+                    </div>
+                    
+                    
+                
+                    </div>
+                    <div id="glassnote-about-msg" class="glassnote-about-msg">
+                        <h3>上次儲存：<span class='last-saved-msg'>-</span>　　　<a href="javascript:void(0)" onclick="clearCurrentAndLocalStorage();">清空</a></h3>
+                        <p> <em>GlassNote 2.0，<a href="https://qingsky.hk/p/glassnote-about.html" target="_blank">按這裡了解更多</a></em></p>
+                        
+                    </div>
+                    </div>
             </div>
         </div>
     </body>
