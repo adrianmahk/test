@@ -1,0 +1,301 @@
+<html>
+    <meta charset="UTF-8">
+    <head>
+        <style>
+            .post-header, .post-share-buttons.post-share-buttons-top, .post-bottom, #comments, .post-title.entry-title {
+                display: none;
+            }
+            .editor-buttons {
+                float: right;
+                margin-top: -40px;
+            }
+            .editor-buttons button {
+                padding-left: 16px;
+                padding-right: 16px;
+            }
+            .editor-buttons svg {
+                fill: #212121;
+            }
+            .post-body p br {
+                line-height: unset;
+                display: block;
+                content: unset;
+            }
+            .post-body p br::before {
+                content: unset;
+            }
+            .glassnote-about-msg {
+                text-align: center;
+                color: #fefdfd;
+                text-shadow: 0px 0px .5em rgba(0,0,0, 0.66), 0px 0px 1em rgba(0,0,0, 0.66), 0px 0px 1.5em #aaaaaa;
+            }
+            .glassnote-about-msg h3 {
+                color: #fefdfd;
+            }
+            .glassnote-about-msg a, .glassnote-about-msg a:visited {
+                color: #aef;
+            }
+            #blog-pager, #PageList3 {
+                display: none;
+            }
+            .page-lower-part {
+                top: -50px;
+            }
+            .subscribe-section-container {
+                display: none !important;
+            }
+            .return_link.to_top, #footer {
+                display: none !important;
+            }
+            .more-info-msg, #blog-pager, #Header1, .label-all-container, .return_link {
+                visibility: hidden;
+            }
+        </style>
+        <style>
+            .editor {
+                position: relative;
+                /* width: 690px; */
+                /* box-shadow: 0px 2px 8px 0px rgba(0, 0, 0, 0.2); */
+                text-align: left;
+                /* color: #626262; */
+                /* font-size: 14px; */
+                /* padding: 20px; */
+                outline: none;
+            }
+            .editor *[contentEditable="true"]:hover {
+                /* outline: 1px solid #2276d2; */
+            }
+            .editor a {
+                text-decoration: underline;
+            }
+            .editor textarea {
+                display: none;
+            }
+            .editor .dfree-header {
+                font-size: 2.4em;
+                text-align: center;
+                margin: 10px;
+            }
+            .editor .editor-body {
+            /* padding: 20px; */
+                padding-top: 0px;
+                outline: none;
+                min-height: 55vh;
+            }
+            /* .editor .editor-body p {
+                margin-bottom: 10px;
+            } */
+            .editor .editor-body blockquote {
+            margin-left: 30px;
+            padding-left: 10px;
+            margin-right: 40px;
+            font-style: italic;
+            border-left: 1px solid #696969;
+            }
+            .editor .editor-body a {
+            text-decoration: underline;
+            }
+            .editor .editor-body td,
+            .editor .editor-body tr {
+            border: 1px solid #696969;
+            }
+        </style>
+        <script src="tinymce/tinymce.min.js"></script>
+        
+        <script>
+            var dfreeBodyConfig = {
+                selector: '.editor-body',
+                menubar: false,
+                inline: true,
+                plugins: [
+                    'autolink',
+                    'link',
+                    'lists',
+                    'visualblocks',
+                    // 'powerpaste',
+                    'quickbars',
+                ],
+                valid_classes: {
+                    '*': 'quote', // Global classes
+                    'img': 'lazyload' // Link specific classes
+                },
+                // paste_as_text: true,
+                toolbar: false,
+                quickbars_insert_toolbar: 'undo redo paste visualblocks',
+                quickbars_selection_toolbar: 'cut copy paste',
+                contextmenu: 'undo redo visualblocks',
+                valid_elements : 'a,strong,em,cite,br',
+                element_format : 'xhtml',
+                visualblocks_default_state: false,
+                init_instance_callback: function () {
+                    loadFromLocalStorage(initEventListeners);
+                }
+            };
+            tinymce.init(dfreeBodyConfig);
+        </script>
+        <script>
+            // inits
+            function initEventListeners() {
+                window.addEventListener("pagehide", saveToLocalStorage);
+                window.addEventListener("visibilitychange", function () {
+                    if (document.visibilityState === 'hidden') {
+                        saveToLocalStorage();
+                      }
+                });
+                window.addEventListener("pageshow", function (event) {
+                    if (event.persisted) {
+                        loadFromLocalStorage();
+                    }
+                });
+                setInterval(() => {
+                        saveToLocalStorage();
+                    }, 50000);
+            }
+        
+            ready(function() {
+                addButtonToTopBar();
+                moveAboutMessageToAboveFooter();
+            });
+        
+            function saveToLocalStorage() {
+                var editor = document.getElementById("editor-body");
+                var lastVer = localStorage.getItem('content');
+                var currentVer = editor.innerHTML;
+                
+                if (lastVer) {
+                    if (lastVer == currentVer) {
+                        return;
+                    }
+                }
+                
+                if (editor) {
+                    var textContent = editor.textContent;
+                    if (textContent != "") {
+                        localStorage.setItem('content', currentVer);
+                        var date = new Date();
+                        localStorage.setItem('last-saved-time', date.toLocaleString());
+                        
+                        updateLastSavedMsg();
+                        console.log("saved version: " + date.toLocaleString());
+                        console.log(currentVer);
+                    }
+                }
+            }
+            function loadFromLocalStorage(fn=null) {
+                var text = localStorage.getItem('content');
+                if (text) {
+                    var editor = document.getElementById("editor-body");
+                    editor.innerHTML = text;
+                    
+                    updateLastSavedMsg();
+                    console.log("loaded");
+                }
+                if (fn) {
+                    fn();
+                }
+            }
+            function updateLastSavedMsg() {
+                var lastSavedMsg = document.getElementsByClassName("last-saved-msg");
+                var lastSavedTime = localStorage.getItem("last-saved-time");
+                if (lastSavedTime != "") {
+                    for (var i = 0; i < lastSavedMsg.length; i++) {
+                        lastSavedMsg[i].innerText = lastSavedTime;
+                    }
+        
+                }
+                else {
+                    for (var i = 0; i < lastSavedMsg.length; i++) {
+                        lastSavedMsg[i].innerText = "-";
+                    }
+                }
+            }
+            
+            function clearCurrentAndLocalStorage() {
+                if (confirm("確定要清空所有內容? 這個操作將不可復原")) {
+                    localStorage.clear();
+                    var editor = document.getElementById("editor-body");
+                    if (editor) {
+                        editor.innerHTML = "";
+                    }
+                    updateLastSavedMsg();
+                }
+            }
+            function updateTitle(){
+                var postTitle = document.getElementsByClassName("post-title entry-title")[0];
+                var editor = document.getElementById("editor-body");
+                var content = editor.innerText;
+                postTitle.innerHTML = getFirstLine(content);
+            }
+            function getFirstLine(str){
+                var breakIndice = [
+                    str.indexOf("\n"),
+                    100
+                ];
+                console.log(breakIndice, " => ");
+                breakIndice = breakIndice.filter(breakIndice => breakIndice >= 0);
+                console.log(breakIndice);
+                var breakIndex = Math.min(...breakIndice);
+        
+                console.log(breakIndex);
+                if (breakIndex === -1){
+                    return str;
+                }
+        
+                return str.substr(0, breakIndex);
+            }
+            function copyToClipboard() {
+                var range = document.createRange();
+                range.selectNode(document.getElementById("editor-body"));
+                window.getSelection().removeAllRanges();
+                window.getSelection().addRange(range);
+                var result = document.execCommand('copy');
+        
+                saveToLocalStorage();
+            }
+            function showMoreInfo() {
+                var classList = document.body.classList;
+                if (!classList.contains("show-info")) {
+                    document.body.classList.add("show-info");
+                }
+                else {
+                    document.body.classList.remove("show-info");
+                }
+            }
+            function addButtonToTopBar() {
+                var topBar = document.getElementById("top-bar");
+                var editorButtons = document.getElementById("editor-buttons");
+                topBar.append(...editorButtons.childNodes);
+                editorButtons.innerHTML = "";
+            }
+            function moveAboutMessageToAboveFooter() {
+                var msg = document.getElementById("glassnote-about-msg");
+                var footer = document.getElementById("footer");
+                footer.parentNode.insertBefore(msg, footer);
+            }
+        </script>
+    </head>
+    <body>
+        <h3>上次儲存：<span class='last-saved-msg'>-</span>　　　<a style="float: right" href="javascript:void(0)" onclick="clearCurrentAndLocalStorage();">清空</a></h3>
+        <div class="editor-buttons" id="editor-buttons">
+            <!--copy-->
+            <div class="right-button-container flat-icon-button ripple">
+                <a class="return_link font_size" onclick="copyToClipboard();">
+                <img class="png_icon light" src="https://1.bp.blogspot.com/-JPcY6nSjVfo/YEIRr3HstlI/AAAAAAAABjU/wgzAHkF3HOY89bP7cEY-LNuhKGIY_MYTQCNcBGAsYHQ/s100/export.png"/>
+                <img class="png_icon dark" src="https://1.bp.blogspot.com/-1vfgnmF5fAw/YEIRr8lCVLI/AAAAAAAABjY/kaC1orvkVF0epoYKwdYoXKLGx7r3wLD2ACNcBGAsYHQ/s100/export_dark.png"/>
+                </a>
+            </div>
+        </div>
+        <div class='editor' id='editor'>
+            <div class="editor-body entry-content" id='editor-body' contenteditable="true" style="position: relative;" spellcheck="false">
+            </div>
+        </div>
+        
+        <hr />
+        
+        <div id="glassnote-about-msg" class="glassnote-about-msg">
+        <h3>上次儲存：<span class='last-saved-msg'>-</span>　　　<a href="javascript:void(0)" onclick="clearCurrentAndLocalStorage();">清空</a></h3>
+        <p> <em>GlassNote 2.0，<a href="/p/glassnote-about.html" target="_blank">按這裡了解更多</a></em></p>
+        
+        </div>
+    </body>
+</html>
