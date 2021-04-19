@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
     <meta charset="UTF-8">
     <head>
@@ -135,6 +136,19 @@
         </script>
         <script>
             // inits
+            function ready(fn) {
+            if (document.readyState != 'loading') {
+                fn();
+            } else if (document.addEventListener) {
+                document.addEventListener('DOMContentLoaded', fn);
+            } else {
+                document.attachEvent('onreadystatechange', function () {
+                if (document.readyState != 'loading')
+                    fn();
+                });
+            }
+            }
+
             function initEventListeners() {
                 window.addEventListener("pagehide", saveToLocalStorage);
                 window.addEventListener("visibilitychange", function () {
