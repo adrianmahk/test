@@ -159,8 +159,19 @@
         <script src="/upup.min.js"></script>
         <script>
             UpUp.start({
-                'content-url': 'offline.html',
-                'assets' : ['bg.jpg']
+                'content-url': 'index.html',
+                'assets' : [
+                    'bg.jpg',
+                    'tinymce/icons/default/icons.min.js',
+                    'tinymce/plugins/autolink/plugin.min.js',
+                    'tinymce/plugins/lists/plugin.min.js',
+                    'tinymce/plugins/visualblocks/plugin.min.js',
+                    'tinymce/plugins/quickbars/plugin.min.js',
+                    'tinymce/plugins/link/plugin.min.js',
+                    'tinymce/skins/ui/oxide/skin.min.css',
+                    'tinymce/themes/silver/theme.min.js',
+                    'tinymce/tinymce.min.js'
+                ]
             });
         </script>
 
@@ -325,8 +336,8 @@
             <!--copy-->
             <div class="right-button-container flat-icon-button ripple">
                 <a class="return_link font_size" onclick="copyToClipboard();">
-                <img class="png_icon light" src="https://1.bp.blogspot.com/-JPcY6nSjVfo/YEIRr3HstlI/AAAAAAAABjU/wgzAHkF3HOY89bP7cEY-LNuhKGIY_MYTQCNcBGAsYHQ/s100/export.png"/>
-                <img class="png_icon dark" src="https://1.bp.blogspot.com/-1vfgnmF5fAw/YEIRr8lCVLI/AAAAAAAABjY/kaC1orvkVF0epoYKwdYoXKLGx7r3wLD2ACNcBGAsYHQ/s100/export_dark.png"/>
+                <img class="png_icon light" src="export.png"/>
+                <img class="png_icon dark" src="export_dark.png"/>
                 </a>
             </div>
         </div>
