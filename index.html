@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+    <title>GlassNote 2.0</title>
     <meta charset="UTF-8">
     <meta content='width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1' name='viewport'/>
     <link href='manifest_glassnote.json' rel='manifest'/>
@@ -9,6 +10,19 @@
     <link href='//1.bp.blogspot.com/-CeI6lT1zjTs/YD-7yEI_bPI/AAAAAAAABgo/KznDAaLZ_vcJN5t-0rx0uvoLoLVhi-g4QCNcBGAsYHQ/s256/app_icon_glassnote2.png' rel='apple-touch-icon' sizes='256x256'/>
     <link href='//1.bp.blogspot.com/-CeI6lT1zjTs/YD-7yEI_bPI/AAAAAAAABgo/KznDAaLZ_vcJN5t-0rx0uvoLoLVhi-g4QCNcBGAsYHQ/s512/app_icon_glassnote2.png' rel='apple-touch-icon' sizes='512x512'/>
     <head>
+        <style>
+            .bg-div {
+                top: 0;
+                left: 0;
+                height: 100vh;
+                width: 100%;
+                position: fixed;
+                background: #aaaaaa url(bg.JPG) repeat scroll top center;
+                background-size: cover;
+                background-repeat: no-repeat;
+                background-color: transparent;
+            }
+        </style>
         <style>
             .post-header, .post-share-buttons.post-share-buttons-top, .post-bottom, #comments, .post-title.entry-title {
                 display: none;
@@ -145,7 +159,8 @@
         <script src="/upup.min.js"></script>
         <script>
             UpUp.start({
-            'content-url': 'offline.html'
+                'content-url': 'offline.html',
+                'assets' : ['bg.jpg']
             });
         </script>
 
@@ -304,6 +319,7 @@
         </script>
     </head>
     <body>
+        <div class="bg-div" />
         <h3>上次儲存：<span class='last-saved-msg'>-</span>　　　<a style="float: right" href="javascript:void(0)" onclick="clearCurrentAndLocalStorage();">清空</a></h3>
         <div class="editor-buttons" id="editor-buttons">
             <!--copy-->
