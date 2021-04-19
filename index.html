@@ -10,205 +10,8 @@
     <link href='icons/app_icon_glassnote2-256.png' rel='apple-touch-icon' sizes='256x256'/>
     <link href='icons/app_icon_glassnote2-512.png' rel='apple-touch-icon' sizes='512x512'/>
     <head>
-        <style>
-            .bg-div {
-                top: 0;
-                left: 0;
-                height: 100vh;
-                width: 100%;
-                position: fixed;
-                background: #aaaaaa url(bg.JPG) repeat scroll top center;
-                background-size: cover;
-                background-repeat: no-repeat;
-                background-color: transparent;
-            }
-.page_body .centered {
-box-sizing: border-box;
-display: -webkit-box;
-display: -webkit-flex;
-display: -ms-flexbox;
-display: flex;
--webkit-box-orient: vertical;
--webkit-box-direction: normal;
--webkit-flex-direction: column;
--ms-flex-direction: column;
-flex-direction: column;
-margin: 0 auto;
-max-width: calc(870px * .8 + 20vw);
-}
-.top-bar-container {
-z-index: 51;
-position: sticky;
-top: 50px;
-}
-.centered-top-container {
-padding: 0 16px;
-padding: env(safe-area-inset-top) max(16px, env(safe-area-inset-right)) env(safe-area-inset-bottom) max(16px, env(safe-area-inset-left));
-height: 100%;
-}
-.return_link {
-margin: 4px -8px;
-padding: 8px;
-float: left;
-display: block;
-opacity: 1;
-visibility: visible;
-text-shadow: 0px 0px 1px rgba(0,0,0, 0.8), 1px 1px 1px rgba(0,0,0, 0.8);
-font-size: 24px;
-color: #ffffff;
-z-index: 51;
-transition: all .2s ease-in-out;
--webkit-transition: all .2s ease-in-out;
-pointer-events: all;
-cursor: pointer;
-position: absolute;
-}
-.right-button-container {
-float: right;
-max-width: 48px;
-margin: 0px -12px;
-padding: 0px 12px;
-/* margin-right: -2px; */
-}
-.return_link.dark_mode_button, .collapsed-header .return_link.dark_mode_button {
-display: block !important;
-visibility: visible !important;
-opacity: 1 !important;
-position: relative;
-margin: 0 -4px;
-padding: 12px;
-width: 24px;
-height: 24px;
-font-size: 20px;
-float: none;
-z-index: 51;
-color: #ffffff;
-}
-.flat-icon-button {
-background: transparent;
-border: none;
-outline: none;
-margin: -12px;
-padding: 12px;
-cursor: pointer;
-box-sizing: content-box;
-display: inline-block;
-line-height: 0;
-}
-.png_icon {
-height: 24px;
-width: 24px;
-display: block;
-}
-.png_icon.dark {
-display: none;
-}
-body.dark-mode .png_icon.light {
-display: none;
-}
-body.dark-mode .png_icon.dark {
-display: block;
-}
-        </style>
-        <style>
-            .post-header, .post-share-buttons.post-share-buttons-top, .post-bottom, #comments, .post-title.entry-title {
-                display: none;
-            }
-            .editor-buttons {
-                float: right;
-                margin-top: -40px;
-            }
-            .editor-buttons button {
-                padding-left: 16px;
-                padding-right: 16px;
-            }
-            .editor-buttons svg {
-                fill: #212121;
-            }
-            .post-body p br {
-                line-height: unset;
-                display: block;
-                content: unset;
-            }
-            .post-body p br::before {
-                content: unset;
-            }
-            .glassnote-about-msg {
-                text-align: center;
-                color: #fefdfd;
-                text-shadow: 0px 0px .5em rgba(0,0,0, 0.66), 0px 0px 1em rgba(0,0,0, 0.66), 0px 0px 1.5em #aaaaaa;
-            }
-            .glassnote-about-msg h3 {
-                color: #fefdfd;
-            }
-            .glassnote-about-msg a, .glassnote-about-msg a:visited {
-                color: #aef;
-            }
-            #blog-pager, #PageList3 {
-                display: none;
-            }
-            .page-lower-part {
-                top: -50px;
-            }
-            .subscribe-section-container {
-                display: none !important;
-            }
-            .return_link.to_top, #footer {
-                display: none !important;
-            }
-            .more-info-msg, #blog-pager, #Header1, .label-all-container, .return_link {
-                visibility: hidden;
-            }
-        </style>
-        <style>
-            .editor {
-                position: relative;
-                /* width: 690px; */
-                /* box-shadow: 0px 2px 8px 0px rgba(0, 0, 0, 0.2); */
-                text-align: left;
-                /* color: #626262; */
-                /* font-size: 14px; */
-                /* padding: 20px; */
-                outline: none;
-            }
-            .editor *[contentEditable="true"]:hover {
-                /* outline: 1px solid #2276d2; */
-            }
-            .editor a {
-                text-decoration: underline;
-            }
-            .editor textarea {
-                display: none;
-            }
-            .editor .dfree-header {
-                font-size: 2.4em;
-                text-align: center;
-                margin: 10px;
-            }
-            .editor .editor-body {
-            /* padding: 20px; */
-                padding-top: 0px;
-                outline: none;
-                min-height: 55vh;
-            }
-            /* .editor .editor-body p {
-                margin-bottom: 10px;
-            } */
-            .editor .editor-body blockquote {
-            margin-left: 30px;
-            padding-left: 10px;
-            margin-right: 40px;
-            font-style: italic;
-            border-left: 1px solid #696969;
-            }
-            .editor .editor-body a {
-            text-decoration: underline;
-            }
-            .editor .editor-body td,
-            .editor .editor-body tr {
-            border: 1px solid #696969;
-            }
-        </style>
+        <link rel="stylesheet" href="styles.css">
+        <script src="blog-ui-ajax.js"></script>
         <script src="tinymce/tinymce.min.js"></script>
         
         <script>
@@ -249,6 +52,8 @@ display: block;
                 'content-url': 'index.html',
                 'assets' : [
                     'bg.jpg',
+                    'styles.css',
+                    'blog-ui-ajax.js',
                     'tinymce/icons/default/icons.min.js',
                     'tinymce/plugins/autolink/plugin.min.js',
                     'tinymce/plugins/lists/plugin.min.js',
@@ -270,20 +75,6 @@ display: block;
         </script>
 
         <script>
-            // inits
-            function ready(fn) {
-            if (document.readyState != 'loading') {
-                fn();
-            } else if (document.addEventListener) {
-                document.addEventListener('DOMContentLoaded', fn);
-            } else {
-                document.attachEvent('onreadystatechange', function () {
-                if (document.readyState != 'loading')
-                    fn();
-                });
-            }
-            }
-
             function initEventListeners() {
                 window.addEventListener("pagehide", saveToLocalStorage);
                 window.addEventListener("visibilitychange", function () {
@@ -424,7 +215,9 @@ display: block;
         </script>
     </head>
     <body>
-        <div class="bg-div" />
+        <script type="text/javascript">changeFontSizeInit();darkModeInit();</script>
+        <div class="bg-div"></div>
+        <div class="dark_mode_overlay" id="dark_mode_overlay"></div>
         <div class="centered top-bar-container">
             <div class="centered-top-container top-bar" id="top-bar">
             <!-- <a class="return_link ripple" href="https://www.qingsky.hk" onclick="removeAttribute('href');history.back();" title="上一頁">
@@ -457,7 +250,7 @@ display: block;
                     </a>
                 </div>-->
             </div>
-            </div>
+        </div>
         <h3>上次儲存：<span class='last-saved-msg'>-</span>　　　<a style="float: right" href="javascript:void(0)" onclick="clearCurrentAndLocalStorage();">清空</a></h3>
         <div class="editor-buttons" id="editor-buttons">
             <!--copy-->
