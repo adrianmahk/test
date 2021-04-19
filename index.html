@@ -7,8 +7,8 @@
     <meta content='yes' name='apple-mobile-web-app-capable'/>
     <meta content='black' name='apple-mobile-web-app-status-bar-style'/>
     <meta content='GlassNote' name='apple-mobile-web-app-title'/>
-    <link href='app_icon_glassnote2-256.png' rel='apple-touch-icon' sizes='256x256'/>
-    <link href='app_icon_glassnote2-512.png' rel='apple-touch-icon' sizes='512x512'/>
+    <link href='icons/app_icon_glassnote2-256.png' rel='apple-touch-icon' sizes='256x256'/>
+    <link href='icons/app_icon_glassnote2-512.png' rel='apple-touch-icon' sizes='512x512'/>
     <head>
         <style>
             .bg-div {
@@ -22,6 +22,93 @@
                 background-repeat: no-repeat;
                 background-color: transparent;
             }
+.page_body .centered {
+box-sizing: border-box;
+display: -webkit-box;
+display: -webkit-flex;
+display: -ms-flexbox;
+display: flex;
+-webkit-box-orient: vertical;
+-webkit-box-direction: normal;
+-webkit-flex-direction: column;
+-ms-flex-direction: column;
+flex-direction: column;
+margin: 0 auto;
+max-width: calc(870px * .8 + 20vw);
+}
+.top-bar-container {
+z-index: 51;
+position: sticky;
+top: 50px;
+}
+.centered-top-container {
+padding: 0 16px;
+padding: env(safe-area-inset-top) max(16px, env(safe-area-inset-right)) env(safe-area-inset-bottom) max(16px, env(safe-area-inset-left));
+height: 100%;
+}
+.return_link {
+margin: 4px -8px;
+padding: 8px;
+float: left;
+display: block;
+opacity: 1;
+visibility: visible;
+text-shadow: 0px 0px 1px rgba(0,0,0, 0.8), 1px 1px 1px rgba(0,0,0, 0.8);
+font-size: 24px;
+color: #ffffff;
+z-index: 51;
+transition: all .2s ease-in-out;
+-webkit-transition: all .2s ease-in-out;
+pointer-events: all;
+cursor: pointer;
+position: absolute;
+}
+.right-button-container {
+float: right;
+max-width: 48px;
+margin: 0px -12px;
+padding: 0px 12px;
+/* margin-right: -2px; */
+}
+.return_link.dark_mode_button, .collapsed-header .return_link.dark_mode_button {
+display: block !important;
+visibility: visible !important;
+opacity: 1 !important;
+position: relative;
+margin: 0 -4px;
+padding: 12px;
+width: 24px;
+height: 24px;
+font-size: 20px;
+float: none;
+z-index: 51;
+color: #ffffff;
+}
+.flat-icon-button {
+background: transparent;
+border: none;
+outline: none;
+margin: -12px;
+padding: 12px;
+cursor: pointer;
+box-sizing: content-box;
+display: inline-block;
+line-height: 0;
+}
+.png_icon {
+height: 24px;
+width: 24px;
+display: block;
+}
+.png_icon.dark {
+display: none;
+}
+body.dark-mode .png_icon.light {
+display: none;
+}
+body.dark-mode .png_icon.dark {
+display: block;
+}
         </style>
         <style>
             .post-header, .post-share-buttons.post-share-buttons-top, .post-bottom, #comments, .post-title.entry-title {
@@ -170,7 +257,14 @@
                     'tinymce/plugins/link/plugin.min.js',
                     'tinymce/skins/ui/oxide/skin.min.css',
                     'tinymce/themes/silver/theme.min.js',
-                    'tinymce/tinymce.min.js'
+                    'tinymce/tinymce.min.js',
+                    'icons/export.png',
+                    'icons/export_dark.png',
+                    'icons/app_icon_glassnote2-256.png',
+                    'icons/app_icon_glassnote2-512.png',
+                    'icons/DarkMode.png',
+                    'icons/FontSize_dark.png',
+                    'icons/FontSize_dark.png'
                 ]
             });
         </script>
@@ -331,13 +425,46 @@
     </head>
     <body>
         <div class="bg-div" />
+        <div class="centered top-bar-container">
+            <div class="centered-top-container top-bar" id="top-bar">
+            <!-- <a class="return_link ripple" href="https://www.qingsky.hk" onclick="removeAttribute('href');history.back();" title="上一頁">
+                <img class="png_icon light" src="https://1.bp.blogspot.com/-4n5BLk_IUMA/YBqsMpIUaBI/AAAAAAAABb4/DDFj4GJnBTAN-FmE7XjIIIx1Oyr6ZueYACNcBGAsYHQ/s0/Return.png">
+                <img class="png_icon dark" src="https://1.bp.blogspot.com/-IkWxWn7awDQ/YBqsMY8itWI/AAAAAAAABb0/1i9sC0l38UAOqhjiKbgd0WjCKBahkHlNQCNcBGAsYHQ/s0/Return_dark.png">
+            </a>
+            <a class="return_link to_top ripple" onclick="window.scrollTo({top: 0, behavior: 'smooth'});" title="回頁首" target="_blank">
+                <img class="png_icon light" src="https://1.bp.blogspot.com/-T9gVRKpz_gs/YBqsMrYr8GI/AAAAAAAABb8/tISjSpO1uTMeumsepkb9bHR5_U8MzGbAwCNcBGAsYHQ/s0/ToTop.png">
+                <img class="png_icon dark" src="https://1.bp.blogspot.com/-0IlychxoYAc/YBqsM-VORDI/AAAAAAAABcA/nftQHsfts8khJc9rM9BLpBch7h8Xa6nVACNcBGAsYHQ/s0/ToTop_dark.png">
+            </a> -->
+            <div class="right-button-container  flat-icon-button ripple"><div class="splash-wrapper"><span class="splash" style="height: 64px; width: 64px; left: 16px; top: 3px;"></span></div>
+            <a class="return_link dark_mode_button" onclick="darkMode();" title="黑夜模式" target="_blank">
+                <img class="png_icon" src="icons/DarkMode.png">
+            </a>
+            </div>
+            <div class="right-button-container flat-icon-button ripple"><div class="splash-wrapper"><span class="splash" style="height: 64px; width: 64px; left: 10px; top: -5px;"></span></div>
+            <a class="return_link font_size" onclick="changeFontSize();" style="" title="字體大小" target="_blank">
+                <img class="png_icon light" src="icons/FontSize.png">
+                <img class="png_icon dark" src="icons/FontSize_dark.png">
+            </a>
+            </div>
+            <!-- <div class="subscribe-section-container">
+            <a href="/p/about.html#subscribe" target="_blank" title="訂閱"><button class="subscribe-button pill-button">訂閱</button></a>
+            </div> -->
+                <!--copy
+                <div class="right-button-container flat-icon-button ripple">
+                    <a class="return_link font_size" onclick="copyToClipboard();" target="_blank">
+                    <img class="png_icon light" src="https://1.bp.blogspot.com/-JPcY6nSjVfo/YEIRr3HstlI/AAAAAAAABjU/wgzAHkF3HOY89bP7cEY-LNuhKGIY_MYTQCNcBGAsYHQ/s100/export.png">
+                    <img class="png_icon dark" src="https://1.bp.blogspot.com/-1vfgnmF5fAw/YEIRr8lCVLI/AAAAAAAABjY/kaC1orvkVF0epoYKwdYoXKLGx7r3wLD2ACNcBGAsYHQ/s100/export_dark.png">
+                    </a>
+                </div>-->
+            </div>
+            </div>
         <h3>上次儲存：<span class='last-saved-msg'>-</span>　　　<a style="float: right" href="javascript:void(0)" onclick="clearCurrentAndLocalStorage();">清空</a></h3>
         <div class="editor-buttons" id="editor-buttons">
             <!--copy-->
             <div class="right-button-container flat-icon-button ripple">
                 <a class="return_link font_size" onclick="copyToClipboard();">
-                <img class="png_icon light" src="export.png"/>
-                <img class="png_icon dark" src="export_dark.png"/>
+                <img class="png_icon light" src="icons/export.png"/>
+                <img class="png_icon dark" src="icons/export_dark.png"/>
                 </a>
             </div>
         </div>
