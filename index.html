@@ -13,7 +13,6 @@
         <link rel="stylesheet" href="styles.css">
         <script src="blog-ui-ajax.js"></script>
         <script src="tinymce/tinymce.min.js"></script>
-        
         <script>
             var dfreeBodyConfig = {
                 selector: '.editor-body',
@@ -45,7 +44,11 @@
             };
             tinymce.init(dfreeBodyConfig);
         </script>
-
+        <style>
+            .post {
+                z-index: 20;
+            }
+        </style>
         <script src="/upup.min.js"></script>
         <script>
             UpUp.start({
@@ -251,27 +254,29 @@
                 </div>-->
             </div>
         </div>
-        <h3>上次儲存：<span class='last-saved-msg'>-</span>　　　<a style="float: right" href="javascript:void(0)" onclick="clearCurrentAndLocalStorage();">清空</a></h3>
-        <div class="editor-buttons" id="editor-buttons">
-            <!--copy-->
-            <div class="right-button-container flat-icon-button ripple">
-                <a class="return_link font_size" onclick="copyToClipboard();">
-                <img class="png_icon light" src="icons/export.png"/>
-                <img class="png_icon dark" src="icons/export_dark.png"/>
-                </a>
+        <div class="post">
+            <h3>上次儲存：<span class='last-saved-msg'>-</span>　　　<a style="float: right" href="javascript:void(0)" onclick="clearCurrentAndLocalStorage();">清空</a></h3>
+            <div class="editor-buttons" id="editor-buttons">
+                <!--copy-->
+                <div class="right-button-container flat-icon-button ripple">
+                    <a class="return_link font_size" onclick="copyToClipboard();">
+                    <img class="png_icon light" src="icons/export.png"/>
+                    <img class="png_icon dark" src="icons/export_dark.png"/>
+                    </a>
+                </div>
             </div>
-        </div>
-        <div class='editor' id='editor'>
-            <div class="editor-body entry-content" id='editor-body' contenteditable="true" style="position: relative;" spellcheck="false">
+            <div class='editor' id='editor'>
+                <div class="editor-body entry-content" id='editor-body' contenteditable="true" style="position: relative;" spellcheck="false">
+                </div>
             </div>
-        </div>
-        
-        <hr />
-        
-        <div id="glassnote-about-msg" class="glassnote-about-msg">
-        <h3>上次儲存：<span class='last-saved-msg'>-</span>　　　<a href="javascript:void(0)" onclick="clearCurrentAndLocalStorage();">清空</a></h3>
-        <p> <em>GlassNote 2.0，<a href="/p/glassnote-about.html" target="_blank">按這裡了解更多</a></em></p>
-        
+            
+            <hr />
+            
+            <div id="glassnote-about-msg" class="glassnote-about-msg">
+            <h3>上次儲存：<span class='last-saved-msg'>-</span>　　　<a href="javascript:void(0)" onclick="clearCurrentAndLocalStorage();">清空</a></h3>
+            <p> <em>GlassNote 2.0，<a href="/p/glassnote-about.html" target="_blank">按這裡了解更多</a></em></p>
+            
+            </div>
         </div>
     </body>
 </html>
