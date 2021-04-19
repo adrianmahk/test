@@ -47,19 +47,20 @@
             tinymce.init(dfreeBodyConfig);
         </script>
         <style>
-            .top-bar-container {
-                z-index: 51 !important;
+            /* .top-bar-container {
+                z-index: 51;
                 position: sticky !important;
                 top: 50px !important;
             }
             .top-bar {
                 top: -50px;
                 position: absolute;
-            }
-            .page_body .centered {
-                /* position: relative; */
+            } */
+            .page-lower-part .centered {
                 z-index: 20;
-                /* top: 50px; */
+                padding-right: env(safe-area-inset-right);
+                padding-bottom: env(safe-area-inset-bottom);
+                padding-left: env(safe-area-inset-left);
             }
             .post-outer-container {
                 min-height: 40px;
