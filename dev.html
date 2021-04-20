@@ -140,7 +140,7 @@
             margin: 1em 0 0 0;
         }
     </style>
-    <script src="upup.min.js"></script>
+    <!-- <script src="upup.min.js"></script>
         <script>
             UpUp.debug();
             UpUp.start({
@@ -169,7 +169,32 @@
                     'icons/FontSize_dark.png'
                 ]
             });
-        </script>
+        </script> -->
+    <!-- <script src="https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js"></script> -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            // window load後才執行，以免增加頁面讀取的時間
+            window.addEventListener('load', function () {
+                // 建立sw.js
+                navigator.serviceWorker.register('/a.sw.js')
+                    .then(function (reg) {
+                        console.log(reg.scope); // 看這支sw.js執行的範圍
+                    })
+                    // 註冊失敗
+                    .catch(function (err) {
+                        console.log('error: ', err);
+                    });
+                // 附上刪除sw.js的寫法
+                navigator.serviceWorker.getRegistrations().then(function (reg) {
+                    for (var reg of reg) {
+                        reg.unregister()
+                    }
+                });
+            });
+        }
+
+
+    </script>
 
     <script>
         function initEventListeners() {
