@@ -176,7 +176,7 @@
             // window load後才執行，以免增加頁面讀取的時間
             window.addEventListener('load', function () {
                 // 建立sw.js
-                navigator.serviceWorker.register('/sw.js')
+                navigator.serviceWorker.register('/a.sw.js')
                     .then(function (reg) {
                         console.log(reg.scope); // 看這支sw.js執行的範圍
                     })
