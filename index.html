@@ -1,18 +1,19 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>GlassNote 2.0</title>
-        <meta charset="UTF-8">
-        <meta content='width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1' name='viewport'/>
-        <link href='manifest_glassnote.json' rel='manifest'/>
-        <meta content='yes' name='apple-mobile-web-app-capable'/>
-        <meta content='black' name='apple-mobile-web-app-status-bar-style'/>
-        <meta content='GlassNote' name='apple-mobile-web-app-title'/>
-        <link href='icons/app_icon_glassnote2-256.png' rel='apple-touch-icon' sizes='256x256'/>
-        <link href='icons/app_icon_glassnote2-512.png' rel='apple-touch-icon' sizes='512x512'/>
-        
 
-        <!-- <link rel="apple-touch-icon" sizes="57x57" href="/apple-icon-57x57.png">
+<head>
+    <title>GlassNote 2.0</title>
+    <meta charset="UTF-8">
+    <meta content='width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1' name='viewport' />
+    <link href='manifest_glassnote.json' rel='manifest' />
+    <meta content='yes' name='apple-mobile-web-app-capable' />
+    <meta content='black' name='apple-mobile-web-app-status-bar-style' />
+    <meta content='GlassNote' name='apple-mobile-web-app-title' />
+    <link href='icons/app_icon_glassnote2-256.png' rel='apple-touch-icon' sizes='256x256' />
+    <link href='icons/app_icon_glassnote2-512.png' rel='apple-touch-icon' sizes='512x512' />
+
+
+    <!-- <link rel="apple-touch-icon" sizes="57x57" href="/apple-icon-57x57.png">
         <link rel="apple-touch-icon" sizes="60x60" href="/apple-icon-60x60.png">
         <link rel="apple-touch-icon" sizes="72x72" href="/apple-icon-72x72.png">
         <link rel="apple-touch-icon" sizes="76x76" href="/apple-icon-76x76.png">
@@ -31,105 +32,115 @@
         <meta name="theme-color" content="#ffffff"> -->
 
 
-        <link rel="stylesheet" href="blog.css">
-        <link rel="stylesheet" href="styles.css">
-        <script>
-            function loadIndie() {
-                // For override
+    <link rel="stylesheet" href="blog.css">
+    <link rel="stylesheet" href="styles.css">
+    <script>
+        function loadIndie() {
+            // For override
+        }
+    </script>
+    <script src="blog-ui-ajax.js"></script>
+    <script src="tinymce/tinymce.min.js"></script>
+    <script>
+        var dfreeBodyConfig = {
+            selector: '.editor-body',
+            menubar: false,
+            inline: true,
+            plugins: [
+                'autolink',
+                'link',
+                'lists',
+                'visualblocks',
+                // 'powerpaste',
+                'quickbars',
+            ],
+            valid_classes: {
+                '*': 'quote', // Global classes
+                'img': 'lazyload' // Link specific classes
+            },
+            // paste_as_text: true,
+            toolbar: false,
+            quickbars_insert_toolbar: 'undo redo paste visualblocks',
+            quickbars_selection_toolbar: 'cut copy paste',
+            contextmenu: 'undo redo visualblocks',
+            valid_elements: 'a,strong,em,cite,br',
+            element_format: 'xhtml',
+            visualblocks_default_state: false,
+            init_instance_callback: function () {
+                loadFromLocalStorage(initEventListeners);
             }
-        </script>
-        <script src="blog-ui-ajax.js"></script>
-        <script src="tinymce/tinymce.min.js"></script>
-        <script>
-            var dfreeBodyConfig = {
-                selector: '.editor-body',
-                menubar: false,
-                inline: true,
-                plugins: [
-                    'autolink',
-                    'link',
-                    'lists',
-                    'visualblocks',
-                    // 'powerpaste',
-                    'quickbars',
-                ],
-                valid_classes: {
-                    '*': 'quote', // Global classes
-                    'img': 'lazyload' // Link specific classes
-                },
-                // paste_as_text: true,
-                toolbar: false,
-                quickbars_insert_toolbar: 'undo redo paste visualblocks',
-                quickbars_selection_toolbar: 'cut copy paste',
-                contextmenu: 'undo redo visualblocks',
-                valid_elements : 'a,strong,em,cite,br',
-                element_format : 'xhtml',
-                visualblocks_default_state: false,
-                init_instance_callback: function () {
-                    loadFromLocalStorage(initEventListeners);
-                }
-            };
-            tinymce.init(dfreeBodyConfig);
-        </script>
-        <style>
-            .bg-div-cust {
-                top: 0;
-                left: 0;
-                height: 100vh;
-                width: 100%;
-                position: fixed;
-                background: #aaaaaa url(bg.JPG) repeat scroll top center;
-                background-size: cover;
-                background-repeat: no-repeat;
-                background-color: transparent;
-            }
+        };
+        tinymce.init(dfreeBodyConfig);
+    </script>
+    <style>
+        .bg-div-cust {
+            top: 0;
+            left: 0;
+            height: 100vh;
+            width: 100%;
+            position: fixed;
+            background: #aaaaaa url(bg.JPG) repeat scroll top center;
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-color: transparent;
+        }
 
-            .bg-div {
-                display: block;    
-            }
-            body.user-bg .bg-div, .bg-div-cust {
-                display: none;
-            }
-            body.user-bg .bg-div-cust {
-                display: block;
-            }
-            #change-bg-button {
-                display: inline;
-            }
-            body.user-bg #change-bg-button, #remove-bg-button {
-                display: none;
-            }
-            body.user-bg #remove-bg-button {
-                display: inline;
-            }
-        </style>
-        <style>
-            /* Only for Standalone Ver. */
-            .page-lower-part .centered {
-                z-index: 20;
-                padding-right: env(safe-area-inset-right);
-                padding-bottom: env(safe-area-inset-bottom);
-                padding-left: env(safe-area-inset-left);
-            }
+        .bg-div {
+            display: block;
+        }
+
+        body.user-bg .bg-div,
+        .bg-div-cust {
+            display: none;
+        }
+
+        body.user-bg .bg-div-cust {
+            display: block;
+        }
+
+        #change-bg-button {
+            display: inline;
+        }
+
+        body.user-bg #change-bg-button,
+        #remove-bg-button {
+            display: none;
+        }
+
+        body.user-bg #remove-bg-button {
+            display: inline;
+        }
+    </style>
+    <style>
+        /* Only for Standalone Ver. */
+        .page-lower-part .centered {
+            z-index: 20;
+            padding-right: env(safe-area-inset-right);
+            padding-bottom: env(safe-area-inset-bottom);
+            padding-left: env(safe-area-inset-left);
+        }
+
+        .post-outer-container {
+            min-height: 40px;
+            padding: 16px;
+            width: auto;
+            border-radius: 12px;
+            background: rgba(254, 254, 253, 0.95);
+            box-shadow: 0px 0px 15px -5px rgba(0, 0, 0, 0.8);
+            margin-bottom: 16px !important;
+        }
+
+        @media screen and (max-width: 886px) {
             .post-outer-container {
-                min-height: 40px;
-                padding: 16px;
-                width: auto;
-                border-radius: 12px;
-                background: rgba(254,254,253,0.95);
-                box-shadow: 0px 0px 15px -5px rgba(0,0,0, 0.8);
-                margin-bottom: 16px !important;
+                margin: 0 8px;
             }
-            @media screen and (max-width: 886px){
-                .post-outer-container {
-                    margin: 0 8px;
-                }
-            }
-            .glassnote-about-msg {
-                margin: 1em 0 0 0;
-            }
-        </style>
-        <!-- <script src="upup.min.js"></script>
+        }
+
+        .glassnote-about-msg {
+            margin: 1em 0 0 0;
+        }
+    </style>
+    <!-- <script src="upup.min.js"></script>
         <script>
             UpUp.debug();
             UpUp.start({
@@ -159,259 +170,260 @@
                 ]
             });
         </script> -->
-        <!-- <script src="https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js"></script> -->
-        <script>
-            if('serviceWorker' in navigator) {
+    <!-- <script src="https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js"></script> -->
+    <script>
+        if ('serviceWorker' in navigator) {
             // window load後才執行，以免增加頁面讀取的時間
-            window.addEventListener('load', function() {
-            // 建立sw.js
-            navigator.serviceWorker.register('/pwatest/sw.js')
-            .then(function(reg) {
-            console.log(reg.scope); // 看這支sw.js執行的範圍
-            })
-            // 註冊失敗
-            .catch(function(err) {
-            console.log('error: ', err);
-            });
-            // 附上刪除sw.js的寫法
-            navigator.serviceWorker.getRegistrations().then(function(reg) {
-            for(var reg of reg) {
-            reg.unregister()
-            }
-            });
-            });
+            window.addEventListener('load', function () {
+                // 建立sw.js
+                navigator.serviceWorker.register('/sw.js')
+                    .then(function (reg) {
+                        console.log(reg.scope); // 看這支sw.js執行的範圍
 
                         // 引用workbox build
                         self.importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
 
-// 使用cache功能
-// 存任何的.js
-workbox.routing.registerRoute(
-new RegExp('.*\.js'),
-workbox.strategies.cacheFirst()
-);
+                        // 使用cache功能
+                        // 存任何的.js
+                        workbox.routing.registerRoute(
+                            new RegExp('.*\.js'),
+                            workbox.strategies.cacheFirst()
+                        );
 
-// 存任何的css
-workbox.routing.registerRoute(
-new RegExp('.*\.css'),
-workbox.strategies.cacheFirst({
-    cacheName: 'css-cache'
-})
-);
+                        // 存任何的css
+                        workbox.routing.registerRoute(
+                            new RegExp('.*\.css'),
+                            workbox.strategies.cacheFirst({
+                                cacheName: 'css-cache'
+                            })
+                        );
 
-// 存任何的images
-workbox.routing.registerRoute(
-new RegExp('.*\.(?:png|jpg|jpeg|svg|gif)'),
-workbox.strategies.cacheFirst({
-    cacheName: 'image-cache'
-})
-);
-            }
-
-
-        </script>
-
-        <script>
-            function initEventListeners() {
-                window.addEventListener("pagehide", saveToLocalStorage);
-                window.addEventListener("visibilitychange", function () {
-                    if (document.visibilityState === 'hidden') {
-                        saveToLocalStorage();
-                      }
-                });
-                window.addEventListener("pageshow", function (event) {
-                    if (event.persisted) {
-                        loadFromLocalStorage();
+                        // 存任何的images
+                        workbox.routing.registerRoute(
+                            new RegExp('.*\.(?:png|jpg|jpeg|svg|gif)'),
+                            workbox.strategies.cacheFirst({
+                                cacheName: 'image-cache'
+                            })
+                        );
+                    })
+                    // 註冊失敗
+                    .catch(function (err) {
+                        console.log('error: ', err);
+                    });
+                // 附上刪除sw.js的寫法
+                navigator.serviceWorker.getRegistrations().then(function (reg) {
+                    for (var reg of reg) {
+                        reg.unregister()
                     }
                 });
-                setInterval(() => {
-                        saveToLocalStorage();
-                    }, 50000);
-            }
-        
-            ready(function() {
-                addButtonToTopBar();
-                //moveAboutMessageToAboveFooter();
-                loadBg();
             });
-        
-            function saveToLocalStorage() {
-                var editor = document.getElementById("editor-body");
-                var lastVer = localStorage.getItem('content');
-                var currentVer = editor.innerHTML;
-                
-                if (lastVer) {
-                    if (lastVer == currentVer) {
-                        return;
-                    }
-                }
-                
-                if (editor) {
-                    var textContent = editor.textContent;
-                    if (textContent != "") {
-                        try {
-                            localStorage.setItem('content', currentVer);
-                            var date = new Date();
-                            localStorage.setItem('last-saved-time', date.toLocaleString());
-                        }
-                        catch (e) {
-                            alert("瀏覽器內存已滿！儲存失敗，請記得帶走文字內容！");
-                            console.log(e.toString());
-                            console.dir(e);                    
-                        }
-                        
-                        updateLastSavedMsg();
-                        console.log("saved version: " + date.toLocaleString());
-                        console.log(currentVer);
-                    }
-                }
-            }
-            function loadFromLocalStorage(fn=null) {
-                var text = localStorage.getItem('content');
-                if (text) {
-                    var editor = document.getElementById("editor-body");
-                    editor.innerHTML = text;
-                    
-                    updateLastSavedMsg();
-                    console.log("loaded");
-                }
-                if (fn) {
-                    fn();
-                }
-            }
-            function updateLastSavedMsg() {
-                var lastSavedMsg = document.getElementsByClassName("last-saved-msg");
-                var lastSavedTime = localStorage.getItem("last-saved-time");
-                if (lastSavedTime != "") {
-                    for (var i = 0; i < lastSavedMsg.length; i++) {
-                        lastSavedMsg[i].innerText = lastSavedTime;
-                    }
-        
-                }
-                else {
-                    for (var i = 0; i < lastSavedMsg.length; i++) {
-                        lastSavedMsg[i].innerText = "-";
-                    }
-                }
-            }
-            
-            function clearCurrentAndLocalStorage() {
-                if (confirm("確定要清空所有內容? 這個操作將不可復原")) {
-                    localStorage.removeItem("content");
-                    localStorage.removeItem("last-saved-time");
-                    var editor = document.getElementById("editor-body");
-                    if (editor) {
-                        editor.innerHTML = "";
-                    }
-                    updateLastSavedMsg();
-                }
-            }
-            function updateTitle(){
-                var postTitle = document.getElementsByClassName("post-title entry-title")[0];
-                var editor = document.getElementById("editor-body");
-                var content = editor.innerText;
-                postTitle.innerHTML = getFirstLine(content);
-            }
-            function getFirstLine(str){
-                var breakIndice = [
-                    str.indexOf("\n"),
-                    100
-                ];
-                console.log(breakIndice, " => ");
-                breakIndice = breakIndice.filter(breakIndice => breakIndice >= 0);
-                console.log(breakIndice);
-                var breakIndex = Math.min(...breakIndice);
-        
-                console.log(breakIndex);
-                if (breakIndex === -1){
-                    return str;
-                }
-        
-                return str.substr(0, breakIndex);
-            }
-            function copyToClipboard() {
-                var range = document.createRange();
-                range.selectNode(document.getElementById("editor-body"));
-                window.getSelection().removeAllRanges();
-                window.getSelection().addRange(range);
-                var result = document.execCommand('copy');
-        
-                saveToLocalStorage();
-            }
-            function showMoreInfo() {
-                var classList = document.body.classList;
-                if (!classList.contains("show-info")) {
-                    document.body.classList.add("show-info");
-                }
-                else {
-                    document.body.classList.remove("show-info");
-                }
-            }
-            function addButtonToTopBar() {
-                var topBar = document.getElementById("top-bar");
-                var editorButtons = document.getElementById("editor-buttons");
-                topBar.append(...editorButtons.childNodes);
-                editorButtons.innerHTML = "";
-            }
-            function moveAboutMessageToAboveFooter() {
-                var msg = document.getElementById("glassnote-about-msg");
-                var footer = document.getElementById("footer");
-                footer.parentNode.insertBefore(msg, footer);
-            }
-            function changeBg() {
-                const bgDivCust = document.getElementById('bg-div-cust');
-                const reader = new FileReader();
+        }
 
-                reader.addEventListener("load", function () {
-                    bgDivCust.style.backgroundImage = `url(${ reader.result })`;
-                    document.body.classList.add("user-bg");
+
+    </script>
+
+    <script>
+        function initEventListeners() {
+            window.addEventListener("pagehide", saveToLocalStorage);
+            window.addEventListener("visibilitychange", function () {
+                if (document.visibilityState === 'hidden') {
+                    saveToLocalStorage();
+                }
+            });
+            window.addEventListener("pageshow", function (event) {
+                if (event.persisted) {
+                    loadFromLocalStorage();
+                }
+            });
+            setInterval(() => {
+                saveToLocalStorage();
+            }, 50000);
+        }
+
+        ready(function () {
+            addButtonToTopBar();
+            //moveAboutMessageToAboveFooter();
+            loadBg();
+        });
+
+        function saveToLocalStorage() {
+            var editor = document.getElementById("editor-body");
+            var lastVer = localStorage.getItem('content');
+            var currentVer = editor.innerHTML;
+
+            if (lastVer) {
+                if (lastVer == currentVer) {
+                    return;
+                }
+            }
+
+            if (editor) {
+                var textContent = editor.textContent;
+                if (textContent != "") {
                     try {
-                        localStorage.setItem("user-bg", reader.result);
+                        localStorage.setItem('content', currentVer);
+                        var date = new Date();
+                        localStorage.setItem('last-saved-time', date.toLocaleString());
                     }
                     catch (e) {
-                        alert("此圖片檔案過大 (請選擇 1MB 以內) 無法儲存至瀏覽器內存");
+                        alert("瀏覽器內存已滿！儲存失敗，請記得帶走文字內容！");
                         console.log(e.toString());
                         console.dir(e);
                     }
-                }, false);
-                var input = document.createElement("input");
-                input.setAttribute("type", "file");
-                input.addEventListener('change',function() {
-                    const image = this.files[0];
-                    console.log(image.size);
-                    if (image) {
-                        reader.readAsDataURL(image);
-                    }
-                    input.parentNode.removeChild(input);
-                }, false);
 
-                document.body.appendChild(input);
-                input.click();
-            }
-
-            function loadBg() {
-                if (localStorage.getItem("user-bg") != null) {
-                    const bgDivCust = document.getElementById('bg-div-cust');
-                    bgDivCust.style.backgroundImage = `url(${ localStorage.getItem("user-bg") })`;
-                    document.body.classList.add("user-bg");
+                    updateLastSavedMsg();
+                    console.log("saved version: " + date.toLocaleString());
+                    console.log(currentVer);
                 }
             }
+        }
+        function loadFromLocalStorage(fn = null) {
+            var text = localStorage.getItem('content');
+            if (text) {
+                var editor = document.getElementById("editor-body");
+                editor.innerHTML = text;
 
-            function removeBg() {
-                localStorage.removeItem("user-bg");
-                document.body.classList.remove("user-bg");
+                updateLastSavedMsg();
+                console.log("loaded");
             }
-        </script>
-    </head>
-    <body class="item-view">
-        <script type="text/javascript">changeFontSizeInit();darkModeInit();</script>
-        <div class="bg-div" id="bg-div"></div>
-        <div class="bg-div-cust" id="bg-div-cust"></div>
-        <div class="dark_mode_overlay" id="dark_mode_overlay"></div>
-        <div class="page_body">
-            <div class="page-upper-part"></div>
-            <div class="centered top-bar-container">
-                <div class="centered-top-container top-bar" id="top-bar">
+            if (fn) {
+                fn();
+            }
+        }
+        function updateLastSavedMsg() {
+            var lastSavedMsg = document.getElementsByClassName("last-saved-msg");
+            var lastSavedTime = localStorage.getItem("last-saved-time");
+            if (lastSavedTime != "") {
+                for (var i = 0; i < lastSavedMsg.length; i++) {
+                    lastSavedMsg[i].innerText = lastSavedTime;
+                }
+
+            }
+            else {
+                for (var i = 0; i < lastSavedMsg.length; i++) {
+                    lastSavedMsg[i].innerText = "-";
+                }
+            }
+        }
+
+        function clearCurrentAndLocalStorage() {
+            if (confirm("確定要清空所有內容? 這個操作將不可復原")) {
+                localStorage.removeItem("content");
+                localStorage.removeItem("last-saved-time");
+                var editor = document.getElementById("editor-body");
+                if (editor) {
+                    editor.innerHTML = "";
+                }
+                updateLastSavedMsg();
+            }
+        }
+        function updateTitle() {
+            var postTitle = document.getElementsByClassName("post-title entry-title")[0];
+            var editor = document.getElementById("editor-body");
+            var content = editor.innerText;
+            postTitle.innerHTML = getFirstLine(content);
+        }
+        function getFirstLine(str) {
+            var breakIndice = [
+                str.indexOf("\n"),
+                100
+            ];
+            console.log(breakIndice, " => ");
+            breakIndice = breakIndice.filter(breakIndice => breakIndice >= 0);
+            console.log(breakIndice);
+            var breakIndex = Math.min(...breakIndice);
+
+            console.log(breakIndex);
+            if (breakIndex === -1) {
+                return str;
+            }
+
+            return str.substr(0, breakIndex);
+        }
+        function copyToClipboard() {
+            var range = document.createRange();
+            range.selectNode(document.getElementById("editor-body"));
+            window.getSelection().removeAllRanges();
+            window.getSelection().addRange(range);
+            var result = document.execCommand('copy');
+
+            saveToLocalStorage();
+        }
+        function showMoreInfo() {
+            var classList = document.body.classList;
+            if (!classList.contains("show-info")) {
+                document.body.classList.add("show-info");
+            }
+            else {
+                document.body.classList.remove("show-info");
+            }
+        }
+        function addButtonToTopBar() {
+            var topBar = document.getElementById("top-bar");
+            var editorButtons = document.getElementById("editor-buttons");
+            topBar.append(...editorButtons.childNodes);
+            editorButtons.innerHTML = "";
+        }
+        function moveAboutMessageToAboveFooter() {
+            var msg = document.getElementById("glassnote-about-msg");
+            var footer = document.getElementById("footer");
+            footer.parentNode.insertBefore(msg, footer);
+        }
+        function changeBg() {
+            const bgDivCust = document.getElementById('bg-div-cust');
+            const reader = new FileReader();
+
+            reader.addEventListener("load", function () {
+                bgDivCust.style.backgroundImage = `url(${reader.result})`;
+                document.body.classList.add("user-bg");
+                try {
+                    localStorage.setItem("user-bg", reader.result);
+                }
+                catch (e) {
+                    alert("此圖片檔案過大 (請選擇 1MB 以內) 無法儲存至瀏覽器內存");
+                    console.log(e.toString());
+                    console.dir(e);
+                }
+            }, false);
+            var input = document.createElement("input");
+            input.setAttribute("type", "file");
+            input.addEventListener('change', function () {
+                const image = this.files[0];
+                console.log(image.size);
+                if (image) {
+                    reader.readAsDataURL(image);
+                }
+                input.parentNode.removeChild(input);
+            }, false);
+
+            document.body.appendChild(input);
+            input.click();
+        }
+
+        function loadBg() {
+            if (localStorage.getItem("user-bg") != null) {
+                const bgDivCust = document.getElementById('bg-div-cust');
+                bgDivCust.style.backgroundImage = `url(${localStorage.getItem("user-bg")})`;
+                document.body.classList.add("user-bg");
+            }
+        }
+
+        function removeBg() {
+            localStorage.removeItem("user-bg");
+            document.body.classList.remove("user-bg");
+        }
+    </script>
+</head>
+
+<body class="item-view">
+    <script type="text/javascript">changeFontSizeInit(); darkModeInit();</script>
+    <div class="bg-div" id="bg-div"></div>
+    <div class="bg-div-cust" id="bg-div-cust"></div>
+    <div class="dark_mode_overlay" id="dark_mode_overlay"></div>
+    <div class="page_body">
+        <div class="page-upper-part"></div>
+        <div class="centered top-bar-container">
+            <div class="centered-top-container top-bar" id="top-bar">
                 <!-- <a class="return_link ripple" href="https://www.qingsky.hk" onclick="removeAttribute('href');history.back();" title="上一頁">
                     <img class="png_icon light" src="https://1.bp.blogspot.com/-4n5BLk_IUMA/YBqsMpIUaBI/AAAAAAAABb4/DDFj4GJnBTAN-FmE7XjIIIx1Oyr6ZueYACNcBGAsYHQ/s0/Return.png">
                     <img class="png_icon dark" src="https://1.bp.blogspot.com/-IkWxWn7awDQ/YBqsMY8itWI/AAAAAAAABb0/1i9sC0l38UAOqhjiKbgd0WjCKBahkHlNQCNcBGAsYHQ/s0/Return_dark.png">
@@ -420,61 +432,72 @@ workbox.strategies.cacheFirst({
                     <img class="png_icon light" src="https://1.bp.blogspot.com/-T9gVRKpz_gs/YBqsMrYr8GI/AAAAAAAABb8/tISjSpO1uTMeumsepkb9bHR5_U8MzGbAwCNcBGAsYHQ/s0/ToTop.png">
                     <img class="png_icon dark" src="https://1.bp.blogspot.com/-0IlychxoYAc/YBqsM-VORDI/AAAAAAAABcA/nftQHsfts8khJc9rM9BLpBch7h8Xa6nVACNcBGAsYHQ/s0/ToTop_dark.png">
                 </a> -->
-                <div class="right-button-container  flat-icon-button ripple"><div class="splash-wrapper"><span class="splash" style="height: 64px; width: 64px; left: 16px; top: 3px;"></span></div>
-                <a class="return_link dark_mode_button" onclick="darkMode();" title="黑夜模式" target="_blank">
-                    <img class="png_icon" src="icons/DarkMode.png">
-                </a>
+                <div class="right-button-container  flat-icon-button ripple">
+                    <div class="splash-wrapper"><span class="splash"
+                            style="height: 64px; width: 64px; left: 16px; top: 3px;"></span></div>
+                    <a class="return_link dark_mode_button" onclick="darkMode();" title="黑夜模式" target="_blank">
+                        <img class="png_icon" src="icons/DarkMode.png">
+                    </a>
                 </div>
-                <div class="right-button-container flat-icon-button ripple"><div class="splash-wrapper"><span class="splash" style="height: 64px; width: 64px; left: 10px; top: -5px;"></span></div>
-                <a class="return_link font_size" onclick="changeFontSize();" style="" title="字體大小" target="_blank">
-                    <img class="png_icon light" src="icons/FontSize.png">
-                    <img class="png_icon dark" src="icons/FontSize_dark.png">
-                </a>
+                <div class="right-button-container flat-icon-button ripple">
+                    <div class="splash-wrapper"><span class="splash"
+                            style="height: 64px; width: 64px; left: 10px; top: -5px;"></span></div>
+                    <a class="return_link font_size" onclick="changeFontSize();" style="" title="字體大小" target="_blank">
+                        <img class="png_icon light" src="icons/FontSize.png">
+                        <img class="png_icon dark" src="icons/FontSize_dark.png">
+                    </a>
                 </div>
                 <!-- <div class="subscribe-section-container">
                 <a href="/p/about.html#subscribe" target="_blank" title="訂閱"><button class="subscribe-button pill-button">訂閱</button></a>
                 </div> -->
-                    <!--copy
+                <!--copy
                     <div class="right-button-container flat-icon-button ripple">
                         <a class="return_link font_size" onclick="copyToClipboard();" target="_blank">
                         <img class="png_icon light" src="https://1.bp.blogspot.com/-JPcY6nSjVfo/YEIRr3HstlI/AAAAAAAABjU/wgzAHkF3HOY89bP7cEY-LNuhKGIY_MYTQCNcBGAsYHQ/s100/export.png">
                         <img class="png_icon dark" src="https://1.bp.blogspot.com/-1vfgnmF5fAw/YEIRr8lCVLI/AAAAAAAABjY/kaC1orvkVF0epoYKwdYoXKLGx7r3wLD2ACNcBGAsYHQ/s100/export_dark.png">
                         </a>
                     </div>-->
-                </div>
             </div>
-            
-            <div class="page-lower-part">
-                <div class="centered" style="position: relative;">
-                    <div class="post-outer-container">
-                        <div class="post-outer post">
+        </div>
+
+        <div class="page-lower-part">
+            <div class="centered" style="position: relative;">
+                <div class="post-outer-container">
+                    <div class="post-outer post">
                         <div class="post-body entry-content float-container">
-                            <h3>上次儲存：<span class='last-saved-msg'>-</span>　　　<a style="float: right" href="javascript:void(0)" onclick="clearCurrentAndLocalStorage();">清空</a></h3>
+                            <h3>上次儲存：<span class='last-saved-msg'>-</span>　　　<a style="float: right"
+                                    href="javascript:void(0)" onclick="clearCurrentAndLocalStorage();">清空</a></h3>
                             <div class="editor-buttons" id="editor-buttons">
                                 <!--copy-->
                                 <div class="right-button-container flat-icon-button ripple">
                                     <a class="return_link font_size" onclick="copyToClipboard();">
-                                    <img class="png_icon light" src="icons/export.png"/>
-                                    <img class="png_icon dark" src="icons/export_dark.png"/>
+                                        <img class="png_icon light" src="icons/export.png" />
+                                        <img class="png_icon dark" src="icons/export_dark.png" />
                                     </a>
                                 </div>
                             </div>
                             <div class='editor' id='editor'>
-                                <div class="editor-body entry-content" id='editor-body' contenteditable="true" style="position: relative;" spellcheck="false">
+                                <div class="editor-body entry-content" id='editor-body' contenteditable="true"
+                                    style="position: relative;" spellcheck="false">
                                 </div>
                             </div>
                             <hr />
                         </div>
                     </div>
-                
-                    </div>
-                    <div id="glassnote-about-msg" class="glassnote-about-msg">
-                        <p><button class="pill-button ripple" id="change-bg-button" onclick="changeBg();">自訂桌布</button><button class="pill-button ripple" id="remove-bg-button" onclick="removeBg();">移除桌布</button></p>
-                        <h3>上次儲存：<span class='last-saved-msg'>-</span>　　　<a href="javascript:void(0)" onclick="clearCurrentAndLocalStorage();">清空</a></h3>
-                        <p><em>GlassNote 2.0，<a href="https://qingsky.hk/p/glassnote-about.html" target="_blank">按這裡了解更多</a></em></p>
-                    </div>
-                    </div>
+
+                </div>
+                <div id="glassnote-about-msg" class="glassnote-about-msg">
+                    <p><button class="pill-button ripple" id="change-bg-button"
+                            onclick="changeBg();">自訂桌布</button><button class="pill-button ripple" id="remove-bg-button"
+                            onclick="removeBg();">移除桌布</button></p>
+                    <h3>上次儲存：<span class='last-saved-msg'>-</span>　　　<a href="javascript:void(0)"
+                            onclick="clearCurrentAndLocalStorage();">清空</a></h3>
+                    <p><em>GlassNote 2.0，<a href="https://qingsky.hk/p/glassnote-about.html"
+                                target="_blank">按這裡了解更多</a></em></p>
+                </div>
             </div>
         </div>
-    </body>
+    </div>
+</body>
+
 </html>
