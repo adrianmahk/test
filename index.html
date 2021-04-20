@@ -72,15 +72,39 @@
             tinymce.init(dfreeBodyConfig);
         </script>
         <style>
-            /* .top-bar-container {
-                z-index: 51;
-                position: sticky !important;
-                top: 50px !important;
+            .bg-div-cust {
+                top: 0;
+                left: 0;
+                height: 100vh;
+                width: 100%;
+                position: fixed;
+                background: #aaaaaa url(bg.JPG) repeat scroll top center;
+                background-size: cover;
+                background-repeat: no-repeat;
+                background-color: transparent;
             }
-            .top-bar {
-                top: -50px;
-                position: absolute;
-            } */
+
+            .bg-div {
+                display: block;    
+            }
+            body.user-bg .bg-div, .bg-div-cust {
+                display: none;
+            }
+            body.user-bg .bg-div-cust {
+                display: block;
+            }
+            #change-bg-button {
+                display: inline;
+            }
+            body.user-bg #change-bg-button, #remove-bg-button {
+                display: none;
+            }
+            body.user-bg #remove-bg-button {
+                display: inline;
+            }
+        </style>
+        <style>
+            /* Only for Standalone Ver. */
             .page-lower-part .centered {
                 z-index: 20;
                 padding-right: env(safe-area-inset-right);
@@ -156,6 +180,7 @@
             ready(function() {
                 addButtonToTopBar();
                 //moveAboutMessageToAboveFooter();
+                loadBg();
             });
         
             function saveToLocalStorage() {
@@ -172,9 +197,16 @@
                 if (editor) {
                     var textContent = editor.textContent;
                     if (textContent != "") {
-                        localStorage.setItem('content', currentVer);
-                        var date = new Date();
-                        localStorage.setItem('last-saved-time', date.toLocaleString());
+                        try {
+                            localStorage.setItem('content', currentVer);
+                            var date = new Date();
+                            localStorage.setItem('last-saved-time', date.toLocaleString());
+                        }
+                        catch (e) {
+                            alert("瀏覽器內存已滿！儲存失敗，請記得帶走文字內容！");
+                            console.log(e.toString());
+                            console.dir(e);                    
+                        }
                         
                         updateLastSavedMsg();
                         console.log("saved version: " + date.toLocaleString());
@@ -213,7 +245,8 @@
             
             function clearCurrentAndLocalStorage() {
                 if (confirm("確定要清空所有內容? 這個操作將不可復原")) {
-                    localStorage.clear();
+                    localStorage.removeItem("content");
+                    localStorage.removeItem("last-saved-time");
                     var editor = document.getElementById("editor-body");
                     if (editor) {
                         editor.innerHTML = "";
@@ -273,11 +306,61 @@
                 var footer = document.getElementById("footer");
                 footer.parentNode.insertBefore(msg, footer);
             }
+
+            function changeBg() {
+                const bgDivCust = document.getElementById('bg-div-cust');
+                const reader = new FileReader();
+
+                reader.addEventListener("load", function () {
+                    bgDivCust.style.backgroundImage = `url(${ reader.result })`;
+                    document.body.classList.add("user-bg");
+                    try {
+                        localStorage.setItem("user-bg", reader.result);
+                    }
+                    catch (e) {
+                        console.log(e.toString());
+                        console.dir(e);
+                        alert("此圖片檔案過大（請選擇 1MB 以內），無法儲存至瀏覽器內存");
+                        // break;
+                    }
+                    // writeCookie("user-bg", reader.result);
+                }, false);
+                var input = document.createElement("input");
+                input.setAttribute("type", "file");
+                input.addEventListener('change',function() {
+                    const image = this.files[0];
+                    if (image) {
+                        console.log(image.size);
+                        // if (image.size > 1024000) {
+                            
+                        // }
+                        reader.readAsDataURL(image);
+                    }
+                }, false);
+
+                input.click();
+            }
+
+            function loadBg() {
+                if (localStorage.getItem("user-bg") != null) {
+                // if (getCookie("user-bg") != "") {
+                    // const reader = new FileReader();
+                    const bgDivCust = document.getElementById('bg-div-cust');
+                    bgDivCust.style.backgroundImage = `url(${ localStorage.getItem("user-bg") })`;
+                    document.body.classList.add("user-bg");
+                }
+            }
+
+            function removeBg() {
+                localStorage.removeItem("user-bg");
+                document.body.classList.remove("user-bg");
+            }
         </script>
     </head>
     <body class="item-view">
         <script type="text/javascript">changeFontSizeInit();darkModeInit();</script>
-        <div class="bg-div"></div>
+        <div class="bg-div" id="bg-div"></div>
+        <div class="bg-div-cust" id="bg-div-cust"></div>
         <div class="dark_mode_overlay" id="dark_mode_overlay"></div>
         <div class="page_body">
             <div class="page-upper-part"></div>
@@ -337,14 +420,12 @@
                             <hr />
                         </div>
                     </div>
-                    
-                    
                 
                     </div>
                     <div id="glassnote-about-msg" class="glassnote-about-msg">
+                        <p><button class="pill-button ripple" id="change-bg-button" onclick="changeBg();">自訂桌布</button><button class="pill-button ripple" id="remove-bg-button" onclick="removeBg();">移除桌布</button></p>
                         <h3>上次儲存：<span class='last-saved-msg'>-</span>　　　<a href="javascript:void(0)" onclick="clearCurrentAndLocalStorage();">清空</a></h3>
-                        <p> <em>GlassNote 2.0，<a href="https://qingsky.hk/p/glassnote-about.html" target="_blank">按這裡了解更多</a></em></p>
-                        
+                        <p><em>GlassNote 2.0，<a href="https://qingsky.hk/p/glassnote-about.html" target="_blank">按這裡了解更多</a></em></p>
                     </div>
                     </div>
             </div>
