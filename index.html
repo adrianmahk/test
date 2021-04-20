@@ -306,7 +306,6 @@
                 var footer = document.getElementById("footer");
                 footer.parentNode.insertBefore(msg, footer);
             }
-
             function changeBg() {
                 const bgDivCust = document.getElementById('bg-div-cust');
                 const reader = new FileReader();
@@ -318,33 +317,28 @@
                         localStorage.setItem("user-bg", reader.result);
                     }
                     catch (e) {
+                        alert("此圖片檔案過大 (請選擇 1MB 以內) 無法儲存至瀏覽器內存");
                         console.log(e.toString());
                         console.dir(e);
-                        alert("此圖片檔案過大（請選擇 1MB 以內），無法儲存至瀏覽器內存");
-                        // break;
                     }
-                    // writeCookie("user-bg", reader.result);
                 }, false);
                 var input = document.createElement("input");
                 input.setAttribute("type", "file");
                 input.addEventListener('change',function() {
                     const image = this.files[0];
+                    console.log(image.size);
                     if (image) {
-                        console.log(image.size);
-                        // if (image.size > 1024000) {
-                            
-                        // }
                         reader.readAsDataURL(image);
                     }
+                    input.parentNode.removeChild(input);
                 }, false);
 
+                document.body.appendChild(input);
                 input.click();
             }
 
             function loadBg() {
                 if (localStorage.getItem("user-bg") != null) {
-                // if (getCookie("user-bg") != "") {
-                    // const reader = new FileReader();
                     const bgDivCust = document.getElementById('bg-div-cust');
                     bgDivCust.style.backgroundImage = `url(${ localStorage.getItem("user-bg") })`;
                     document.body.classList.add("user-bg");
