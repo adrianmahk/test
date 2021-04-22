@@ -372,10 +372,13 @@
             const reader = new FileReader();
 
             reader.addEventListener("load", function () {
-                // bgDivCust.style.backgroundImage = `url(${reader.result})`;
-                // document.body.classList.add("user-bg");
-                var editorBody = document.getElementById("editor-body");
-                editorBody.innerText = reader.result;
+                if (confirm("從 txt 檔匯入文字? 現有內容將會被覆寫")) {
+                    var editorBody = document.getElementById("editor-body");
+                    editorBody.innerText = reader.result;
+
+                    saveToLocalStorage();
+                }
+
             }, false);
             var input = document.createElement("input");
             input.setAttribute("type", "file");
@@ -390,7 +393,6 @@
 
             document.body.appendChild(input);
             input.click();
-            
         }
 
         function saveToFile() {
