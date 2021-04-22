@@ -79,7 +79,7 @@
             height: 100vh;
             width: 100%;
             position: fixed;
-            background: #aaaaaa url(bg.JPG) repeat scroll top center;
+            background: #aaaaaa url(bg1.jpg) repeat scroll top center;
             background-size: cover;
             background-repeat: no-repeat;
             background-color: transparent;
@@ -140,61 +140,42 @@
             margin: 1em 0 0 0;
         }
     </style>
-    <!-- <script src="upup.min.js"></script>
+    <script src="upup.min.js"></script>
         <script>
             UpUp.debug();
             UpUp.start({
                 'content-url': 'index.html',
                 'assets' : [
-                    'index.html',
-                    'bg.jpg',
-                    'styles.css',
-                    'blog.css',
-                    'blog-ui-ajax.js',
-                    'tinymce/icons/default/icons.min.js',
-                    'tinymce/plugins/autolink/plugin.min.js',
-                    'tinymce/plugins/lists/plugin.min.js',
-                    'tinymce/plugins/visualblocks/plugin.min.js',
-                    'tinymce/plugins/quickbars/plugin.min.js',
-                    'tinymce/plugins/link/plugin.min.js',
-                    'tinymce/skins/ui/oxide/skin.min.css',
-                    'tinymce/themes/silver/theme.min.js',
-                    'tinymce/tinymce.min.js',
-                    'icons/export.png',
-                    'icons/export_dark.png',
-                    'icons/app_icon_glassnote2-256.png',
-                    'icons/app_icon_glassnote2-512.png',
-                    'icons/DarkMode.png',
-                    'icons/FontSize.png',
-                    'icons/FontSize_dark.png'
+                    '/',
+                    '/index.html',
+                    '/upup.min.js',
+                    '/upup.sw.min.js',
+                    '/manifest_glassnote.json',
+                    '/favicon.ico',
+                    '/bg1.jpg',
+                    '/styles.css',
+                    '/blog.css',
+                    '/blog-ui-ajax.js',
+                    '/tinymce/icons/default/icons.min.js',
+                    '/tinymce/plugins/autolink/plugin.min.js',
+                    '/tinymce/plugins/lists/plugin.min.js',
+                    '/tinymce/plugins/visualblocks/plugin.min.js',
+                    '/tinymce/plugins/quickbars/plugin.min.js',
+                    '/tinymce/plugins/link/plugin.min.js',
+                    '/tinymce/skins/ui/oxide/skin.min.css',
+                    '/tinymce/skins/ui/oxide/content.inline.min.css',
+                    '/tinymce/themes/silver/theme.min.js',
+                    '/tinymce/tinymce.min.js',
+                    '/icons/export.png',
+                    '/icons/export_dark.png',
+                    '/icons/app_icon_glassnote2-256.png',
+                    '/icons/app_icon_glassnote2-512.png',
+                    '/icons/DarkMode.png',
+                    '/icons/FontSize.png',
+                    '/icons/FontSize_dark.png'
                 ]
             });
-        </script> -->
-    <!-- <script src="https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js"></script> -->
-    <script>
-        if ('serviceWorker' in navigator) {
-            // window load後才執行，以免增加頁面讀取的時間
-            window.addEventListener('load', function () {
-                // 建立sw.js
-                navigator.serviceWorker.register('/a.sw.js')
-                    .then(function (reg) {
-                        console.log(reg.scope); // 看這支sw.js執行的範圍
-                    })
-                    // 註冊失敗
-                    .catch(function (err) {
-                        console.log('error: ', err);
-                    });
-                // 附上刪除sw.js的寫法
-                navigator.serviceWorker.getRegistrations().then(function (reg) {
-                    for (var reg of reg) {
-                        reg.unregister()
-                    }
-                });
-            });
-        }
-
-
-    </script>
+        </script>
 
     <script>
         function initEventListeners() {
@@ -386,6 +367,48 @@
             localStorage.removeItem("user-bg");
             document.body.classList.remove("user-bg");
         }
+
+
+        function saveToFile() {
+            var editorBody = document.getElementById("editor-body");
+            var content = editorBody.innerText;
+            if (content.slice(-1) == "\n") {
+                content = content.slice(0, -1);
+            }
+
+            var textFile = null,
+            makeTextFile = function (text) {
+                var data = new Blob([text], {type: 'text/plain'});
+
+                // If we are replacing a previously generated file we need to
+                // manually revoke the object URL to avoid memory leaks.
+                if (textFile !== null) {
+                window.URL.revokeObjectURL(textFile);
+                }
+
+                textFile = window.URL.createObjectURL(data);
+
+                // returns a URL you can use as a href
+                return textFile;
+            };
+            
+            var link = document.createElement('a');
+            var fileName = getFirstLine(content);
+            link.setAttribute('download', fileName + ".txt");
+            
+            link.href = makeTextFile(content);
+            
+            document.body.appendChild(link);
+
+            // wait for the link to be added to the document
+            window.requestAnimationFrame(function () {
+                var event = new MouseEvent('click');
+                link.dispatchEvent(event);
+                document.body.removeChild(link);
+            });
+        }
+
+        
     </script>
 </head>
 
@@ -443,8 +466,8 @@
                                     href="javascript:void(0)" onclick="clearCurrentAndLocalStorage();">清空</a></h3>
                             <div class="editor-buttons" id="editor-buttons">
                                 <!--copy-->
-                                <div class="right-button-container flat-icon-button ripple">
-                                    <a class="return_link font_size" onclick="copyToClipboard();">
+                                <div class="right-button-container flat-icon-button ripple" content="複製至剪貼簿">
+                                    <a class="return_link font_size" onclick="saveToFile('rtf');">
                                         <img class="png_icon light" src="icons/export.png" />
                                         <img class="png_icon dark" src="icons/export_dark.png" />
                                     </a>
