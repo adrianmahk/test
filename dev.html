@@ -85,31 +85,28 @@
             background-repeat: no-repeat;
             background-color: transparent;
         }
-
         .bg-div {
             display: block;
         }
-
         body.user-bg .bg-div,
         .bg-div-cust {
             display: none;
         }
-
         body.user-bg .bg-div-cust {
             display: block;
         }
-
         #change-bg-button {
             display: inline;
         }
-
         body.user-bg #change-bg-button,
         #remove-bg-button {
             display: none;
         }
-
         body.user-bg #remove-bg-button {
             display: inline;
+        }
+        .toolbar {
+            pointer-events: all;
         }
     </style>
     <style>
@@ -139,6 +136,49 @@
 
         .glassnote-about-msg {
             margin: 1em 0 0 0;
+        }
+
+        .toolbar {
+            /* background: #dddc;
+            padding: 0 0 1em 0;
+            border-radius: 10px; */
+            display: table;
+            box-sizing: border-box;
+        }
+        .toolbar .expanded-menu-items {
+            background: #dddc;
+            padding: 5px 5px 15px 5px;
+            border-radius: 10px;
+            display: table-cell;
+            width: 0;
+            overflow: hidden;
+        }
+        .toolbar .hamburger-button {
+            display: table-cell;
+            width: 24px;
+            height: 24px;
+            border: none;
+            background: none;
+            margin: 10px;
+            padding: 0;
+        }
+        .toolbar .pill-button, .toolbar a {
+            color: #202020 !important;
+            text-shadow: none;
+        }
+
+        body.expanded-menu .expanded-menu-items {
+            width: 100%;
+        }
+
+        .font-size-button {
+            display: none;
+        }
+        body.f12px .font-size-button:first-child, 
+        body.f14px .font-size-button:nth-child(2), 
+        body.f16px .font-size-button:nth-child(3), 
+        body.f18px .font-size-button:nth-child(4) {
+            display: inline;
         }
     </style>
     <script src="upup.min.js"></script>
@@ -200,6 +240,7 @@
             addButtonToTopBar();
             //moveAboutMessageToAboveFooter();
             loadBg();
+            initBodyClassesForOpacityAndFontSize();
         });
 
         function saveToLocalStorage() {
@@ -440,7 +481,28 @@
             });
         }
 
-        
+        function initBodyClassesForOpacityAndFontSize() {
+            // if (!document.body.classList.contains("f12px")
+            // && !document.body.classList.contains("f14px")
+            // && !document.body.classList.contains("f16px")
+            // && !document.body.classList.contains("f18px")) {
+            //     document.body.classList.add("f14px");
+            // }
+
+            const element = document.getElementById("left-sidebar");
+            const fontSizes = ["f12px", "f14px", "f16px", "f18px"];
+            const result = [...document.body.classList].some(className => fontSizes.indexOf(className) !== -1); 
+            // var result = document.body.classList.filter(function(value) {
+            //     // var fontSizes = ["f12px", "f14px", "f16px", "f18px"];
+            //     return (["f12px", "f14px", "f16px", "f18px"].contains(value));
+            // });
+            console.log(result);
+            if (!result) {
+                document.body.classList.add("f14px");
+            }
+
+            
+        }
     </script>
 </head>
 
@@ -468,14 +530,14 @@
                         <img class="png_icon" src="icons/DarkMode.png">
                     </a>
                 </div>
-                <div class="right-button-container flat-icon-button ripple">
+                <!-- <div class="right-button-container flat-icon-button ripple">
                     <div class="splash-wrapper"><span class="splash"
                             style="height: 64px; width: 64px; left: 10px; top: -5px;"></span></div>
                     <a class="return_link font_size" onclick="changeFontSize();" style="" title="字體大小" target="_blank">
                         <img class="png_icon light" src="icons/FontSize.png">
                         <img class="png_icon dark" src="icons/FontSize_dark.png">
                     </a>
-                </div>
+                </div> -->
                 <!-- <div class="subscribe-section-container">
                 <a href="/p/about.html#subscribe" target="_blank" title="訂閱"><button class="subscribe-button pill-button">訂閱</button></a>
                 </div> -->
@@ -497,20 +559,45 @@
                             <h3>上次儲存：<span class='last-saved-msg'>-</span>　　　<a style="float: right"
                                     href="javascript:void(0)" onclick="clearCurrentAndLocalStorage();">清空</a></h3>
                             <div class="editor-buttons" id="editor-buttons">
-                                <!--read-->
+                                
+                                <div class="toolbar">
+                                    <button class='hamburger-button'><svg viewBox="0 0 24 24" id="ic_menu_black_24dp" width="100%" height="100%"><path d="M0 0h24v24H0z" fill="none"></path><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"></path></svg></button>
+                                    <div class="expanded-menu-items">
+                                        <span>
+                                            <button class="pill-button ripple" id="change-bg-button" onclick="changeBg();">自訂桌布</button>
+                                            <button class="pill-button ripple" id="remove-bg-button" onclick="removeBg();">移除桌布</button>
+                                        </span>
+                                        <span>
+                                            <button class="pill-button ripple opacity-button" onclick="toggleOpacity();">透明度：0%</button>
+                                            <button class="pill-button ripple opacity-button" onclick="toggleOpacity();">透明度：10%</button>
+                                            <button class="pill-button ripple opacity-button" onclick="toggleOpacity();">透明度：20%</button>
+                                            <button class="pill-button ripple opacity-button" onclick="toggleOpacity();">透明度：30%</button>
+                                        </span>
+                                        <span>
+                                            <button class="pill-button ripple font-size-button" onclick="changeFontSize();">字體：12px</button>
+                                            <button class="pill-button ripple font-size-button" onclick="changeFontSize();">字體：14px</button>
+                                            <button class="pill-button ripple font-size-button" onclick="changeFontSize();">字體：16px</button>
+                                            <button class="pill-button ripple font-size-button" onclick="changeFontSize();">字體：18px</button>
+                                        </span>
+                                        <button class="pill-button ripple" onclick="readFromFile();">從檔案匯入</button>
+                                        <button class="pill-button ripple" onclick="saveToFile();">儲存至檔案</button>
+                                        <a class="pill-button ripple" href="https://qingsky.hk/p/glassnote-about.html" target="_blank">關於 GlassNote 2.0</a>
+                                    </div>
+                                </div>
+                                <!--read
                                 <div class="right-button-container flat-icon-button ripple" title="read">
                                     <a class="return_link font_size" onclick="readFromFile();">
                                         <img class="png_icon light" src="icons/export.png" />
                                         <img class="png_icon dark" src="icons/export_dark.png" />
                                     </a>
-                                </div>
-                                <!--save-->
+                                </div>-->
+                                <!--save
                                 <div class="right-button-container flat-icon-button ripple" title="save">
                                     <a class="return_link font_size" onclick="saveToFile();">
                                         <img class="png_icon light" src="icons/export.png" />
                                         <img class="png_icon dark" src="icons/export_dark.png" />
                                     </a>
-                                </div>
+                                </div>-->
                             </div>
                             <div class='editor' id='editor'>
                                 <div class="editor-body entry-content" id='editor-body' contenteditable="true"
