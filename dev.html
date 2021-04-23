@@ -132,7 +132,7 @@
             display: table;
             /* display: none; */
             opacity: 0;
-            padding: 5px 0 15px 0;
+            padding: 15px 0;
             transform: translate(-500px, 0px);
             transition: transform .2s ease-in-out, opacity .2s ease-in-out, background .2s ease-in-out;
             background: rgba(240, 240, 240, 0.9);
@@ -140,7 +140,7 @@
             border-radius: 10px;
             vertical-align: top;
             pointer-events: none;
-            margin: 5px 0 0 0;
+            margin: 0;
             width: 100%;
         }
 
@@ -206,7 +206,7 @@
         .toolbar .expanded-menu .hamburger-button {
             position: relative;
             display: table-cell;
-            margin-top: -2px;
+            margin-top: -7px;
         }
 
         .toolbar .pill-button,
@@ -794,12 +794,6 @@
                                                 <!-- </button> -->
                                                 <div class="expanded-menu-items">
                                                     <tbc>GlassNote 2.0</tbc><em> - Build: 23 Apr 2021</em>
-                                                    <span style=" margin-left: 2em;">
-                                                        <a href="https://qingsky.hk/p/glassnote-about.html" target="_blank">關於
-                                                        GlassNote 2.0</a>
-                                                        <!--<a href="https://qingsky.hk/p/about.html"
-                                                            target="_blank">關於作者</a>-->
-                                                    </span>
                                                     <br />
                                                     <button class="pill-button ripple"
                                                         onclick="readFromFile();">從檔案匯入</button>
@@ -814,7 +808,7 @@
                                                             onclick="removeBg();">移除桌布</button>
                                                     </span>
                                                     <!-- <button class="pill-button ripple" onclick="">字數：</button> -->
-                                                    <br />
+                                                    <!--<br />-->
                                                     <span>
                                                         <button class="pill-button ripple opacity-button"
                                                             onclick="toggleOpacity();">透明度：0%</button>
@@ -838,6 +832,13 @@
                                                     <span>
                                                         <button class="pill-button ripple dark-mode-button-toolbar" onclick="darkMode();">黑夜主題：開</button>
                                                         <button class="pill-button ripple dark-mode-button-toolbar" onclick="darkMode();">黑夜主題：關</button>
+                                                    </span>
+													<br />
+													<span style="float:right; margin-right: 2em;">
+                                                        <a href="https://qingsky.hk/p/glassnote-about.html" target="_blank">關於
+                                                        GlassNote 2.0</a>
+                                                        <!--<a href="https://qingsky.hk/p/about.html"
+                                                            target="_blank">關於作者</a>-->
                                                     </span>
                                                 </div>
                                                 <div class="toolbar-overlay" onclick="toggleExpandedMenu()"></div>
