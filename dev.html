@@ -121,8 +121,9 @@
             box-sizing: border-box;
             pointer-events: none;
             transition: background .5s ease-in-out;
-            position: absolute;
+            position: relative;
             width: 100%;
+			top: -40px;
         }
 
         .toolbar .expanded-menu {
@@ -217,7 +218,7 @@
             box-shadow: none;
             /* font-weight: 500; */
             text-transform: none;
-            font-size: 14px;
+            font-size: 13px;
             margin: 6px 2px;
         }
 
@@ -543,7 +544,12 @@
                 const image = this.files[0];
                 console.log(image.size);
                 if (image) {
-                    reader.readAsDataURL(image);
+					if (image.type.match("image") || image.type.match("video")) {
+						reader.readAsDataURL(image);
+					}
+					else {
+						alert("不支援的格式");
+					}
                 }
                 input.parentNode.removeChild(input);
             }, false);
@@ -727,7 +733,7 @@
                 <div class="right-button-container  flat-icon-button ripple">
                     <div class="splash-wrapper"><span class="splash"
                             style="height: 64px; width: 64px; left: 16px; top: 3px;"></span></div>
-                    <a class="return_link dark_mode_button" onclick="darkMode();" title="黑夜模式" href="javascript:void(0)">
+                    <a class="return_link dark_mode_button" onclick="darkMode();" title="黑夜主題" href="javascript:void(0)">
                         <img class="png_icon" src="icons/DarkMode.png">
                     </a>
                 </div>
@@ -789,25 +795,24 @@
                                                 <div class="expanded-menu-items">
                                                     <tbc>GlassNote 2.0</tbc><em> - Build: 23 Apr 2021</em>
                                                     <span style=" margin-left: 2em;">
-                                                        <a class="pill-button ripple"
-                                                        href="https://qingsky.hk/p/glassnote-about.html" target="_blank">關於
+                                                        <a href="https://qingsky.hk/p/glassnote-about.html" target="_blank">關於
                                                         GlassNote 2.0</a>
-                                                        <a class="pill-button ripple" href="https://qingsky.hk/p/about.html"
-                                                            target="_blank">關於作者</a>
+                                                        <!--<a href="https://qingsky.hk/p/about.html"
+                                                            target="_blank">關於作者</a>-->
                                                     </span>
                                                     <br />
-                                                    <span>
-                                                        <button class="pill-button ripple" id="change-bg-button"
-                                                            onclick="changeBg();">自訂桌布</button>
-                                                        <button class="pill-button ripple" id="remove-bg-button"
-                                                            onclick="removeBg();">移除桌布</button>
-                                                    </span>
                                                     <button class="pill-button ripple"
                                                         onclick="readFromFile();">從檔案匯入</button>
                                                     <button class="pill-button ripple"
                                                         onclick="saveToFile();">儲存至檔案</button>
                                                     <button class="pill-button ripple"
                                                         onclick="copyToClipboard();">匯出至剪貼簿</button>
+                                                    <span>
+                                                        <button class="pill-button ripple" id="change-bg-button"
+                                                            onclick="changeBg();">自訂桌布</button>
+                                                        <button class="pill-button ripple" id="remove-bg-button"
+                                                            onclick="removeBg();">移除桌布</button>
+                                                    </span>
                                                     <!-- <button class="pill-button ripple" onclick="">字數：</button> -->
                                                     <br />
                                                     <span>
@@ -831,8 +836,8 @@
                                                             onclick="changeFontSize();">字體：18px</button>
                                                     </span>
                                                     <span>
-                                                        <button class="pill-button ripple dark-mode-button-toolbar" onclick="darkMode();">黑夜模式：開</button>
-                                                        <button class="pill-button ripple dark-mode-button-toolbar" onclick="darkMode();">黑夜模式：關</button>
+                                                        <button class="pill-button ripple dark-mode-button-toolbar" onclick="darkMode();">黑夜主題：開</button>
+                                                        <button class="pill-button ripple dark-mode-button-toolbar" onclick="darkMode();">黑夜主題：關</button>
                                                     </span>
                                                 </div>
                                                 <div class="toolbar-overlay" onclick="toggleExpandedMenu()"></div>
