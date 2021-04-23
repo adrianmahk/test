@@ -90,6 +90,12 @@
             display: block;
         }
 
+        .top-bar-container {
+            margin-right: env(safe-area-inset-right);
+			margin-bottom: env(safe-area-inset-bottom);
+			margin-left: env(safe-area-inset-left);
+        }
+
         body.user-bg .bg-div,
         .bg-div-cust {
             display: none;
@@ -275,16 +281,15 @@
         body.dark-mode tbc, body.dark-mode cite, body.dark-mode cm   {
             color: #3aaac3;
         }
+
     </style>
     <style>
         /* Only for Standalone Ver. */
-		.centered {
-		    padding-right: env(safe-area-inset-right);
-			padding-bottom: env(safe-area-inset-bottom);
-			padding-left: env(safe-area-inset-left);
-		}
         .page-lower-part .centered {
             z-index: 20;
+            padding-right: env(safe-area-inset-right);
+			padding-bottom: env(safe-area-inset-bottom);
+			padding-left: env(safe-area-inset-left);
         }
 
         .post-outer-container {
