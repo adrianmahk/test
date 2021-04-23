@@ -131,16 +131,22 @@
             display: table;
             /* display: none; */
             opacity: 0;
-            padding: 5px 5px 15px 0;
-            transform: translate(-1000px, 0);
-            transition: transform .5s ease-in-out, opacity .5s ease-in-out, background .5s ease-in-out;
+            padding: 5px 0 15px 0;
+            transform: translate(-500px, 0px);
+            transition: transform .2s ease-in-out, opacity .2s ease-in-out, background .2s ease-in-out;
             background: rgba(240, 240, 240, 0.9);
             box-shadow: 1px 1px 25px -10px rgba(0, 0, 0, 0.66);
             border-radius: 10px;
             vertical-align: top;
             pointer-events: none;
-            margin: 0;
+            margin: 5px 0 0 0;
             width: 100%;
+        }
+
+        .toolbar .expanded-menu-container {
+            padding: 15px;
+            margin: -15px;
+            overflow: hidden;
         }
 
         .toolbar .expanded-menu-items {
@@ -193,13 +199,13 @@
         }
 
         body.expanded-menu .hamburger-button {
-            /* display: none; */
+            display: none;
         }
 
         .toolbar .expanded-menu .hamburger-button {
             position: relative;
             display: table-cell;
-            margin-top: 3px;
+            margin-top: -2px;
         }
 
         .toolbar .pill-button,
@@ -236,6 +242,15 @@
         body.opacity-10 .opacity-button:nth-child(2),
         body.opacity-20 .opacity-button:nth-child(3),
         body.opacity-30 .opacity-button:nth-child(4) {
+            display: inline;
+        }
+
+        .dark-mode-button-toolbar,
+        body.dark-mode .dark-mode-button-toolbar:last-child {
+            display: none;
+        }
+        .dark-mode-button-toolbar:last-child,
+        body.dark-mode .dark-mode-button-toolbar:first-child {
             display: inline;
         }
     </style>
@@ -317,7 +332,9 @@
                 '/icons/app_icon_glassnote2-512.png',
                 '/icons/DarkMode.png',
                 '/icons/FontSize.png',
-                '/icons/FontSize_dark.png'
+                '/icons/FontSize_dark.png',
+                '/icons/hamburger.png',
+                '/icons/hamburger_dark.png'
             ]
         });
     </script>
@@ -672,7 +689,7 @@
                 <div class="right-button-container  flat-icon-button ripple">
                     <div class="splash-wrapper"><span class="splash"
                             style="height: 64px; width: 64px; left: 16px; top: 3px;"></span></div>
-                    <a class="return_link dark_mode_button" onclick="darkMode();" title="黑夜模式" target="_blank">
+                    <a class="return_link dark_mode_button" onclick="darkMode();" title="黑夜模式" href="javascript:void(0)">
                         <img class="png_icon" src="icons/DarkMode.png">
                     </a>
                 </div>
@@ -707,63 +724,77 @@
                             <div class="editor-buttons" id="editor-buttons">
 
                                 <div class="toolbar">
-                                    <button class='return-link hamburger-button' onclick="toggleExpandedMenu()"><svg
+                                    <!-- <button class='return-link hamburger-button' onclick="toggleExpandedMenu()"><svg
                                             viewBox="0 0 24 24" id="ic_menu_black_24dp" width="100%" height="100%">
                                             <path d="M0 0h24v24H0z" fill="none"></path>
                                             <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"></path>
-                                        </svg></button>
-                                    <div class="expanded-menu">
-                                        <div style="display: table-row;">
-                                            <button class='return-link hamburger-button'
-                                                onclick="toggleExpandedMenu()"><svg viewBox="0 0 24 24"
-                                                    id="ic_menu_black_24dp" width="100%" height="100%">
-                                                    <path d="M0 0h24v24H0z" fill="none"></path>
-                                                    <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"></path>
-                                                </svg></button>
-                                            <div class="expanded-menu-items">
-                                                <tbc>GlassNote 2.0</tbc><em> - Build: 23 Apr 2021</em><br />
-                                                <span>
-                                                    <button class="pill-button ripple" id="change-bg-button"
-                                                        onclick="changeBg();">自訂桌布</button>
-                                                    <button class="pill-button ripple" id="remove-bg-button"
-                                                        onclick="removeBg();">移除桌布</button>
-                                                </span>
-                                                <span>
-                                                    <button class="pill-button ripple opacity-button"
-                                                        onclick="toggleOpacity();">透明度：0%</button>
-                                                    <button class="pill-button ripple opacity-button"
-                                                        onclick="toggleOpacity();">透明度：10%</button>
-                                                    <button class="pill-button ripple opacity-button"
-                                                        onclick="toggleOpacity();">透明度：20%</button>
-                                                    <button class="pill-button ripple opacity-button"
-                                                        onclick="toggleOpacity();">透明度：30%</button>
-                                                </span>
-                                                <span>
-                                                    <button class="pill-button ripple font-size-button"
-                                                        onclick="changeFontSize();">字體：12px</button>
-                                                    <button class="pill-button ripple font-size-button"
-                                                        onclick="changeFontSize();">字體：14px</button>
-                                                    <button class="pill-button ripple font-size-button"
-                                                        onclick="changeFontSize();">字體：16px</button>
-                                                    <button class="pill-button ripple font-size-button"
-                                                        onclick="changeFontSize();">字體：18px</button>
-                                                </span>
-                                                <button class="pill-button ripple" onclick="darkMode();">黑夜模式</button>
-                                                <button class="pill-button ripple"
-                                                    onclick="copyToClipboard();">匯出至剪貼簿</button>
-                                                <button class="pill-button ripple"
-                                                    onclick="readFromFile();">從檔案匯入</button>
-                                                <button class="pill-button ripple"
-                                                    onclick="saveToFile();">儲存至檔案</button>
-                                                <!-- <button class="pill-button ripple" onclick="">字數：</button> -->
-                                                <br />
-                                                <a class="pill-button ripple"
-                                                    href="https://qingsky.hk/p/glassnote-about.html" target="_blank">關於
-                                                    GlassNote 2.0</a>
-                                                <a class="pill-button ripple" href="https://qingsky.hk/p/about.html"
-                                                    target="_blank">關於作者</a>
+                                        </svg></button> -->
+                                        <a class="return_link hamburger-button" href="javascript:void(0)" onclick="toggleExpandedMenu();" title="選單">
+                                            <img class="png_icon light" src="icons/hamburger.png">
+                                            <img class="png_icon dark" src="icons/hamburger_dark.png">
+                                        </a>
+                                    <div class="expanded-menu-container">
+                                        <div class="expanded-menu">
+                                            <div style="display: table-row;">
+                                                <!-- <<button class='return-link hamburger-button'
+                                                    onclick="toggleExpandedMenu()">
+                                                    svg viewBox="0 0 24 24"
+                                                        id="ic_menu_black_24dp" width="100%" height="100%">
+                                                        <path d="M0 0h24v24H0z" fill="none"></path>
+                                                        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"></path>
+                                                    </svg> -->
+                                                    <a class="return_link hamburger-button" href="javascript:void(0)" onclick="toggleExpandedMenu();" title="選單">
+                                                        <img class="png_icon" src="icons/hamburger.png">
+                                                    </a>
+                                                <!-- </button> -->
+                                                <div class="expanded-menu-items">
+                                                    <tbc>GlassNote 2.0</tbc><em> - Build: 23 Apr 2021</em><br />
+                                                    <span>
+                                                        <button class="pill-button ripple" id="change-bg-button"
+                                                            onclick="changeBg();">自訂桌布</button>
+                                                        <button class="pill-button ripple" id="remove-bg-button"
+                                                            onclick="removeBg();">移除桌布</button>
+                                                    </span>
+                                                    <span>
+                                                        <button class="pill-button ripple opacity-button"
+                                                            onclick="toggleOpacity();">透明度：0%</button>
+                                                        <button class="pill-button ripple opacity-button"
+                                                            onclick="toggleOpacity();">透明度：10%</button>
+                                                        <button class="pill-button ripple opacity-button"
+                                                            onclick="toggleOpacity();">透明度：20%</button>
+                                                        <button class="pill-button ripple opacity-button"
+                                                            onclick="toggleOpacity();">透明度：30%</button>
+                                                    </span>
+                                                    <span>
+                                                        <button class="pill-button ripple font-size-button"
+                                                            onclick="changeFontSize();">字體：12px</button>
+                                                        <button class="pill-button ripple font-size-button"
+                                                            onclick="changeFontSize();">字體：14px</button>
+                                                        <button class="pill-button ripple font-size-button"
+                                                            onclick="changeFontSize();">字體：16px</button>
+                                                        <button class="pill-button ripple font-size-button"
+                                                            onclick="changeFontSize();">字體：18px</button>
+                                                    </span>
+                                                    <span>
+                                                        <button class="pill-button ripple dark-mode-button-toolbar" onclick="darkMode();">黑夜模式：開</button>
+                                                        <button class="pill-button ripple dark-mode-button-toolbar" onclick="darkMode();">黑夜模式：關</button>
+                                                    </span>
+                                                    <button class="pill-button ripple"
+                                                        onclick="readFromFile();">從檔案匯入</button>
+                                                    <button class="pill-button ripple"
+                                                        onclick="saveToFile();">儲存至檔案</button>
+                                                    <button class="pill-button ripple"
+                                                        onclick="copyToClipboard();">匯出至剪貼簿</button>
+                                                    <!-- <button class="pill-button ripple" onclick="">字數：</button> -->
+                                                    <br />
+                                                    <a class="pill-button ripple"
+                                                        href="https://qingsky.hk/p/glassnote-about.html" target="_blank">關於
+                                                        GlassNote 2.0</a>
+                                                    <a class="pill-button ripple" href="https://qingsky.hk/p/about.html"
+                                                        target="_blank">關於作者</a>
+                                                </div>
+                                                <div class="toolbar-overlay" onclick="toggleExpandedMenu()"></div>
                                             </div>
-                                            <div class="toolbar-overlay" onclick="toggleExpandedMenu()"></div>
                                         </div>
                                     </div>
                                 </div>
