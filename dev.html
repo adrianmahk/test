@@ -85,26 +85,33 @@
             background-repeat: no-repeat;
             background-color: transparent;
         }
+
         .bg-div {
             display: block;
         }
+
         body.user-bg .bg-div,
         .bg-div-cust {
             display: none;
         }
+
         body.user-bg .bg-div-cust {
             display: block;
         }
+
         #change-bg-button {
             display: inline;
         }
+
         body.user-bg #change-bg-button,
         #remove-bg-button {
             display: none;
         }
+
         body.user-bg #remove-bg-button {
             display: inline;
         }
+
         .toolbar {
             /* background: #dddc;
             padding: 0 0 1em 0;
@@ -117,6 +124,7 @@
             position: absolute;
             width: 100%;
         }
+
         .toolbar .expanded-menu {
             width: 0;
             overflow: hidden;
@@ -131,10 +139,15 @@
             border-radius: 10px;
             vertical-align: top;
             pointer-events: none;
+            margin: 0;
+            width: 100%;
         }
+
         .toolbar .expanded-menu-items {
             display: table-cell;
+            width: 100%;
         }
+
         .toolbar-overlay {
             position: fixed;
             top: 0;
@@ -145,21 +158,25 @@
             z-index: -1;
             pointer-events: none;
         }
+
         body.expanded-menu .toolbar {
             /* background: rgba(240, 240, 240, 0.9); */
             border-radius: 10px;
             /* box-shadow: 1px 1px 25px -10px rgba(0, 0, 0, 0.66); */
             pointer-events: all;
         }
+
         body.expanded-menu .toolbar .expanded-menu {
             opacity: 1;
             transform: none;
             pointer-events: all;
         }
+
         body.expanded-menu .toolbar-overlay {
             display: block;
             pointer-events: all;
         }
+
         .hamburger-button {
             display: table-cell;
             width: 24px;
@@ -172,16 +189,21 @@
             cursor: pointer;
             vertical-align: top;
             position: absolute;
+            float: left;
         }
+
         body.expanded-menu .hamburger-button {
             /* display: none; */
         }
+
         .toolbar .expanded-menu .hamburger-button {
             position: relative;
             display: table-cell;
-            margin-top: 0;
+            margin-top: 3px;
         }
-        .toolbar .pill-button, .toolbar a {
+
+        .toolbar .pill-button,
+        .toolbar a {
             color: #3aacc3 !important;
             text-shadow: none;
             background: none;
@@ -191,16 +213,17 @@
             text-transform: none;
         }
 
-        body.expanded-menu .expanded-menu-items {
+        /* body.expanded-menu .expanded-menu-items {
             width: 100%;
-        }
+        } */
 
         .font-size-button {
             display: none;
         }
-        body.f12px .font-size-button:first-child, 
-        body.f14px .font-size-button:nth-child(2), 
-        body.f16px .font-size-button:nth-child(3), 
+
+        body.f12px .font-size-button:first-child,
+        body.f14px .font-size-button:nth-child(2),
+        body.f16px .font-size-button:nth-child(3),
         body.f18px .font-size-button:nth-child(4) {
             display: inline;
         }
@@ -208,9 +231,10 @@
         .opacity-button {
             display: none;
         }
-        body.opacity-0 .opacity-button:first-child, 
-        body.opacity-10 .opacity-button:nth-child(2), 
-        body.opacity-20 .opacity-button:nth-child(3), 
+
+        body.opacity-0 .opacity-button:first-child,
+        body.opacity-10 .opacity-button:nth-child(2),
+        body.opacity-20 .opacity-button:nth-child(3),
         body.opacity-30 .opacity-button:nth-child(4) {
             display: inline;
         }
@@ -247,54 +271,56 @@
         body.opacity-0 .post-outer-container {
             background: rgba(254, 254, 253, 1);
         }
+
         body.opacity-10 .post-outer-container {
             background: rgba(254, 254, 253, .9);
         }
+
         body.opacity-20 .post-outer-container {
             background: rgba(254, 254, 253, .8);
         }
+
         body.opacity-30 .post-outer-container {
             background: rgba(254, 254, 253, .7);
         }
-
     </style>
     <script src="upup.min.js"></script>
-        <script>
-            UpUp.debug();
-            UpUp.start({
-                'content-url': 'index.html',
-                'assets' : [
-                    '/',
-                    '/index.html',
-                    '/upup.min.js',
-                    '/upup.sw.min.js',
-                    '/manifest_glassnote.json',
-                    '/manifest_glassnote_dev.json',
-                    '/favicon.ico',
-                    '/bg1.jpg',
-                    '/styles.css',
-                    '/blog.css',
-                    '/blog-ui-ajax.js',
-                    '/tinymce/icons/default/icons.min.js',
-                    '/tinymce/plugins/autolink/plugin.min.js',
-                    '/tinymce/plugins/lists/plugin.min.js',
-                    '/tinymce/plugins/visualblocks/plugin.min.js',
-                    '/tinymce/plugins/quickbars/plugin.min.js',
-                    '/tinymce/plugins/link/plugin.min.js',
-                    '/tinymce/skins/ui/oxide/skin.min.css',
-                    '/tinymce/skins/ui/oxide/content.inline.min.css',
-                    '/tinymce/themes/silver/theme.min.js',
-                    '/tinymce/tinymce.min.js',
-                    '/icons/export.png',
-                    '/icons/export_dark.png',
-                    '/icons/app_icon_glassnote2-256.png',
-                    '/icons/app_icon_glassnote2-512.png',
-                    '/icons/DarkMode.png',
-                    '/icons/FontSize.png',
-                    '/icons/FontSize_dark.png'
-                ]
-            });
-        </script>
+    <script>
+        UpUp.debug();
+        UpUp.start({
+            'content-url': 'index.html',
+            'assets': [
+                '/',
+                '/index.html',
+                '/upup.min.js',
+                '/upup.sw.min.js',
+                '/manifest_glassnote.json',
+                '/manifest_glassnote_dev.json',
+                '/favicon.ico',
+                '/bg1.jpg',
+                '/styles.css',
+                '/blog.css',
+                '/blog-ui-ajax.js',
+                '/tinymce/icons/default/icons.min.js',
+                '/tinymce/plugins/autolink/plugin.min.js',
+                '/tinymce/plugins/lists/plugin.min.js',
+                '/tinymce/plugins/visualblocks/plugin.min.js',
+                '/tinymce/plugins/quickbars/plugin.min.js',
+                '/tinymce/plugins/link/plugin.min.js',
+                '/tinymce/skins/ui/oxide/skin.min.css',
+                '/tinymce/skins/ui/oxide/content.inline.min.css',
+                '/tinymce/themes/silver/theme.min.js',
+                '/tinymce/tinymce.min.js',
+                '/icons/export.png',
+                '/icons/export_dark.png',
+                '/icons/app_icon_glassnote2-256.png',
+                '/icons/app_icon_glassnote2-512.png',
+                '/icons/DarkMode.png',
+                '/icons/FontSize.png',
+                '/icons/FontSize_dark.png'
+            ]
+        });
+    </script>
 
     <script>
         function initEventListeners() {
@@ -399,7 +425,7 @@
             postTitle.innerHTML = getFirstLine(content);
         }
         function getFirstLine(str) {
-            var breakIndice = [str.indexOf("\n"),100];
+            var breakIndice = [str.indexOf("\n"), 100];
             // console.log(breakIndice, " => ");
             breakIndice = breakIndice.filter(breakIndice => breakIndice >= 0);
             // console.log(breakIndice);
@@ -469,7 +495,7 @@
 
             document.body.appendChild(input);
             input.click();
-            
+
         }
 
         function loadBg() {
@@ -528,32 +554,32 @@
             }
 
             var textFile = null,
-            makeTextFile = function (text) {
-                // var data = new Blob([text], {type: 'text/plain'});
-                var data = new Blob([text], {encoding:"UTF-8",type:"text/plain;charset=UTF-8"});
-                
+                makeTextFile = function (text) {
+                    // var data = new Blob([text], {type: 'text/plain'});
+                    var data = new Blob([text], { encoding: "UTF-8", type: "text/plain;charset=UTF-8" });
 
-                // If we are replacing a previously generated file we need to
-                // manually revoke the object URL to avoid memory leaks.
-                if (textFile !== null) {
-                window.URL.revokeObjectURL(textFile);
-                }
 
-                textFile = window.URL.createObjectURL(data);
+                    // If we are replacing a previously generated file we need to
+                    // manually revoke the object URL to avoid memory leaks.
+                    if (textFile !== null) {
+                        window.URL.revokeObjectURL(textFile);
+                    }
 
-                // returns a URL you can use as a href
-                return textFile;
-            };
-            
+                    textFile = window.URL.createObjectURL(data);
+
+                    // returns a URL you can use as a href
+                    return textFile;
+                };
+
             var link = document.createElement('a');
             var fileName = getFirstLine(content);
             if (!fileName || fileName == "") {
                 fileName = "GlassNote";
             }
             link.setAttribute('download', fileName + ".txt");
-            
+
             link.href = makeTextFile(content);
-            
+
             document.body.appendChild(link);
 
             // wait for the link to be added to the document
@@ -575,7 +601,7 @@
 
             const element = document.getElementById("left-sidebar");
             const fontSizes = ["f12px", "f14px", "f16px", "f18px"];
-            const result = [...document.body.classList].some(className => fontSizes.indexOf(className) !== -1); 
+            const result = [...document.body.classList].some(className => fontSizes.indexOf(className) !== -1);
             // var result = document.body.classList.filter(function(value) {
             //     // var fontSizes = ["f12px", "f14px", "f16px", "f18px"];
             //     return (["f12px", "f14px", "f16px", "f18px"].contains(value));
@@ -592,13 +618,13 @@
             else {
                 document.body.classList.add("opacity-10");
             }
-            
+
         }
 
         function toggleOpacity() {
             var body = document.body;
             var next_opacity = "opacity-20";
-            
+
             if (body.classList.contains("opacity-0")) {
                 next_opacity = "opacity-10";
             }
@@ -679,39 +705,67 @@
                             <h3>上次儲存：<span class='last-saved-msg'>-</span>　　　<a style="float: right"
                                     href="javascript:void(0)" onclick="clearCurrentAndLocalStorage();">清空</a></h3>
                             <div class="editor-buttons" id="editor-buttons">
-                                
+
                                 <div class="toolbar">
-                                    <button class='return-link hamburger-button' onclick="toggleExpandedMenu()"><svg viewBox="0 0 24 24" id="ic_menu_black_24dp" width="100%" height="100%"><path d="M0 0h24v24H0z" fill="none"></path><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"></path></svg></button>
-                                        <div class="expanded-menu">
-                                            <button class='return-link hamburger-button' onclick="toggleExpandedMenu()"><svg viewBox="0 0 24 24" id="ic_menu_black_24dp" width="100%" height="100%"><path d="M0 0h24v24H0z" fill="none"></path><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"></path></svg></button>
+                                    <button class='return-link hamburger-button' onclick="toggleExpandedMenu()"><svg
+                                            viewBox="0 0 24 24" id="ic_menu_black_24dp" width="100%" height="100%">
+                                            <path d="M0 0h24v24H0z" fill="none"></path>
+                                            <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"></path>
+                                        </svg></button>
+                                    <div class="expanded-menu">
+                                        <div style="display: table-row;">
+                                            <button class='return-link hamburger-button'
+                                                onclick="toggleExpandedMenu()"><svg viewBox="0 0 24 24"
+                                                    id="ic_menu_black_24dp" width="100%" height="100%">
+                                                    <path d="M0 0h24v24H0z" fill="none"></path>
+                                                    <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"></path>
+                                                </svg></button>
                                             <div class="expanded-menu-items">
+                                                <tbc>GlassNote 2.0</tbc><em> - Build: 23 Apr 2021</em><br />
                                                 <span>
-                                                    <button class="pill-button ripple" id="change-bg-button" onclick="changeBg();">自訂桌布</button>
-                                                    <button class="pill-button ripple" id="remove-bg-button" onclick="removeBg();">移除桌布</button>
+                                                    <button class="pill-button ripple" id="change-bg-button"
+                                                        onclick="changeBg();">自訂桌布</button>
+                                                    <button class="pill-button ripple" id="remove-bg-button"
+                                                        onclick="removeBg();">移除桌布</button>
                                                 </span>
                                                 <span>
-                                                    <button class="pill-button ripple opacity-button" onclick="toggleOpacity();">透明度：0%</button>
-                                                    <button class="pill-button ripple opacity-button" onclick="toggleOpacity();">透明度：10%</button>
-                                                    <button class="pill-button ripple opacity-button" onclick="toggleOpacity();">透明度：20%</button>
-                                                    <button class="pill-button ripple opacity-button" onclick="toggleOpacity();">透明度：30%</button>
+                                                    <button class="pill-button ripple opacity-button"
+                                                        onclick="toggleOpacity();">透明度：0%</button>
+                                                    <button class="pill-button ripple opacity-button"
+                                                        onclick="toggleOpacity();">透明度：10%</button>
+                                                    <button class="pill-button ripple opacity-button"
+                                                        onclick="toggleOpacity();">透明度：20%</button>
+                                                    <button class="pill-button ripple opacity-button"
+                                                        onclick="toggleOpacity();">透明度：30%</button>
                                                 </span>
                                                 <span>
-                                                    <button class="pill-button ripple font-size-button" onclick="changeFontSize();">字體：12px</button>
-                                                    <button class="pill-button ripple font-size-button" onclick="changeFontSize();">字體：14px</button>
-                                                    <button class="pill-button ripple font-size-button" onclick="changeFontSize();">字體：16px</button>
-                                                    <button class="pill-button ripple font-size-button" onclick="changeFontSize();">字體：18px</button>
+                                                    <button class="pill-button ripple font-size-button"
+                                                        onclick="changeFontSize();">字體：12px</button>
+                                                    <button class="pill-button ripple font-size-button"
+                                                        onclick="changeFontSize();">字體：14px</button>
+                                                    <button class="pill-button ripple font-size-button"
+                                                        onclick="changeFontSize();">字體：16px</button>
+                                                    <button class="pill-button ripple font-size-button"
+                                                        onclick="changeFontSize();">字體：18px</button>
                                                 </span>
                                                 <button class="pill-button ripple" onclick="darkMode();">黑夜模式</button>
-                                                <button class="pill-button ripple" onclick="copyToClipboard();">匯出至剪貼簿</button>
-                                                <button class="pill-button ripple" onclick="readFromFile();">從檔案匯入</button>
-                                                <button class="pill-button ripple" onclick="saveToFile();">儲存至檔案</button>
+                                                <button class="pill-button ripple"
+                                                    onclick="copyToClipboard();">匯出至剪貼簿</button>
+                                                <button class="pill-button ripple"
+                                                    onclick="readFromFile();">從檔案匯入</button>
+                                                <button class="pill-button ripple"
+                                                    onclick="saveToFile();">儲存至檔案</button>
                                                 <!-- <button class="pill-button ripple" onclick="">字數：</button> -->
                                                 <br />
-                                                <a class="pill-button ripple" href="https://qingsky.hk/p/glassnote-about.html" target="_blank">關於 GlassNote 2.0</a>
-                                                <a class="pill-button ripple" href="https://qingsky.hk/p/about.html" target="_blank">關於作者</a>
+                                                <a class="pill-button ripple"
+                                                    href="https://qingsky.hk/p/glassnote-about.html" target="_blank">關於
+                                                    GlassNote 2.0</a>
+                                                <a class="pill-button ripple" href="https://qingsky.hk/p/about.html"
+                                                    target="_blank">關於作者</a>
                                             </div>
                                             <div class="toolbar-overlay" onclick="toggleExpandedMenu()"></div>
                                         </div>
+                                    </div>
                                 </div>
                                 <!--read
                                 <div class="right-button-container flat-icon-button ripple" title="read">
