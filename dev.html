@@ -109,15 +109,31 @@
             /* background: #dddc;
             padding: 0 0 1em 0;
             border-radius: 10px; */
-            padding: 5px 5px 15px 0;
+            /* padding: 5px 5px 15px 0; */
             display: table;
             box-sizing: border-box;
-            pointer-events: all;
+            pointer-events: none;
+            transition: background .5s ease-in-out;
+            position: absolute;
+            width: 100%;
         }
-        .toolbar .expanded-menu-items {
+        .toolbar .expanded-menu {
             width: 0;
             overflow: hidden;
-            display: none;
+            display: table;
+            /* display: none; */
+            opacity: 0;
+            padding: 5px 5px 15px 0;
+            transform: translate(-1000px, 0);
+            transition: transform .5s ease-in-out, opacity .5s ease-in-out, background .5s ease-in-out;
+            background: rgba(240, 240, 240, 0.9);
+            box-shadow: 1px 1px 25px -10px rgba(0, 0, 0, 0.66);
+            border-radius: 10px;
+            vertical-align: top;
+            pointer-events: none;
+        }
+        .toolbar .expanded-menu-items {
+            display: table-cell;
         }
         .toolbar-overlay {
             position: fixed;
@@ -130,19 +146,21 @@
             pointer-events: none;
         }
         body.expanded-menu .toolbar {
-            background: rgba(240, 240, 240, 0.9);
+            /* background: rgba(240, 240, 240, 0.9); */
             border-radius: 10px;
-            box-shadow: 1px 1px 25px -10px rgba(0, 0, 0, 0.66);
+            /* box-shadow: 1px 1px 25px -10px rgba(0, 0, 0, 0.66); */
+            pointer-events: all;
         }
-        body.expanded-menu .toolbar .expanded-menu-items {
-            display: table-cell;
-            vertical-align: top;
+        body.expanded-menu .toolbar .expanded-menu {
+            opacity: 1;
+            transform: none;
+            pointer-events: all;
         }
         body.expanded-menu .toolbar-overlay {
             display: block;
             pointer-events: all;
         }
-        .toolbar .hamburger-button {
+        .hamburger-button {
             display: table-cell;
             width: 24px;
             height: 24px;
@@ -153,6 +171,15 @@
             pointer-events: all;
             cursor: pointer;
             vertical-align: top;
+            position: absolute;
+        }
+        body.expanded-menu .hamburger-button {
+            /* display: none; */
+        }
+        .toolbar .expanded-menu .hamburger-button {
+            position: relative;
+            display: table-cell;
+            margin-top: 0;
         }
         .toolbar .pill-button, .toolbar a {
             color: #3aacc3 !important;
@@ -160,7 +187,8 @@
             background: none;
             border-color: #202020;
             box-shadow: none;
-            font-weight: 500;
+            /* font-weight: 500; */
+            text-transform: none;
         }
 
         body.expanded-menu .expanded-menu-items {
@@ -477,7 +505,7 @@
                 const file = this.files[0];
                 console.log(file.size);
                 if (file) {
-                    if (file.type.match('text/plain') || file.type.match('text/markdown') || file.type.match('text/rtf')) {
+                    if (file.type.match('text/plain') || file.type.match('text/markdown')) {
                         reader.readAsText(file);
                     }
                     else {
@@ -654,31 +682,36 @@
                                 
                                 <div class="toolbar">
                                     <button class='return-link hamburger-button' onclick="toggleExpandedMenu()"><svg viewBox="0 0 24 24" id="ic_menu_black_24dp" width="100%" height="100%"><path d="M0 0h24v24H0z" fill="none"></path><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"></path></svg></button>
-                                    <div class="expanded-menu-items">
-                                        <span>
-                                            <button class="pill-button ripple" id="change-bg-button" onclick="changeBg();">自訂桌布</button>
-                                            <button class="pill-button ripple" id="remove-bg-button" onclick="removeBg();">移除桌布</button>
-                                        </span>
-                                        <span>
-                                            <button class="pill-button ripple opacity-button" onclick="toggleOpacity();">透明度：0%</button>
-                                            <button class="pill-button ripple opacity-button" onclick="toggleOpacity();">透明度：10%</button>
-                                            <button class="pill-button ripple opacity-button" onclick="toggleOpacity();">透明度：20%</button>
-                                            <button class="pill-button ripple opacity-button" onclick="toggleOpacity();">透明度：30%</button>
-                                        </span>
-                                        <span>
-                                            <button class="pill-button ripple font-size-button" onclick="changeFontSize();">字體：12px</button>
-                                            <button class="pill-button ripple font-size-button" onclick="changeFontSize();">字體：14px</button>
-                                            <button class="pill-button ripple font-size-button" onclick="changeFontSize();">字體：16px</button>
-                                            <button class="pill-button ripple font-size-button" onclick="changeFontSize();">字體：18px</button>
-                                        </span>
-                                        <button class="pill-button ripple" onclick="readFromFile();">從檔案匯入</button>
-                                        <button class="pill-button ripple" onclick="saveToFile();">儲存至檔案</button>
-                                        <!-- <button class="pill-button ripple" onclick="">字數：</button> -->
-                                        <br />
-                                        <a class="pill-button ripple" href="https://qingsky.hk/p/glassnote-about.html" target="_blank">關於 GlassNote 2.0</a>
-                                        <a class="pill-button ripple" href="https://qingsky.hk/p/about.html" target="_blank">關於作者</a>
-                                    </div>
-                                    <div class="toolbar-overlay" onclick="toggleExpandedMenu()"></div>
+                                        <div class="expanded-menu">
+                                            <button class='return-link hamburger-button' onclick="toggleExpandedMenu()"><svg viewBox="0 0 24 24" id="ic_menu_black_24dp" width="100%" height="100%"><path d="M0 0h24v24H0z" fill="none"></path><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"></path></svg></button>
+                                            <div class="expanded-menu-items">
+                                                <span>
+                                                    <button class="pill-button ripple" id="change-bg-button" onclick="changeBg();">自訂桌布</button>
+                                                    <button class="pill-button ripple" id="remove-bg-button" onclick="removeBg();">移除桌布</button>
+                                                </span>
+                                                <span>
+                                                    <button class="pill-button ripple opacity-button" onclick="toggleOpacity();">透明度：0%</button>
+                                                    <button class="pill-button ripple opacity-button" onclick="toggleOpacity();">透明度：10%</button>
+                                                    <button class="pill-button ripple opacity-button" onclick="toggleOpacity();">透明度：20%</button>
+                                                    <button class="pill-button ripple opacity-button" onclick="toggleOpacity();">透明度：30%</button>
+                                                </span>
+                                                <span>
+                                                    <button class="pill-button ripple font-size-button" onclick="changeFontSize();">字體：12px</button>
+                                                    <button class="pill-button ripple font-size-button" onclick="changeFontSize();">字體：14px</button>
+                                                    <button class="pill-button ripple font-size-button" onclick="changeFontSize();">字體：16px</button>
+                                                    <button class="pill-button ripple font-size-button" onclick="changeFontSize();">字體：18px</button>
+                                                </span>
+                                                <button class="pill-button ripple" onclick="darkMode();">黑夜模式</button>
+                                                <button class="pill-button ripple" onclick="copyToClipboard();">匯出至剪貼簿</button>
+                                                <button class="pill-button ripple" onclick="readFromFile();">從檔案匯入</button>
+                                                <button class="pill-button ripple" onclick="saveToFile();">儲存至檔案</button>
+                                                <!-- <button class="pill-button ripple" onclick="">字數：</button> -->
+                                                <br />
+                                                <a class="pill-button ripple" href="https://qingsky.hk/p/glassnote-about.html" target="_blank">關於 GlassNote 2.0</a>
+                                                <a class="pill-button ripple" href="https://qingsky.hk/p/about.html" target="_blank">關於作者</a>
+                                            </div>
+                                            <div class="toolbar-overlay" onclick="toggleExpandedMenu()"></div>
+                                        </div>
                                 </div>
                                 <!--read
                                 <div class="right-button-container flat-icon-button ripple" title="read">
