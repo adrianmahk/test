@@ -209,7 +209,7 @@
         }
 
         .toolbar .pill-button,
-        .toolbar a {
+        .toolbar a.pill-button {
             color: #3aacc3 !important;
             text-shadow: none;
             background: none;
@@ -217,6 +217,8 @@
             box-shadow: none;
             /* font-weight: 500; */
             text-transform: none;
+            font-size: 14px;
+            margin: 6px 2px;
         }
 
         /* body.expanded-menu .expanded-menu-items {
@@ -785,13 +787,29 @@
                                                     </a>
                                                 <!-- </button> -->
                                                 <div class="expanded-menu-items">
-                                                    <tbc>GlassNote 2.0</tbc><em> - Build: 23 Apr 2021</em><br />
+                                                    <tbc>GlassNote 2.0</tbc><em> - Build: 23 Apr 2021</em>
+                                                    <span style=" margin-left: 2em;">
+                                                        <a class="pill-button ripple"
+                                                        href="https://qingsky.hk/p/glassnote-about.html" target="_blank">關於
+                                                        GlassNote 2.0</a>
+                                                        <a class="pill-button ripple" href="https://qingsky.hk/p/about.html"
+                                                            target="_blank">關於作者</a>
+                                                    </span>
+                                                    <br />
                                                     <span>
                                                         <button class="pill-button ripple" id="change-bg-button"
                                                             onclick="changeBg();">自訂桌布</button>
                                                         <button class="pill-button ripple" id="remove-bg-button"
                                                             onclick="removeBg();">移除桌布</button>
                                                     </span>
+                                                    <button class="pill-button ripple"
+                                                        onclick="readFromFile();">從檔案匯入</button>
+                                                    <button class="pill-button ripple"
+                                                        onclick="saveToFile();">儲存至檔案</button>
+                                                    <button class="pill-button ripple"
+                                                        onclick="copyToClipboard();">匯出至剪貼簿</button>
+                                                    <!-- <button class="pill-button ripple" onclick="">字數：</button> -->
+                                                    <br />
                                                     <span>
                                                         <button class="pill-button ripple opacity-button"
                                                             onclick="toggleOpacity();">透明度：0%</button>
@@ -816,19 +834,6 @@
                                                         <button class="pill-button ripple dark-mode-button-toolbar" onclick="darkMode();">黑夜模式：開</button>
                                                         <button class="pill-button ripple dark-mode-button-toolbar" onclick="darkMode();">黑夜模式：關</button>
                                                     </span>
-                                                    <button class="pill-button ripple"
-                                                        onclick="readFromFile();">從檔案匯入</button>
-                                                    <button class="pill-button ripple"
-                                                        onclick="saveToFile();">儲存至檔案</button>
-                                                    <button class="pill-button ripple"
-                                                        onclick="copyToClipboard();">匯出至剪貼簿</button>
-                                                    <!-- <button class="pill-button ripple" onclick="">字數：</button> -->
-                                                    <br />
-                                                    <a class="pill-button ripple"
-                                                        href="https://qingsky.hk/p/glassnote-about.html" target="_blank">關於
-                                                        GlassNote 2.0</a>
-                                                    <a class="pill-button ripple" href="https://qingsky.hk/p/about.html"
-                                                        target="_blank">關於作者</a>
                                                 </div>
                                                 <div class="toolbar-overlay" onclick="toggleExpandedMenu()"></div>
                                             </div>
