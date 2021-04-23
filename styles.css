@@ -35,7 +35,7 @@
     text-shadow: 0px 0px .5em rgba(0,0,0, 0.66), 0px 0px 1em rgba(0,0,0, 0.66), 0px 0px 1.5em #aaaaaa;
 }
 .glassnote-about-msg h3 {
-    color: #fefdfd;
+    color: #fefdfd !important;
 }
 .glassnote-about-msg a, .glassnote-about-msg a:visited {
     color: #aef;

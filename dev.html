@@ -253,6 +253,25 @@
         body.dark-mode .dark-mode-button-toolbar:first-child {
             display: inline;
         }
+
+        .dark_mode_overlay {
+            display: none;
+        }
+        body.dark-mode #editor-body {
+            color: #fefdf3;
+        }
+        body.dark-mode .toolbar .expanded-menu {
+            background: rgba(43, 43, 43, 0.9);
+            color: #fefdf3;
+        }
+        body.dark-mode .toolbar .pill-button {
+            border-color: #fefdf3;
+        }
+        body.dark-mode h1, body.dark-mode h2, body.dark-mode h3, 
+        body.dark-mode h4, body.dark-mode h5, body.dark-mode h6,
+        body.dark-mode tbc, body.dark-mode cite, body.dark-mode cm   {
+            color: #3aaac3;
+        }
     </style>
     <style>
         /* Only for Standalone Ver. */
@@ -271,6 +290,7 @@
             background: rgba(254, 254, 253, 0.95);
             box-shadow: 0px 0px 15px -5px rgba(0, 0, 0, 0.9);
             margin-bottom: 16px !important;
+            transition: color .2s ease-in-out, background .2s ease-in-out;
         }
 
         @media screen and (max-width: 886px) {
@@ -297,6 +317,22 @@
 
         body.opacity-30 .post-outer-container {
             background: rgba(254, 254, 253, .7);
+        }
+
+        body.opacity-0.dark-mode .post-outer-container {
+            background: rgba(20, 20, 20, 1);
+        }
+
+        body.opacity-10.dark-mode .post-outer-container {
+            background: rgba(20, 20, 20, .9);
+        }
+
+        body.opacity-20.dark-mode .post-outer-container {
+            background: rgba(20, 20, 20, .8);
+        }
+
+        body.opacity-30.dark-mode .post-outer-container {
+            background: rgba(20, 20, 20, .7);
         }
     </style>
     <script src="upup.min.js"></script>
@@ -744,7 +780,8 @@
                                                         <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"></path>
                                                     </svg> -->
                                                     <a class="return_link hamburger-button" href="javascript:void(0)" onclick="toggleExpandedMenu();" title="選單">
-                                                        <img class="png_icon" src="icons/hamburger.png">
+                                                        <img class="png_icon light" src="icons/hamburger.png">
+                                                        <img class="png_icon dark" src="icons/hamburger_dark.png">
                                                     </a>
                                                 <!-- </button> -->
                                                 <div class="expanded-menu-items">
