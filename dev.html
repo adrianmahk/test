@@ -106,7 +106,85 @@
             display: inline;
         }
         .toolbar {
+            /* background: #dddc;
+            padding: 0 0 1em 0;
+            border-radius: 10px; */
+            padding: 5px 5px 15px 0;
+            display: table;
+            box-sizing: border-box;
             pointer-events: all;
+        }
+        .toolbar .expanded-menu-items {
+            width: 0;
+            overflow: hidden;
+            display: none;
+        }
+        .toolbar-overlay {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            display: none;
+            z-index: -1;
+            pointer-events: none;
+        }
+        body.expanded-menu .toolbar {
+            background: rgba(240, 240, 240, 0.9);
+            border-radius: 10px;
+            box-shadow: 1px 1px 25px -10px rgba(0, 0, 0, 0.66);
+        }
+        body.expanded-menu .toolbar .expanded-menu-items {
+            display: table-cell;
+            vertical-align: top;
+        }
+        body.expanded-menu .toolbar-overlay {
+            display: block;
+            pointer-events: all;
+        }
+        .toolbar .hamburger-button {
+            display: table-cell;
+            width: 24px;
+            height: 24px;
+            border: none;
+            background: none;
+            margin: 8px;
+            padding: 0;
+            pointer-events: all;
+            cursor: pointer;
+            vertical-align: top;
+        }
+        .toolbar .pill-button, .toolbar a {
+            color: #3aacc3 !important;
+            text-shadow: none;
+            background: none;
+            border-color: #202020;
+            box-shadow: none;
+            font-weight: 500;
+        }
+
+        body.expanded-menu .expanded-menu-items {
+            width: 100%;
+        }
+
+        .font-size-button {
+            display: none;
+        }
+        body.f12px .font-size-button:first-child, 
+        body.f14px .font-size-button:nth-child(2), 
+        body.f16px .font-size-button:nth-child(3), 
+        body.f18px .font-size-button:nth-child(4) {
+            display: inline;
+        }
+
+        .opacity-button {
+            display: none;
+        }
+        body.opacity-0 .opacity-button:first-child, 
+        body.opacity-10 .opacity-button:nth-child(2), 
+        body.opacity-20 .opacity-button:nth-child(3), 
+        body.opacity-30 .opacity-button:nth-child(4) {
+            display: inline;
         }
     </style>
     <style>
@@ -138,48 +216,19 @@
             margin: 1em 0 0 0;
         }
 
-        .toolbar {
-            /* background: #dddc;
-            padding: 0 0 1em 0;
-            border-radius: 10px; */
-            display: table;
-            box-sizing: border-box;
+        body.opacity-0 .post-outer-container {
+            background: rgba(254, 254, 253, 1);
         }
-        .toolbar .expanded-menu-items {
-            background: #dddc;
-            padding: 5px 5px 15px 5px;
-            border-radius: 10px;
-            display: table-cell;
-            width: 0;
-            overflow: hidden;
+        body.opacity-10 .post-outer-container {
+            background: rgba(254, 254, 253, .9);
         }
-        .toolbar .hamburger-button {
-            display: table-cell;
-            width: 24px;
-            height: 24px;
-            border: none;
-            background: none;
-            margin: 10px;
-            padding: 0;
+        body.opacity-20 .post-outer-container {
+            background: rgba(254, 254, 253, .8);
         }
-        .toolbar .pill-button, .toolbar a {
-            color: #202020 !important;
-            text-shadow: none;
+        body.opacity-30 .post-outer-container {
+            background: rgba(254, 254, 253, .7);
         }
 
-        body.expanded-menu .expanded-menu-items {
-            width: 100%;
-        }
-
-        .font-size-button {
-            display: none;
-        }
-        body.f12px .font-size-button:first-child, 
-        body.f14px .font-size-button:nth-child(2), 
-        body.f16px .font-size-button:nth-child(3), 
-        body.f18px .font-size-button:nth-child(4) {
-            display: inline;
-        }
     </style>
     <script src="upup.min.js"></script>
         <script>
@@ -427,7 +476,13 @@
                 const file = this.files[0];
                 console.log(file.size);
                 if (file) {
-                    reader.readAsText(file);
+                    if (file.type.match('text/plain') || file.type.match('text/markdown') || file.type.match('text/rtf')) {
+                        reader.readAsText(file);
+                    }
+                    else {
+                        alert('檔案格式不支援 (只接受 .txt 純文字文件)');
+                        console.log(file.type);
+                    }
                 }
                 input.parentNode.removeChild(input);
             }, false);
@@ -501,7 +556,43 @@
                 document.body.classList.add("f14px");
             }
 
+            var opacity = getCookie("opacity");
+            if (opacity != "") {
+                document.body.classList.add(opacity);
+            }
+            else {
+                document.body.classList.add("opacity-10");
+            }
             
+        }
+
+        function toggleOpacity() {
+            var body = document.body;
+            var next_opacity = "opacity-20";
+            
+            if (body.classList.contains("opacity-0")) {
+                next_opacity = "opacity-10";
+            }
+            else if (body.classList.contains("opacity-10")) {
+                next_opacity = "opacity-20";
+            }
+            else if (body.classList.contains("opacity-20")) {
+                next_opacity = "opacity-30";
+            }
+            else if (body.classList.contains("opacity-30")) {
+                next_opacity = "opacity-0";
+            }
+
+            body.classList.remove("opacity-0");
+            body.classList.remove("opacity-10");
+            body.classList.remove("opacity-20");
+            body.classList.remove("opacity-30");
+            body.classList.add(next_opacity);
+            writeCookie("opacity", next_opacity);
+        }
+
+        function toggleExpandedMenu() {
+            document.body.classList.toggle("expanded-menu");
         }
     </script>
 </head>
@@ -561,7 +652,7 @@
                             <div class="editor-buttons" id="editor-buttons">
                                 
                                 <div class="toolbar">
-                                    <button class='hamburger-button'><svg viewBox="0 0 24 24" id="ic_menu_black_24dp" width="100%" height="100%"><path d="M0 0h24v24H0z" fill="none"></path><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"></path></svg></button>
+                                    <button class='return-link hamburger-button' onclick="toggleExpandedMenu()"><svg viewBox="0 0 24 24" id="ic_menu_black_24dp" width="100%" height="100%"><path d="M0 0h24v24H0z" fill="none"></path><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"></path></svg></button>
                                     <div class="expanded-menu-items">
                                         <span>
                                             <button class="pill-button ripple" id="change-bg-button" onclick="changeBg();">自訂桌布</button>
@@ -581,8 +672,12 @@
                                         </span>
                                         <button class="pill-button ripple" onclick="readFromFile();">從檔案匯入</button>
                                         <button class="pill-button ripple" onclick="saveToFile();">儲存至檔案</button>
+                                        <!-- <button class="pill-button ripple" onclick="">字數：</button> -->
+                                        <br />
                                         <a class="pill-button ripple" href="https://qingsky.hk/p/glassnote-about.html" target="_blank">關於 GlassNote 2.0</a>
+                                        <a class="pill-button ripple" href="https://qingsky.hk/p/about.html" target="_blank">關於作者</a>
                                     </div>
+                                    <div class="toolbar-overlay" onclick="toggleExpandedMenu()"></div>
                                 </div>
                                 <!--read
                                 <div class="right-button-container flat-icon-button ripple" title="read">
@@ -610,9 +705,9 @@
 
                 </div>
                 <div id="glassnote-about-msg" class="glassnote-about-msg">
-                    <p><button class="pill-button ripple" id="change-bg-button"
+                    <!-- <p><button class="pill-button ripple" id="change-bg-button"
                             onclick="changeBg();">自訂桌布</button><button class="pill-button ripple" id="remove-bg-button"
-                            onclick="removeBg();">移除桌布</button></p>
+                            onclick="removeBg();">移除桌布</button></p> -->
                     <h3>上次儲存：<span class='last-saved-msg'>-</span>　　　<a href="javascript:void(0)"
                             onclick="clearCurrentAndLocalStorage();">清空</a></h3>
                     <p><em>GlassNote 2.0，<a href="https://qingsky.hk/p/glassnote-about.html"
