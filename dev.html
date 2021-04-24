@@ -390,21 +390,27 @@
     </script>
 
     <script>
+        var timer = 0;
         function initEventListeners() {
-            window.addEventListener("pagehide", saveToLocalStorage);
+            window.addEventListener("pagehide", function () {
+                saveToLocalStorage();
+                // clearAutoSaveTimer();
+            });
             window.addEventListener("visibilitychange", function () {
                 if (document.visibilityState === 'hidden') {
                     saveToLocalStorage();
+                    clearAutoSaveTimer();
+                }
+                else {
+                    setAutoSaveTimer();
                 }
             });
             window.addEventListener("pageshow", function (event) {
                 if (event.persisted) {
                     loadFromLocalStorage();
                 }
+                setAutoSaveTimer();
             });
-            setInterval(() => {
-                saveToLocalStorage();
-            }, 50000);
         }
 
         ready(function () {
@@ -412,7 +418,19 @@
             //moveAboutMessageToAboveFooter();
             loadBg();
             initBodyClassesForOpacityAndFontSize();
+            // setAutoSaveTimer();
         });
+
+        function setAutoSaveTimer () {
+            console.log("set");
+            timer = setInterval(() => {
+                saveToLocalStorage();
+            }, 50000);
+        }
+        function clearAutoSaveTimer() {
+            console.log("claared");
+            clearInterval(timer);
+        }
 
         function saveToLocalStorage() {
             var editor = document.getElementById("editor-body");
@@ -667,13 +685,6 @@
         }
 
         function initBodyClassesForOpacityAndFontSize() {
-            // if (!document.body.classList.contains("f12px")
-            // && !document.body.classList.contains("f14px")
-            // && !document.body.classList.contains("f16px")
-            // && !document.body.classList.contains("f18px")) {
-            //     document.body.classList.add("f14px");
-            // }
-
             const element = document.getElementById("left-sidebar");
             const fontSizes = ["f12px", "f14px", "f16px", "f18px"];
             const result = [...document.body.classList].some(className => fontSizes.indexOf(className) !== -1);
@@ -781,13 +792,7 @@
                             <!-- <h3>上次儲存：<span class='last-saved-msg'>-</span>　　　<a style="float: right"
                                     href="javascript:void(0)" onclick="clearCurrentAndLocalStorage();">清空</a></h3> -->
                             <div class="editor-buttons" id="editor-buttons">
-
                                 <div class="toolbar">
-                                    <!-- <button class='return-link hamburger-button' onclick="toggleExpandedMenu()"><svg
-                                            viewBox="0 0 24 24" id="ic_menu_black_24dp" width="100%" height="100%">
-                                            <path d="M0 0h24v24H0z" fill="none"></path>
-                                            <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"></path>
-                                        </svg></button> -->
                                         <a class="return_link hamburger-button" href="javascript:void(0)" onclick="toggleExpandedMenu();" title="選單">
                                             <img class="png_icon light" src="icons/hamburger.png" />
                                             <img class="png_icon dark" src="icons/hamburger_dark.png" />
@@ -795,13 +800,6 @@
                                     <div class="expanded-menu-container">
                                         <div class="expanded-menu">
                                             <div style="display: table-row;">
-                                                <!-- <<button class='return-link hamburger-button'
-                                                    onclick="toggleExpandedMenu()">
-                                                    svg viewBox="0 0 24 24"
-                                                        id="ic_menu_black_24dp" width="100%" height="100%">
-                                                        <path d="M0 0h24v24H0z" fill="none"></path>
-                                                        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"></path>
-                                                    </svg> -->
                                                     <a class="return_link hamburger-button" href="javascript:void(0)" onclick="toggleExpandedMenu();" title="選單">
                                                         <img class="png_icon light" src="icons/hamburger.png" />
                                                         <img class="png_icon dark" src="icons/hamburger_dark.png" />
