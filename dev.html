@@ -423,7 +423,7 @@
                     try {
                         localStorage.setItem('content', currentVer);
                         var date = new Date();
-                        localStorage.setItem('last-saved-time', date.toLocaleString());
+                        localStorage.setItem('last-saved-time', date.toLocaleDateString("en-GB") + " " +date.toLocaleTimeString("en-GB", { hour: '2-digit', minute: '2-digit' }));
                     }
                     catch (e) {
                         alert("瀏覽器內存已滿！儲存失敗，請記得帶走文字內容！");
@@ -636,10 +636,13 @@
                 };
 
             var link = document.createElement('a');
-            var fileName = getFirstLine(content);
-            if (!fileName || fileName == "") {
-                fileName = "GlassNote";
-            }
+            // var fileName = getFirstLine(content);
+            // if (!fileName || fileName == "") {
+                // fileName = "GlassNote";
+            // }
+            var date = new Date();
+            var fileName = "GlassNote-"+date.toLocaleDateString("en-GB") + "_" +date.toLocaleTimeString("en-GB", { hour: '2-digit', minute: '2-digit' });
+            fileName = fileName.replaceAll("/","-").replaceAll(":","-");
             link.setAttribute('download', fileName + ".txt");
 
             link.href = makeTextFile(content);
