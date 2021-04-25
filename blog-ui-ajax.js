@@ -1,4 +1,4 @@
-// blog-ui-ajax.js 20210418001 writeCookie,pageShowEvent,cleanups
+// blog-ui-ajax.js 20210426001 dont add target=_blank to a's w/o href now
 var inited = 0;
 var loadMainAlready = 0;
 var post_body_content_bak = "";
@@ -59,10 +59,11 @@ function makeExternalLinkOpenInBlank() {
   for (var i = 0; i < anchorElsLength; i++) {
     var anchorEl = anchorEls[i];
     var href = anchorEl.getAttribute('href');
-
-    if (!internalLinkRegex.test(href)) {
-      anchorEl.setAttribute('target', '_blank');
-    }
+    if (href){
+      if (!internalLinkRegex.test(href)) {
+        anchorEl.setAttribute('target', '_blank');
+      }
+    }    
     // else if (!jsCheck.test(href)) {
     //   if (!anchorEl.getAttribute('onclick') && !anchorEl.getAttribute('target')) {
     //     // anchorEl.setAttribute('onclick', 'gotoLinkPreventDefault(event, "'+href+'")');
