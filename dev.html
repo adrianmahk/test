@@ -423,13 +423,13 @@
         });
 
         function setAutoSaveTimer () {
-            console.log("set");
+            // console.log("set");
             timer = setInterval(() => {
                 saveToLocalStorage();
             }, 50000);
         }
         function clearAutoSaveTimer() {
-            console.log("claared");
+            // console.log("claared");
             clearInterval(timer);
         }
 
@@ -525,8 +525,9 @@
         }
         function copyToClipboard() {
             var range = document.createRange();
-            range.selectNode(document.getElementById("editor-body"));
+            range.selectNodeContents(document.getElementById("editor-body"));
             window.getSelection().removeAllRanges();
+
             window.getSelection().addRange(range);
             var result = document.execCommand('copy');
 
