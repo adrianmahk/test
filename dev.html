@@ -380,18 +380,28 @@
             window.addEventListener("visibilitychange", function () {
                 if (document.visibilityState === 'hidden') {
                     saveToLocalStorage();
-                    clearAutoSaveTimer();
+                    // clearAutoSaveTimer();
                 }
                 else {
-                    setAutoSaveTimer();
+                    // setAutoSaveTimer();
                 }
             });
             window.addEventListener("pageshow", function (event) {
                 if (event.persisted) {
                     loadFromLocalStorage();
                 }
-                setAutoSaveTimer();
+                // setAutoSaveTimer();
             });
+
+            var myElement = document.getElementById('editor-body');
+            if(window.addEventListener) {
+            // Normal browsers
+                myElement.addEventListener('DOMSubtreeModified', setAutoSaveTimeout, false);
+            } else
+            if(window.attachEvent) {
+                // IE
+                myElement.attachEvent('DOMSubtreeModified', setAutoSaveTimeout);
+            }
         }
 
         ready(function () {
@@ -402,16 +412,25 @@
             // setAutoSaveTimer();
         });
 
-        function setAutoSaveTimer () {
-            // console.log("set");
-            timer = setInterval(() => {
-                saveToLocalStorage();
-            }, 50000);
+        function setAutoSaveTimeout() {
+            // this function will run each time the content of the DIV changes
+            // console.log('changed');
+            clearTimeout(timer);
+            timer = setTimeout(() => {
+                saveToLocalStorage();    
+            }, 5000);
         }
-        function clearAutoSaveTimer() {
-            // console.log("claared");
-            clearInterval(timer);
-        }
+
+        // function setAutoSaveTimer () {
+        //     // console.log("set");
+        //     timer = setInterval(() => {
+        //         saveToLocalStorage();
+        //     }, 50000);
+        // }
+        // function clearAutoSaveTimer() {
+        //     // console.log("claared");
+        //     clearInterval(timer);
+        // }
 
         function saveToLocalStorage() {
             var editor = document.getElementById("editor-body");
