@@ -30,7 +30,7 @@
                 'autolink',
                 'link',
                 'lists',
-                'visualblocks',
+                // 'visualblocks',
                 // 'powerpaste',
                 'quickbars',
                 // 'paste'
@@ -39,31 +39,15 @@
                 '*': 'quote', // Global classes
                 'img': 'lazyload' // Link specific classes
             },
-            // paste_as_text: true,
             toolbar: false,
             quickbars_insert_toolbar: 'undo redo paste',
             quickbars_selection_toolbar: 'undo redo cut copy paste',
             contextmenu: 'undo redo cut copy paste',
-            valid_elements: 'a,strong/b,em／i,cite,br',
-            // invalid_elements: 'p,div',
             element_format: 'xhtml',
-            // cleanup : true,
-            // force_br_newlines: true,
-            // force_p_newlines: false,
             forced_root_block: "div",
-            // cleanup_on_startup : true,
-            visualblocks_default_state: false,
             init_instance_callback: function () {
                 loadFromLocalStorage(initEventListeners);
             },
-            // paste_preprocess: function(plugin, args) {
-            //     var str = args.content.replaceAll(/<\/p*?>/gm, "\n\n");
-            //     str = str.replaceAll(/<((br|br |br \/))>/gm, "\n");
-            //     str = str.replaceAll(/<(?:.|\n)*?>/gm, '');
-            //     str = str.replaceAll("\n", "<br />");
-            //     args.content = str;
-            // }
-            
         };
         tinymce.init(dfreeBodyConfig);
     </script>
@@ -591,14 +575,8 @@
         function copyToClipboard() {
             var fakeEditor = document.createElement("div");
 
-            // var html = document.getElementById("editor-body").innerHTML;
-            // html = html.replaceAll(/<((br|br |br \/))>/gm, "\n");
-            // html = html.replaceAll(/<(?:.|\n)*?>/gm, '');
-            // html = html.replaceAll("\n", "<br />");
-
             fakeEditor.innerHTML = document.getElementById("editor-body").innerHTML;
             fakeEditor.setAttribute("class", "fake-editor editor-body entry-content");
-            // fakeEditor.setAttribute("style", "font-size: 0;");
             document.body.appendChild(fakeEditor);
 
             var range = document.createRange();
