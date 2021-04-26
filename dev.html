@@ -416,20 +416,20 @@
                 editorBody.attachEvent('DOMSubtreeModified', setAutoSaveTimeout);
             }
 
-            editorBody.addEventListener("paste", function(e) {
-                // alert();
-                // cancel paste
-                e.preventDefault();
-                // get text representation of clipboard
-                var text = (e.originalEvent || e).clipboardData.getData('text/plain');
-                // console.log(e.originalEvent.clipboardData.getData('text/rtf'));
-                // insert text manually
-                // this.i(text);
-                document.execCommand("paste", false, text);
-                console.log(text);
+            // editorBody.addEventListener("paste", function(e) {
+            //     // alert();
+            //     // cancel paste
+            //     e.preventDefault();
+            //     // get text representation of clipboard
+            //     var text = (e.originalEvent || e).clipboardData.getData('text/plain');
+            //     // console.log(e.originalEvent.clipboardData.getData('text/rtf'));
+            //     // insert text manually
+            //     // this.i(text);
+            //     document.execCommand("paste", false, text);
+            //     console.log(text);
 
-                return false;
-            });
+            //     return false;
+            // });
         }
 
         ready(function () {
