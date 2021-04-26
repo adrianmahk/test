@@ -543,20 +543,20 @@
             return str.substr(0, breakIndex);
         }
         function copyToClipboard() {
-            // var fakeEditor = document.createElement("div");
-            // fakeEditor.innerText = document.getElementById("editor-body").innerText;
-            // fakeEditor.setAttribute("class", "fake-editor");
+            var fakeEditor = document.createElement("div");
+            fakeEditor.innerText = document.getElementById("editor-body").innerText;
+            fakeEditor.setAttribute("class", "fake-editor editor-body entry-content");
             // fakeEditor.setAttribute("style", "font-size: 0;");
-            // document.body.appendChild(fakeEditor);
+            document.body.appendChild(fakeEditor);
 
             var range = document.createRange();
-            // range.selectNodeContents(fakeEditor);
-            range.selectNodeContents(document.getElementById("editor-body"));
+            range.selectNodeContents(fakeEditor);
+            // range.selectNodeContents(document.getElementById("editor-body"));
             window.getSelection().removeAllRanges();
 
             window.getSelection().addRange(range);
             var result = document.execCommand('copy');
-            // fakeEditor.parentNode.removeChild(fakeEditor);
+            fakeEditor.parentNode.removeChild(fakeEditor);
 
             saveToLocalStorage();
         }
