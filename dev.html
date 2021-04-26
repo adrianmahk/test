@@ -245,8 +245,11 @@
         .dark_mode_overlay {
             display: none;
         }
+        #editor-body {
+            color: #202020 !important;
+        }
         body.dark-mode #editor-body {
-            color: #fefdf3;
+            color: #fefdf3 !important;
         }
         body.dark-mode .toolbar .expanded-menu {
             background: rgba(71, 71, 71, 0.9);
@@ -294,6 +297,8 @@
         }
 
         .fake-editor {
+            color: #202020;
+            background: transparent;
             /* font-size: 0; */
             /* color: #202020; */
             /* width: 0;
@@ -409,27 +414,18 @@
             var editorBody = document.getElementById('editor-body');
             if(window.addEventListener) {
             // Normal browsers
-                editorBody.addEventListener('DOMSubtreeModified', setAutoSaveTimeout, false);
+                editorBody.addEventListener('DOMSubtreeModified', function () {
+                    removeStyles(this);
+                    setAutoSaveTimeout();
+                }, false);
             } else
             if(window.attachEvent) {
                 // IE
-                editorBody.attachEvent('DOMSubtreeModified', setAutoSaveTimeout);
+                editorBody.attachEvent('DOMSubtreeModified', function () {
+                    removeStyles(this);
+                    setAutoSaveTimeout();
+                });
             }
-
-            // editorBody.addEventListener("paste", function(e) {
-            //     // alert();
-            //     // cancel paste
-            //     e.preventDefault();
-            //     // get text representation of clipboard
-            //     var text = (e.originalEvent || e).clipboardData.getData('text/plain');
-            //     // console.log(e.originalEvent.clipboardData.getData('text/rtf'));
-            //     // insert text manually
-            //     // this.i(text);
-            //     document.execCommand("paste", false, text);
-            //     console.log(text);
-
-            //     return false;
-            // });
         }
 
         ready(function () {
@@ -440,6 +436,13 @@
             // setAutoSaveTimer();
         });
 
+        function removeStyles(el) {
+            el.removeAttribute('style');
+            el.childNodes.forEach(x => {
+                if(x.nodeType == 1) removeStyles(x)
+            })
+        }
+
         function setAutoSaveTimeout() {
             // this function will run each time the content of the DIV changes
             // console.log('changed');
@@ -448,17 +451,6 @@
                 saveToLocalStorage();    
             }, 5000);
         }
-
-        // function setAutoSaveTimer () {
-        //     // console.log("set");
-        //     timer = setInterval(() => {
-        //         saveToLocalStorage();
-        //     }, 50000);
-        // }
-        // function clearAutoSaveTimer() {
-        //     // console.log("claared");
-        //     clearInterval(timer);
-        // }
 
         function saveToLocalStorage() {
             var editor = document.getElementById("editor-body");
@@ -551,19 +543,20 @@
             return str.substr(0, breakIndex);
         }
         function copyToClipboard() {
-            var fakeEditor = document.createElement("div");
-            fakeEditor.innerHTML = document.getElementById("editor-body").innerHTML;
-            fakeEditor.setAttribute("class", "fake-editor");
+            // var fakeEditor = document.createElement("div");
+            // fakeEditor.innerText = document.getElementById("editor-body").innerText;
+            // fakeEditor.setAttribute("class", "fake-editor");
             // fakeEditor.setAttribute("style", "font-size: 0;");
-            document.body.appendChild(fakeEditor);
+            // document.body.appendChild(fakeEditor);
 
             var range = document.createRange();
-            range.selectNodeContents(fakeEditor);
+            // range.selectNodeContents(fakeEditor);
+            range.selectNodeContents(document.getElementById("editor-body"));
             window.getSelection().removeAllRanges();
 
             window.getSelection().addRange(range);
             var result = document.execCommand('copy');
-            fakeEditor.parentNode.removeChild(fakeEditor);
+            // fakeEditor.parentNode.removeChild(fakeEditor);
 
             saveToLocalStorage();
         }
