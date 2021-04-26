@@ -287,6 +287,13 @@
         body.opacity-30.dark-mode .post-outer-container {
             background: rgba(20, 20, 20, .7) !important;
         }
+
+        .fake-editor {
+            font-size: 0;
+            /* width: 0;
+            height: 0;
+            overflow: hidden; */
+        }
     </style>
     <style>
         /* Only for Standalone Ver. */
@@ -393,14 +400,14 @@
                 // setAutoSaveTimer();
             });
 
-            var myElement = document.getElementById('editor-body');
+            var editorBody = document.getElementById('editor-body');
             if(window.addEventListener) {
             // Normal browsers
-                myElement.addEventListener('DOMSubtreeModified', setAutoSaveTimeout, false);
+                editorBody.addEventListener('DOMSubtreeModified', setAutoSaveTimeout, false);
             } else
             if(window.attachEvent) {
                 // IE
-                myElement.attachEvent('DOMSubtreeModified', setAutoSaveTimeout);
+                editorBody.attachEvent('DOMSubtreeModified', setAutoSaveTimeout);
             }
         }
 
@@ -523,12 +530,19 @@
             return str.substr(0, breakIndex);
         }
         function copyToClipboard() {
+            var fakeEditor = document.createElement("div");
+            fakeEditor.innerHTML = document.getElementById("editor-body").innerHTML;
+            fakeEditor.setAttribute("class", "fake-editor");
+            // fakeEditor.setAttribute("style", "font-size: 0;");
+            document.body.appendChild(fakeEditor);
+
             var range = document.createRange();
-            range.selectNodeContents(document.getElementById("editor-body"));
+            range.selectNodeContents(fakeEditor);
             window.getSelection().removeAllRanges();
 
             window.getSelection().addRange(range);
             var result = document.execCommand('copy');
+            fakeEditor.parentNode.removeChild(fakeEditor);
 
             saveToLocalStorage();
         }
@@ -570,6 +584,7 @@
             }, false);
             var input = document.createElement("input");
             input.setAttribute("type", "file");
+            input.setAttribute("accept", "image/*, video/*");
 			input.addEventListener('click', function () {
 				input.parentNode.removeChild(input);
 			});
@@ -620,6 +635,7 @@
             }, false);
             var input = document.createElement("input");
             input.setAttribute("type", "file");
+            input.setAttribute("accept", "text/plain, text/markdown");
 			input.addEventListener('click', function () {
 				input.parentNode.removeChild(input);
 			});
