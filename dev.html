@@ -54,11 +54,11 @@
         tinymce.init(dfreeBodyConfig);
     </script>
     <style>
-        html,body{
+        /* html,body{
             -webkit-overflow-scrolling : touch !important;
             overflow: auto !important;
             height: 100% !important;
-        }
+        } */
         .bg-div-cust {
             top: 0;
             left: 0;
@@ -294,7 +294,8 @@
         }
 
         .fake-editor {
-            font-size: 0;
+            /* font-size: 0; */
+            /* color: #202020; */
             /* width: 0;
             height: 0;
             overflow: hidden; */
@@ -414,6 +415,21 @@
                 // IE
                 editorBody.attachEvent('DOMSubtreeModified', setAutoSaveTimeout);
             }
+
+            editorBody.addEventListener("paste", function(e) {
+                // alert();
+                // cancel paste
+                e.preventDefault();
+                // get text representation of clipboard
+                var text = (e.originalEvent || e).clipboardData.getData('text/plain');
+                // console.log(e.originalEvent.clipboardData.getData('text/rtf'));
+                // insert text manually
+                // this.i(text);
+                document.execCommand("paste", false, text);
+                console.log(text);
+
+                return false;
+            });
         }
 
         ready(function () {
