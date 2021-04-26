@@ -1,6 +1,7 @@
 /* From Blog */
 .bg-div {
     background: #aaaaaa url(bg1.jpg) repeat scroll top center;
+    background-size: cover;
 }
 
 
