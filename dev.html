@@ -44,12 +44,26 @@
             quickbars_insert_toolbar: 'undo redo paste',
             quickbars_selection_toolbar: 'undo redo cut copy paste',
             contextmenu: 'undo redo cut copy paste',
-            valid_elements: 'a,strong,em,cite,br',
+            valid_elements: 'a,strong/b,em／i,cite,br',
+            // invalid_elements: 'p,div',
             element_format: 'xhtml',
+            // cleanup : true,
+            // force_br_newlines: true,
+            // force_p_newlines: false,
+            forced_root_block: "div",
+            // cleanup_on_startup : true,
             visualblocks_default_state: false,
             init_instance_callback: function () {
                 loadFromLocalStorage(initEventListeners);
-            }
+            },
+            // paste_preprocess: function(plugin, args) {
+            //     var str = args.content.replaceAll(/<\/p*?>/gm, "\n\n");
+            //     str = str.replaceAll(/<((br|br |br \/))>/gm, "\n");
+            //     str = str.replaceAll(/<(?:.|\n)*?>/gm, '');
+            //     str = str.replaceAll("\n", "<br />");
+            //     args.content = str;
+            // }
+            
         };
         tinymce.init(dfreeBodyConfig);
     </script>
@@ -305,6 +319,11 @@
             height: 0;
             overflow: hidden; */
         }
+        
+        #editor-body div {
+            margin-top: .1em;
+            margin-bottom: 0em;
+        }
     </style>
     <style>
         /* Only for Standalone Ver. */
@@ -398,34 +417,42 @@
             window.addEventListener("visibilitychange", function () {
                 if (document.visibilityState === 'hidden') {
                     saveToLocalStorage();
-                    // clearAutoSaveTimer();
-                }
-                else {
-                    // setAutoSaveTimer();
                 }
             });
             window.addEventListener("pageshow", function (event) {
                 if (event.persisted) {
                     loadFromLocalStorage();
                 }
-                // setAutoSaveTimer();
             });
 
             var editorBody = document.getElementById('editor-body');
             if(window.addEventListener) {
             // Normal browsers
-                editorBody.addEventListener('DOMSubtreeModified', function () {
-                    removeStyles(this);
-                    setAutoSaveTimeout();
-                }, false);
-            } else
-            if(window.attachEvent) {
+                editorBody.addEventListener('DOMSubtreeModified', setAutoSaveTimeout);
+            } else if(window.attachEvent) {
                 // IE
-                editorBody.attachEvent('DOMSubtreeModified', function () {
-                    removeStyles(this);
-                    setAutoSaveTimeout();
-                });
+                editorBody.attachEvent('DOMSubtreeModified', setAutoSaveTimeout);
             }
+
+            editorBody.addEventListener("paste", function (e){
+                // console.log("pasted");
+                e.preventDefault();
+                var text = '';
+                if (e.clipboardData || e.originalEvent.clipboardData) {
+                    text = (e.originalEvent || e).clipboardData.getData('text/plain');
+                } else if (window.clipboardData) {
+                    text = window.clipboardData.getData('Text');
+                }
+                if (document.queryCommandSupported('insertText')) {
+                    document.execCommand('insertText', false, text);
+                } else {
+                    document.execCommand('paste', false, text);
+                }
+                // console.log(text);
+                // removeStylesAndReplacePToDiv(this);
+
+                return false;
+            });
         }
 
         ready(function () {
@@ -433,14 +460,33 @@
             //moveAboutMessageToAboveFooter();
             loadBg();
             initBodyClassesForOpacityAndFontSize();
-            // setAutoSaveTimer();
         });
 
-        function removeStyles(el) {
-            el.removeAttribute('style');
-            el.childNodes.forEach(x => {
-                if(x.nodeType == 1) removeStyles(x)
-            })
+        function removeStylesAndReplacePToDiv(el) {
+            // el.removeAttribute('style');
+            // el.removeAttribute('class');
+            
+            el.innerText = el.innerText;
+            if (el.tagName == "P" || el.tagName == "p") {
+                // el.outerHTML = el.outerHTML.replace(/(?:<)p|(?:<\/)p/g,"div");
+                el.outerHTML = el.outerHTML.replace(/(?=<)p/g,"div");
+            }
+            // else if (["svg", "img", "video", "iframe"].includes(el.tagName.toLowerCase())) {
+            //     el.parentNode.removeChild(el);
+            // }
+            // el.childNodes.forEach(x => {
+            //     if(x.nodeType == 1) {
+            //         removeStylesAndReplacePToDiv(x)
+            //     }
+            // });
+            
+            // else if (["em", "strong", "i", "b", "span", "blockquote", "a", "hr", "button", "ol", "ul", "li", "h1", "h2", "h3", "h4", "h5", "h6"].includes(el.tagName.toLowerCase())) {
+            //     el.outerHTML = el.innerHTML;
+            // }
+
+            // else if (el.tagName != "DIV" || el.tagName != "div") {
+            //     el.parentNode.removeChild(el);
+            // }
         }
 
         function setAutoSaveTimeout() {
@@ -544,7 +590,13 @@
         }
         function copyToClipboard() {
             var fakeEditor = document.createElement("div");
-            fakeEditor.innerText = document.getElementById("editor-body").innerText;
+
+            // var html = document.getElementById("editor-body").innerHTML;
+            // html = html.replaceAll(/<((br|br |br \/))>/gm, "\n");
+            // html = html.replaceAll(/<(?:.|\n)*?>/gm, '');
+            // html = html.replaceAll("\n", "<br />");
+
+            fakeEditor.innerHTML = document.getElementById("editor-body").innerHTML;
             fakeEditor.setAttribute("class", "fake-editor editor-body entry-content");
             // fakeEditor.setAttribute("style", "font-size: 0;");
             document.body.appendChild(fakeEditor);
@@ -553,8 +605,9 @@
             range.selectNodeContents(fakeEditor);
             // range.selectNodeContents(document.getElementById("editor-body"));
             window.getSelection().removeAllRanges();
-
             window.getSelection().addRange(range);
+            // console.log(window.getSelection().toString());
+
             var result = document.execCommand('copy');
             fakeEditor.parentNode.removeChild(fakeEditor);
 
@@ -914,7 +967,7 @@
                                 </div>-->
                             </div>
                             <div class='editor' id='editor'>
-                                <div class="editor-body entry-content" id='editor-body' contenteditable="true"
+                                <div class="editor-body entry-content" id='editor-body' changing='false' contenteditable="true"
                                     style="position: relative;" spellcheck="false">
                                 </div>
                             </div>
