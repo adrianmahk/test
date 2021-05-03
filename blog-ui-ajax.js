@@ -1,4 +1,4 @@
-// blog-ui-ajax.js 20210426001 dont add target=_blank to a's w/o href now
+// blog-ui-ajax.js 20210504001 writeCookie now set expire at 0:00
 var inited = 0;
 var loadMainAlready = 0;
 var post_body_content_bak = "";
@@ -556,6 +556,7 @@ function clearCookie(cookie_key) {
 function writeCookie(key, value, days=30) {
   var someDate = new Date();
   someDate.setDate(someDate.getDate() + days);
+  someDate.setHours(0,0,0,0);
 
   var cookie = key + "=" + value + "; expires=" + someDate.toUTCString() + "; path=/; samesite=lax";  
   document.cookie = (cookie);
@@ -595,4 +596,3 @@ function darkModeInit() {
     clearCookie("dark-mode");
   }
 }
-
