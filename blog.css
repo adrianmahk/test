@@ -186,7 +186,6 @@ margin: 0 8px;
 padding-left : 5%;
 padding-right : 5%;
 padding-top : 5%;
-/*font-family: 微軟正黑體, Arial, Helvetica, 新細明體, PingFang HK, PingFang TC;*/
 }
 img.post-title-pin-icon {
 float: right;
@@ -220,7 +219,7 @@ margin-bottom: .5em;
 }
 .post-body {
 color: #414141;
-font: 14px 微軟正黑體, 新細明體, Arial, Helvetica, 'PingFang HK', 'PingFang TC', 'Heiti TC', Roboto, sans-serif;
+font: 14px 微軟正黑體, 新細明體, 'PingFang HK', 'PingFang TC', 'Heiti TC', Roboto, sans-serif;
 line-height: calc(1.5em + .25vw);
 margin: 2em auto;
 display: block;
@@ -1407,7 +1406,7 @@ cursor: pointer;
 display: inline-block;
 color: #d8dadb;
 color: #ffffffc0;
-font: 700 normal 12px Helvetica, Arial, 微軟正黑體, 新細明體, 'PingFang HK', 'PingFang TC', 'Heiti TC', Tahoma, FreeSans, sans-serif;
+font: 700 normal 12px 微軟正黑體, 新細明體, 'PingFang HK', 'PingFang TC', 'Heiti TC', Tahoma, FreeSans, sans-serif;
 /* 13-2-2018 tabs like pill button*/
 color: #ffffff;
 }
@@ -1420,7 +1419,7 @@ color: #ffffff;
 .overflow-button a {
 padding: 12px 8px;
 color: #d8dadb;
-font: 700 normal 12px Helvetica, Arial, 微軟正黑體, 新細明體, 'PingFang HK', 'PingFang TC', 'Heiti TC', Tahoma, FreeSans, sans-serif;
+font: 700 normal 12px 微軟正黑體, 新細明體, 'PingFang HK', 'PingFang TC', 'Heiti TC', Tahoma, FreeSans, sans-serif;
 }
 .large-tabs {
 width: 10ch;
@@ -2229,7 +2228,7 @@ padding: 0em 0em 0;
 }
 .widget.Header h1 {
 color: #ffffff;
-font: normal normal 62px  微軟正黑體, 新細明體, Helvetica, Arial, 'PingFang HK', 'PingFang TC', 'Heiti TC', Tahoma, FreeSans, fantasy;
+font: normal normal 62px  微軟正黑體, 新細明體, 'PingFang HK', 'PingFang TC', 'Heiti TC', Tahoma, FreeSans, fantasy;
 font-size: min(calc(28px + 2vh), 48px);
 line-height: min(calc(10px + 7vh), 60px);
 text-align: center;
@@ -2246,7 +2245,7 @@ line-height: 24px;
 also text shadow here
 */
 color: #ffffff;
-font-family: 微軟正黑體, 新細明體, Helvetica, Arial, 'PingFang HK', 'PingFang TC', 'Heiti TC', Tahoma, FreeSans, fantasy;
+font-family: 微軟正黑體, 新細明體, 'PingFang HK', 'PingFang TC', 'Heiti TC', Tahoma, FreeSans, fantasy;
 line-height: normal;
 text-align: center;
 display: none;
@@ -2594,7 +2593,7 @@ padding: 16px 40px;
 }
 div.widget.PopularPosts, div.widget.PopularPosts h3.title a {
 color: #414141;
-font: 14px 微軟正黑體, 新細明體, Arial, Helvetica, 'PingFang HK', 'PingFang TC', 'Heiti TC', Roboto, sans-serif;
+font: 14px 微軟正黑體, 新細明體, 'PingFang HK', 'PingFang TC', 'Heiti TC', Roboto, sans-serif;
 }
 .widget.ReportAbuse, div.widget.PopularPosts .post+.post {
 border-top: 1px dashed #cccccc;
@@ -2947,7 +2946,7 @@ position: relative;
 padding: 16px;
 }
 .frontpage-text .title{
-font: normal normal 24px  微軟正黑體, 新細明體, Helvetica, Arial,  'PingFang HK', 'PingFang TC', 'Heiti TC', Tahoma, FreeSans, sans-serif;
+font: normal normal 24px  微軟正黑體, 新細明體,  'PingFang HK', 'PingFang TC', 'Heiti TC', Tahoma, FreeSans, sans-serif;
 color:#212121;
 text-align: left;
 /*max-width: calc(100% - 48px);
