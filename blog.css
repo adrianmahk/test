@@ -201,7 +201,7 @@ padding-right: 11%;
 }
 }
 .post-title {
-font: normal normal 24px  微軟正黑體, 新細明體, Helvetica, Arial,  'PingFang HK', 'PingFang TC', 'Heiti TC', Tahoma, FreeSans, sans-serif;
+font: normal normal 24px  微軟正黑體, 新細明體, 'PingFang HK', 'PingFang TC', 'Heiti TC', sans-serif;
 /* max-width: calc(100% - 60px);*/
 margin: 0 0 8px;
 float: left;
