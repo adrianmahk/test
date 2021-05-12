@@ -18,7 +18,7 @@
     }
     ],
     "start_url": "/dev.html",
-    "display": "standalone",
+    "display": "fullscreen",
     "theme_color": "#0aa89e",
     "background_color": "#fefdf3",
     "orientation": "any",
