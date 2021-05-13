@@ -13,7 +13,7 @@
     <link href='icons/app_icon_glassnote2-512.png' rel='apple-touch-icon' sizes='512x512' />
 
     <link rel="stylesheet" href="blog.css" />
-    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="styles_v2.css" />
     <script>
         function loadIndie() {
             // For override
@@ -82,302 +82,6 @@
         };
         tinymce.init(dfreeBodyConfig);
     </script>
-    <style>
-        /* html,body{
-            -webkit-overflow-scrolling : touch !important;
-            overflow: auto !important;
-            height: 100% !important;
-        } */
-        .bg-div-cust {
-            top: 0;
-            left: 0;
-            height: 100vh;
-            width: 100%;
-            position: fixed;
-            background: #aaaaaa url(bg1.jpg) repeat scroll top center;
-            background-size: cover;
-            background-repeat: no-repeat;
-            background-color: transparent;
-        }
-
-        .bg-div {
-            display: block;
-        }
-
-        body.user-bg .bg-div,
-        .bg-div-cust {
-            display: none;
-        }
-
-        body.user-bg .bg-div-cust {
-            display: block;
-        }
-
-        #change-bg-button {
-            display: inline;
-        }
-
-        body.user-bg #change-bg-button,
-        #remove-bg-button {
-            display: none;
-        }
-
-        body.user-bg #remove-bg-button {
-            display: inline;
-        }
-
-        .toolbar {
-            /* background: #dddc;
-            padding: 0 0 1em 0;
-            border-radius: 10px; */
-            /* padding: 5px 5px 15px 0; */
-            display: table;
-            box-sizing: border-box;
-            pointer-events: none;
-            transition: background .5s ease-in-out;
-            position: relative;
-            width: 100%;
-			top: -40px;
-        }
-
-        .toolbar .expanded-menu {
-            width: 0;
-            overflow: hidden;
-            display: table;
-            /* display: none; */
-            opacity: 0;
-            padding: 15px 0;
-            transform: translate(-500px, 0px);
-            transition: transform .2s ease-in-out, opacity .2s ease-in-out, background .2s ease-in-out;
-            background: rgba(240, 240, 240, 0.9);
-            box-shadow: 1px 1px 25px -10px rgba(0, 0, 0, 0.66);
-            border-radius: 10px;
-            vertical-align: top;
-            pointer-events: none;
-            margin: 0;
-            width: 100%;
-        }
-
-        .toolbar .expanded-menu-container {
-            padding: 15px;
-            margin: -15px;
-            overflow: hidden;
-        }
-
-        .toolbar .expanded-menu-items {
-            display: table-cell;
-            width: 100%;
-        }
-
-        .toolbar-overlay {
-            position: fixed;
-            top: 0;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            display: none;
-            z-index: -1;
-            pointer-events: none;
-        }
-
-        body.expanded-menu .toolbar {
-            /* background: rgba(240, 240, 240, 0.9); */
-            border-radius: 10px;
-            /* box-shadow: 1px 1px 25px -10px rgba(0, 0, 0, 0.66); */
-            pointer-events: all;
-        }
-
-        body.expanded-menu .toolbar .expanded-menu {
-            opacity: 1;
-            transform: none;
-            pointer-events: all;
-        }
-
-        body.expanded-menu .toolbar-overlay {
-            display: block;
-            pointer-events: all;
-        }
-
-        .hamburger-button {
-            display: table-cell;
-            width: 24px;
-            height: 24px;
-            border: none;
-            background: none;
-            margin: 8px;
-            padding: 0;
-            pointer-events: all;
-            cursor: pointer;
-            vertical-align: top;
-            position: absolute;
-            float: left;
-        }
-
-        body.expanded-menu .hamburger-button {
-            display: none;
-        }
-
-        .toolbar .expanded-menu .hamburger-button {
-            position: relative;
-            display: table-cell;
-            margin-top: -7px;
-        }
-
-        .toolbar .pill-button,
-        .toolbar a.pill-button {
-            color: #3aacc3 !important;
-            text-shadow: none;
-            background: none;
-            border-color: #202020;
-            box-shadow: none;
-            /* font-weight: 500; */
-            text-transform: none;
-            font-size: 13px;
-            margin: 6px 2px;
-        }
-
-        /* body.expanded-menu .expanded-menu-items {
-            width: 100%;
-        } */
-
-        .font-size-button {
-            display: none;
-        }
-
-        body.f12px .font-size-button:first-child,
-        body.f14px .font-size-button:nth-child(2),
-        body.f16px .font-size-button:nth-child(3),
-        body.f18px .font-size-button:nth-child(4) {
-            display: inline;
-        }
-
-        .opacity-button {
-            display: none;
-        }
-
-        body.opacity-0 .opacity-button:first-child,
-        body.opacity-10 .opacity-button:nth-child(2),
-        body.opacity-20 .opacity-button:nth-child(3),
-        body.opacity-30 .opacity-button:nth-child(4) {
-            display: inline;
-        }
-
-        .dark-mode-button-toolbar,
-        body.dark-mode .dark-mode-button-toolbar:last-child {
-            display: none;
-        }
-        .dark-mode-button-toolbar:last-child,
-        body.dark-mode .dark-mode-button-toolbar:first-child {
-            display: inline;
-        }
-
-        .dark_mode_overlay {
-            display: none;
-        }
-        #editor-body {
-            color: #202020 !important;
-        }
-        body.dark-mode #editor-body {
-            color: #fefdf3 !important;
-        }
-        body.dark-mode .toolbar .expanded-menu {
-            background: rgba(71, 71, 71, 0.9);
-            color: #fefdf3;
-        }
-        body.dark-mode .toolbar .pill-button {
-            border-color: #fefdf3;
-        }
-        body.dark-mode h1, body.dark-mode h2, body.dark-mode h3, 
-        body.dark-mode h4, body.dark-mode h5, body.dark-mode h6,
-        body.dark-mode tbc, body.dark-mode cite, body.dark-mode cm   {
-            color: #3aaac3;
-        }
-
-        body.opacity-0 .post-outer-container {
-            background: rgba(254, 254, 253, 1) !important;
-        }
-
-        body.opacity-10 .post-outer-container {
-            background: rgba(254, 254, 253, .9) !important;
-        }
-
-        body.opacity-20 .post-outer-container {
-            background: rgba(254, 254, 253, .8) !important;
-        }
-
-        body.opacity-30 .post-outer-container {
-            background: rgba(254, 254, 253, .7) !important;
-        }
-
-        body.opacity-0.dark-mode .post-outer-container {
-            background: rgba(20, 20, 20, 1) !important;
-        }
-
-        body.opacity-10.dark-mode .post-outer-container {
-            background: rgba(20, 20, 20, .9) !important;
-        }
-
-        body.opacity-20.dark-mode .post-outer-container {
-            background: rgba(20, 20, 20, .8) !important;
-        }
-
-        body.opacity-30.dark-mode .post-outer-container {
-            background: rgba(20, 20, 20, .7) !important;
-        }
-
-        .fake-editor {
-            color: #202020;
-            background: transparent;
-            /* font-size: 0; */
-            /* color: #202020; */
-            /* width: 0;
-            height: 0;
-            overflow: hidden; */
-        }
-        
-        #editor-body div {
-            margin-top: .1em;
-            margin-bottom: 0em;
-        }
-    </style>
-    <style>
-        /* Only for Standalone Ver. */
-        .page-lower-part .centered {
-            z-index: 20;
-            padding-right: env(safe-area-inset-right);
-			padding-bottom: env(safe-area-inset-bottom);
-			padding-left: env(safe-area-inset-left);
-        }
-
-        .post-outer-container {
-            min-height: 40px;
-            padding: 16px;
-            width: auto;
-            border-radius: 12px;
-            background: rgba(254, 254, 253, 0.95);
-            box-shadow: 0px 0px 15px -5px rgba(0, 0, 0, 0.9);
-            margin-bottom: 16px !important;
-            transition: color .2s ease-in-out, background .2s ease-in-out;
-        }
-
-        @media screen and (max-width: 886px) {
-            .post-outer-container {
-                margin: 0 8px;
-            }
-        }
-
-        .glassnote-about-msg {
-            margin: 1em 0 0 0;
-        }
-
-        @font-face {
-            font-family: 'Roboto';
-            font-style: italic;
-            font-weight: 300;
-            src: url(/assets/roboto.woff2) format('woff2');
-            unicode-range: U + 0000-00FF, U + 0131, U + 0152-0153, U + 02BB-02BC, U + 02C6, U + 02DA, U + 02DC, U + 2000-206F, U + 2074, U + 20AC, U + 2122, U + 2191, U + 2193, U + 2212, U + 2215, U + FEFF, U + FFFD;
-        }
-    </style>
     <script src="upup.min.js"></script>
     <script>
         UpUp.debug();
@@ -486,22 +190,6 @@
                 // el.outerHTML = el.outerHTML.replace(/(?:<)p|(?:<\/)p/g,"div");
                 el.outerHTML = el.outerHTML.replace(/(?=<)p/g,"div");
             }
-            // else if (["svg", "img", "video", "iframe"].includes(el.tagName.toLowerCase())) {
-            //     el.parentNode.removeChild(el);
-            // }
-            // el.childNodes.forEach(x => {
-            //     if(x.nodeType == 1) {
-            //         removeStylesAndReplacePToDiv(x)
-            //     }
-            // });
-            
-            // else if (["em", "strong", "i", "b", "span", "blockquote", "a", "hr", "button", "ol", "ul", "li", "h1", "h2", "h3", "h4", "h5", "h6"].includes(el.tagName.toLowerCase())) {
-            //     el.outerHTML = el.innerHTML;
-            // }
-
-            // else if (el.tagName != "DIV" || el.tagName != "div") {
-            //     el.parentNode.removeChild(el);
-            // }
         }
 
         function setAutoSaveTimeout() {
@@ -844,14 +532,6 @@
         <div class="page-upper-part"></div>
         <div class="centered top-bar-container">
             <div class="centered-top-container top-bar" id="top-bar">
-                <!-- <a class="return_link ripple" href="https://www.qingsky.hk" onclick="removeAttribute('href');history.back();" title="上一頁">
-                    <img class="png_icon light" src="https://1.bp.blogspot.com/-4n5BLk_IUMA/YBqsMpIUaBI/AAAAAAAABb4/DDFj4GJnBTAN-FmE7XjIIIx1Oyr6ZueYACNcBGAsYHQ/s0/Return.png">
-                    <img class="png_icon dark" src="https://1.bp.blogspot.com/-IkWxWn7awDQ/YBqsMY8itWI/AAAAAAAABb0/1i9sC0l38UAOqhjiKbgd0WjCKBahkHlNQCNcBGAsYHQ/s0/Return_dark.png">
-                </a>
-                <a class="return_link to_top ripple" onclick="window.scrollTo({top: 0, behavior: 'smooth'});" title="回頁首" target="_blank">
-                    <img class="png_icon light" src="https://1.bp.blogspot.com/-T9gVRKpz_gs/YBqsMrYr8GI/AAAAAAAABb8/tISjSpO1uTMeumsepkb9bHR5_U8MzGbAwCNcBGAsYHQ/s0/ToTop.png">
-                    <img class="png_icon dark" src="https://1.bp.blogspot.com/-0IlychxoYAc/YBqsM-VORDI/AAAAAAAABcA/nftQHsfts8khJc9rM9BLpBch7h8Xa6nVACNcBGAsYHQ/s0/ToTop_dark.png">
-                </a> -->
                 <div class="right-button-container  flat-icon-button ripple">
                     <div class="splash-wrapper"><span class="splash"
                             style="height: 64px; width: 64px; left: 16px; top: 3px;"></span></div>
@@ -860,24 +540,6 @@
                         <img class="png_icon dark" src="icons/moon_dark.png">
                     </a>
                 </div>
-                <!-- <div class="right-button-container flat-icon-button ripple">
-                    <div class="splash-wrapper"><span class="splash"
-                            style="height: 64px; width: 64px; left: 10px; top: -5px;"></span></div>
-                    <a class="return_link font_size" onclick="changeFontSize();" style="" title="字體大小" target="_blank">
-                        <img class="png_icon light" src="icons/FontSize.png">
-                        <img class="png_icon dark" src="icons/FontSize_dark.png">
-                    </a>
-                </div> -->
-                <!-- <div class="subscribe-section-container">
-                <a href="/p/about.html#subscribe" target="_blank" title="訂閱"><button class="subscribe-button pill-button">訂閱</button></a>
-                </div> -->
-                <!--copy
-                    <div class="right-button-container flat-icon-button ripple">
-                        <a class="return_link font_size" onclick="copyToClipboard();" target="_blank">
-                        <img class="png_icon light" src="https://1.bp.blogspot.com/-JPcY6nSjVfo/YEIRr3HstlI/AAAAAAAABjU/wgzAHkF3HOY89bP7cEY-LNuhKGIY_MYTQCNcBGAsYHQ/s100/export.png">
-                        <img class="png_icon dark" src="https://1.bp.blogspot.com/-1vfgnmF5fAw/YEIRr8lCVLI/AAAAAAAABjY/kaC1orvkVF0epoYKwdYoXKLGx7r3wLD2ACNcBGAsYHQ/s100/export_dark.png">
-                        </a>
-                    </div>-->
             </div>
         </div>
 
@@ -960,20 +622,6 @@
                                         </div>
                                     </div>
                                 </div>
-                                <!--read
-                                <div class="right-button-container flat-icon-button ripple" title="read">
-                                    <a class="return_link font_size" onclick="readFromFile();">
-                                        <img class="png_icon light" src="icons/export.png" />
-                                        <img class="png_icon dark" src="icons/export_dark.png" />
-                                    </a>
-                                </div>-->
-                                <!--save
-                                <div class="right-button-container flat-icon-button ripple" title="save">
-                                    <a class="return_link font_size" onclick="saveToFile();">
-                                        <img class="png_icon light" src="icons/export.png" />
-                                        <img class="png_icon dark" src="icons/export_dark.png" />
-                                    </a>
-                                </div>-->
                             </div>
                             <div class='editor' id='editor'>
                                 <div class="editor-body entry-content" id='editor-body' changing='false' contenteditable="true"
