@@ -45,9 +45,40 @@
             contextmenu: 'undo redo cut copy paste',
             element_format: 'xhtml',
             forced_root_block: "div",
-            init_instance_callback: function () {
+            init_instance_callback: function (editor) {
                 loadFromLocalStorage(initEventListeners);
             },
+            setup: function(editor) {
+                editor.on("init",  function() {
+                    console.log("on init");
+                    // overrides, 1-6 for header, 7 - p, 8 - div, 9 - address
+                    editor.addShortcut("meta+1", "", "");
+                    editor.addShortcut("meta+2", "", "");
+                    editor.addShortcut("meta+3", "", "");
+                    editor.addShortcut("meta+4", "", "");
+                    editor.addShortcut("meta+5", "", "");
+                    editor.addShortcut("meta+6", "", "");
+                    editor.addShortcut("meta+7", "", "");
+                    editor.addShortcut("meta+8", "", "");
+                    editor.addShortcut("meta+9", "", "");
+                    // editor.addShortcut("meta+b", "", "");
+                    // editor.addShortcut("meta+i", "", "");
+                    editor.addShortcut("meta+u", "", "");
+
+                    // for toolbar functions
+                    // editor.addShortcut("meta+shift+C", "Save to file (.txt)", saveToFile);
+                    // editor.addShortcut("access+a", "Copy to clipboard", copyToClipboard);
+                    editor.addShortcut("meta+alt+o", "Load from file (.txt)", readFromFile);
+                    editor.addShortcut("meta+s", "Save to file (.txt)", saveToFile);
+                    editor.addShortcut("access+m", "Open Menu", toggleExpandedMenu);
+                    editor.addShortcut("meta+0", "Opacity", toggleOpacity);
+                    editor.addShortcut("meta+i", "Font Size", changeFontSize);
+                    editor.addShortcut("meta+d", "Dark Theme", darkMode);
+                    editor.addShortcut("meta+b", "Customize Background", function () {
+                        document.body.classList.contains("user-bg") ? removeBg() : changeBg()
+                    });
+                });
+            }
         };
         tinymce.init(dfreeBodyConfig);
     </script>
@@ -520,7 +551,7 @@
                 editor.innerHTML = text;
 
                 updateLastSavedMsg();
-                console.log("loaded");
+                console.log("loadedFromStorage");
             }
             if (fn) {
                 fn();
@@ -758,7 +789,7 @@
             //     // var fontSizes = ["f12px", "f14px", "f16px", "f18px"];
             //     return (["f12px", "f14px", "f16px", "f18px"].contains(value));
             // });
-            console.log(result);
+            // console.log(result);
             if (!result) {
                 document.body.classList.add("f14px");
             }
@@ -872,7 +903,7 @@
                                                     </a>
                                                 <!-- </button> -->
                                                 <div class="expanded-menu-items">
-                                                    <tbc>GlassNote 2.0</tbc><em> - Build: 26 Apr 2021</em>
+                                                    <tbc>GlassNote 2.0</tbc><em> - Build: 14 May 2021</em>
                                                     <br />
                                                     <!-- <h3>上次儲存：<span class='last-saved-msg'>-</span>　　　<a style=""
                                                         href="javascript:void(0)" onclick="clearCurrentAndLocalStorage();">清空</a></h3> -->
