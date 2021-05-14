@@ -275,7 +275,7 @@
                 localStorage.removeItem("last-saved-time");
                 var editor = document.getElementById("editor-body");
                 if (editor) {
-                    editor.innerHTML = "";
+                    editor.innerHTML = "<div></div>";
                 }
                 updateLastSavedMsg();
             }
