@@ -288,11 +288,8 @@
         }
         function getFirstLine(str) {
             var breakIndice = [str.indexOf("\n"), 100];
-            // console.log(breakIndice, " => ");
             breakIndice = breakIndice.filter(breakIndice => breakIndice >= 0);
-            // console.log(breakIndice);
             var breakIndex = Math.min(...breakIndice);
-            console.log(breakIndex);
             if (breakIndex === -1) {
                 return str;
             }
