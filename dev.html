@@ -391,15 +391,34 @@
             document.body.classList.remove("user-bg");
         }
 
+        function escapeHTML(unsafeText) {
+            let div = document.createElement('div');
+            div.innerText = unsafeText;
+            return div.innerText;
+        }
 
         function readFromFile() {
-            // const bgDivCust = document.getElementById('bg-div-cust');
             const reader = new FileReader();
 
             reader.addEventListener("load", function () {
                 if (confirm("從 txt 檔匯入文字? 現有內容將會被覆寫")) {
-                    var editorBody = document.getElementById("editor-body");
-                    editorBody.innerText = reader.result;
+                    const editorBody = document.getElementById("editor-body");
+                    editorBody.innerHTML = "<div></div>";
+                    
+                    let text = escapeHTML(this.result);
+                    // console.log(text);
+                    let htmlContent = "";
+                    const lines = text.split(/\r?\n/);
+                    for(let line of lines){
+                        if (line == "") {
+                            line = "<br />";
+                        }
+                        htmlContent += "<div>" + escapeHTML(line) + "</div>";
+                    }
+                    console.log("readFromFile success");
+                    console.log(htmlContent);
+                    
+                    editorBody.innerHTML = htmlContent;
 
                     saveToLocalStorage();
                 }
@@ -438,41 +457,39 @@
 
             var textFile = null,
                 makeTextFile = function (text) {
-                    // var data = new Blob([text], {type: 'text/plain'});
                     var data = new Blob([text], { encoding: "UTF-8", type: "text/plain;charset=UTF-8" });
-
-
-                    // If we are replacing a previously generated file we need to
-                    // manually revoke the object URL to avoid memory leaks.
                     if (textFile !== null) {
                         window.URL.revokeObjectURL(textFile);
                     }
-
                     textFile = window.URL.createObjectURL(data);
-
-                    // returns a URL you can use as a href
                     return textFile;
                 };
 
             var link = document.createElement('a');
-            // var fileName = getFirstLine(content);
-            // if (!fileName || fileName == "") {
-                // fileName = "GlassNote";
-            // }
-            var date = new Date();
-            var fileName = "GlassNote-"+date.toLocaleDateString("en-GB") + "_" +date.toLocaleTimeString("en-GB", { hour: '2-digit', minute: '2-digit' });
-            fileName = fileName.replaceAll("/","-").replaceAll(":","-");
+            var fileName = getFirstLine(content);
+            if (!fileName || fileName == "") {
+                fileName = "GlassNote";
+                const date = new Date();
+                let ye = new Intl.DateTimeFormat('en', { year: 'numeric'}).format(date);
+                let mo = new Intl.DateTimeFormat('en', { month: '2-digit'}).format(date);
+                let da = new Intl.DateTimeFormat('en', { day: '2-digit' }).format(date);
+                let ho = new Intl.DateTimeFormat('en', { hour: 'numeric', hour12: false}).format(date);
+                let mi = new Intl.DateTimeFormat('en', { minute: 'numeric'}).format(date);
+                fileName = "GlassNote-"+`${ye}${mo}${da}`+'-'+`${ho}${mi}`;
+                // console.log(fileName);
+                // date.getFullYear+date.getMonth+date.getDate+"-" +date.toLocaleTimeString("en-GB", { hour: '2-digit', minute: '2-digit' });
+                // date.toLocaleDateString("en-GB") + "_" +date.toLocaleTimeString("en-GB", { hour: '2-digit', minute: '2-digit' });
+                // fileName = fileName.replaceAll("/","-").replaceAll(":","-");
+            }
+            
             link.setAttribute('download', fileName + ".txt");
-
             link.href = makeTextFile(content);
-
             document.body.appendChild(link);
 
             // wait for the link to be added to the document
             window.requestAnimationFrame(function () {
                 var event = new MouseEvent('click');
                 link.dispatchEvent(event);
-                // link.click();
                 document.body.removeChild(link);
             });
         }
@@ -480,17 +497,11 @@
         function initBodyClassesForOpacityAndFontSize() {
             const element = document.getElementById("left-sidebar");
             const fontSizes = ["f12px", "f14px", "f16px", "f18px"];
-            const result = [...document.body.classList].some(className => fontSizes.indexOf(className) !== -1);
-            // var result = document.body.classList.filter(function(value) {
-            //     // var fontSizes = ["f12px", "f14px", "f16px", "f18px"];
-            //     return (["f12px", "f14px", "f16px", "f18px"].contains(value));
-            // });
-            // console.log(result);
-            if (!result) {
+            if (![...document.body.classList].some(className => fontSizes.indexOf(className) !== -1)) {
                 document.body.classList.add("f14px");
             }
 
-            var opacity = getCookie("opacity");
+            let opacity = getCookie("opacity");
             if (opacity != "") {
                 document.body.classList.add(opacity);
             }
