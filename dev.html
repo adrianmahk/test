@@ -53,7 +53,7 @@
             },
             setup: function(editor) {
                 editor.on("init",  function() {
-                    console.log("on init");
+                    // console.log("on init");
                     // overrides, 1-6 for header, 7 - p, 8 - div, 9 - address
                     editor.addShortcut("access+1", "", "");
                     editor.addShortcut("access+2", "", "");
@@ -416,10 +416,9 @@
                         htmlContent += "<div>" + escapeHTML(line) + "</div>";
                     }
                     console.log("readFromFile success");
-                    console.log(htmlContent);
+                    // console.log(htmlContent);
                     
                     editorBody.innerHTML = htmlContent;
-
                     saveToLocalStorage();
                 }
 
@@ -432,7 +431,7 @@
 			});
             input.addEventListener('change', function () {
                 const file = this.files[0];
-                console.log(file.size);
+                console.log("fileSize: " + file.size);
                 if (file) {
                     if (file.type.match('text/plain') || file.type.match('text/markdown')) {
                         reader.readAsText(file);
