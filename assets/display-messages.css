@@ -1,0 +1,111 @@
+#HTML4 {
+  margin-bottom: 0 !important;
+}
+
+.popup-message-container {
+  position: fixed;
+  top: 0px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 100;
+  display: none;
+
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+.popup-message-outer {
+  background: rgba(254,254,253,0.9);
+  border-radius: 12px;
+  color: #414141;
+  display: none;
+  width: calc(100% - 16vw);
+  box-shadow: 0px 0px 15px -5px rgba(0,0,0, 0.95);
+  z-index: 101;
+  padding: 16px;
+  text-shadow: none;
+  font-size: 1em;
+
+  flex-direction: column;
+  max-height: 80vh;
+  overflow: scroll;
+
+  position: sticky;
+  top: 100px;
+}
+.popup-message-outer span.popup-message-dismiss-button {
+
+}
+
+body.popup-message-showing .popup-message-outer, body.popup-message-showing .popup-message-container {
+  display: flex;
+}
+body.popup-message-showing .top-bar {
+  opacity: 0.5 !important;
+}
+
+.popup-message {
+  display: none;
+}
+.popup-message-container .popup-message {
+  display: inline-block;
+}
+
+.top-message-container {
+  margin: 4px 8vw;
+  width: calc(100% - 16vw);
+  display: block;
+}
+body.item-view .top-message-container {
+  margin: 4px 0;
+  width: 100%;
+}
+@media screen and (max-width: 886px) {
+  body.item-view .top-message-container {
+    margin: 0 8px;
+    width: calc(100% - 16px);
+  }
+}
+.top-message-container:empty {
+  display: none;
+}
+
+.top-message-outer {
+  font-style: italic;
+  border-radius: 12px;
+  color: #414141;
+  background: rgba(254,254,253,0.9);
+  padding: 20px 11%;
+  margin-bottom: 16px;
+  box-shadow: 0px 0px 15px -5px rgba(0,0,0, 0.8);
+  display: flex;
+
+  flex-direction: row;
+}
+body.item-view .top-message-outer {
+  background: rgba(254,254,253,0.95);
+}
+.top-message {
+  order: 2;
+  display: none;
+}
+.top-message-container .top-message {
+  display: block;
+}
+
+.top-message-outer > img {
+  width: 24px;
+  height: 24px;
+  padding-right: 12px;
+  margin-left: -36px;
+  order: 0;
+}
+@media screen and (max-width: 480px) {
+  .top-message-outer > img {
+    margin-left: -24px;
+  }
+}
+.demo {
+	display: none !important;
+}

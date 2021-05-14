@@ -5,22 +5,24 @@
     <title>GlassNote 2.0</title>
     <meta charset="UTF-8" />
     <meta content='width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1' name='viewport' />
-    <link href='manifest_glassnote_dev.json' rel='manifest' />
+    <link href='assets/manifest_glassnote_dev.json' rel='manifest' />
     <meta content='yes' name='apple-mobile-web-app-capable' />
     <meta content='black' name='apple-mobile-web-app-status-bar-style' />
     <meta content='GlassNote' name='apple-mobile-web-app-title' />
     <link href='icons/app_icon_glassnote2-256.png' rel='apple-touch-icon' sizes='256x256' />
     <link href='icons/app_icon_glassnote2-512.png' rel='apple-touch-icon' sizes='512x512' />
 
-    <link rel="stylesheet" href="blog.css" />
-    <link rel="stylesheet" href="styles_v2.css" />
+    <link rel="stylesheet" href="assets/blog.css" />
+    <link rel="stylesheet" href="assets/styles.css" />
+    <link rel="stylesheet" href="assets/display-messages.css" />
     <script>
         function loadIndie() {
             // For override
         }
     </script>
-    <script src="blog-ui-ajax.js"></script>
+    <script src="scripts/blog-ui-ajax.js"></script>
     <script src="tinymce/tinymce.min.js"></script>
+    <script src="scripts/display-messages.js"></script>
     <script>
         var dfreeBodyConfig = {
             selector: '.editor-body',
@@ -99,10 +101,12 @@
                 '/manifest_glassnote.json',
                 '/manifest_glassnote_dev.json',
                 '/favicon.ico',
-                '/bg1.jpg',
-                '/styles.css',
-                '/blog.css',
-                '/blog-ui-ajax.js',
+                '/assets/bg1.jpg',
+                '/assets/styles.css',
+                '/assets/blog.css',
+                '/assets/display-messages.css',
+                '/scripts/blog-ui-ajax.js',
+                '/scripts/display-messages.js',
                 '/tinymce/icons/default/icons.min.js',
                 // '/tinymce/plugins/autolink/plugin.min.js',
                 // '/tinymce/plugins/lists/plugin.min.js',
@@ -175,6 +179,7 @@
 
                 return false;
             });
+            // showPopupMessage();
         }
 
         ready(function () {
@@ -527,6 +532,9 @@
 </head>
 
 <body class="item-view">
+    
+
+
     <script type="text/javascript">changeFontSizeInit(); darkModeInit();</script>
     <div class="bg-div" id="bg-div"></div>
     <div class="bg-div-cust" id="bg-div-cust"></div>
@@ -547,6 +555,7 @@
         </div>
 
         <div class="page-lower-part">
+            
             <div class="centered" style="position: relative;">
                 <div class="post-outer-container">
                     <div class="post-outer post">
@@ -636,6 +645,15 @@
                     </div>
 
                 </div>
+
+                
+
+                <!-- Top Message will be displayed at bottom instead, but dont use it unless necessary-->
+                <div class="top-message-container centered" id="top-message-container"></div>
+                <div class="top-message-outer demo" id="top-message-outer-demo">
+                    <img src="icons/info.png"/>
+                </div>
+
                 <div id="glassnote-about-msg" class="glassnote-about-msg">
                     <!-- <p><button class="pill-button ripple" id="change-bg-button"
                             onclick="changeBg();">自訂桌布</button><button class="pill-button ripple" id="remove-bg-button"
@@ -648,6 +666,28 @@
                 </div>
             </div>
         </div>
+        
+        <!-- Popup Messages -->
+        <div class="popup-message-container" id="popup-message-container">
+            <div class="dim-overlay" onclick="dismissPopupMessage()"></div>
+            <div class="popup-message-outer centered" id="popup-message-outer">
+                <div style="order: 0; text-align: right;"><a class="flat-button" onclick="dismissPopupMessage()"><img src="icons/cross.png" style="height: 24px; width: 24px"/></a>
+                </div>
+                <div style="order: 3; text-align: center; margin-top: .5em;"><a class="flat-button" id="popup-message-dismiss-button" onclick="addPopupMessageToBlockList()">今天不再顯示</a>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Insert Messages Here -->
+        <div class="popup-message" key="archive-20210513001" expires="2021-05-20" url="">
+            <p>《昔日的天空》已更新，目前開放 2017 年 5 月：<a href="https://archive.qingsky.hk">https://archive.qingsky.hk</a></p>
+            <p>那年是我寫小說十周年，碰巧我替本站做了第一次大型更新，也是一個值得紀錄的日子</p>
+        </div>
+        <!-- <div class="top-message" key="archive-20210513001" >
+            <p>歡迎瀏覽《昔日的天空》，目前開放 2017 年 5 月：<a href="https://archive.qingsky.hk">https://archive.qingsky.hk</a></p>
+        </div> -->
+        
     </div>
 </body>
 
