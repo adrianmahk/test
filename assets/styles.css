@@ -400,7 +400,7 @@ body.opacity-30.dark-mode .post-outer-container {
 .editor .editor-body tr {
     border: 1px solid #696969;
 }
-.editor .editor-body > div:first-child::first-line {
+.editor .editor-body::first-line, .editor .editor-body > div:first-child::first-line {
     margin-top: 2em;
     font-size : 1.4em;
     line-height: 2;
