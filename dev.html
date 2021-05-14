@@ -72,15 +72,15 @@
                     // for toolbar functions
                     // editor.addShortcut("meta+shift+C", "Save to file (.txt)", saveToFile);
                     // editor.addShortcut("access+a", "Copy to clipboard", copyToClipboard);
-                    editor.addShortcut("meta+alt+o", "Load from file (.txt)", readFromFile);
+                    // editor.addShortcut("meta+alt+o", "Load from file (.txt)", readFromFile);
                     editor.addShortcut("meta+s", "Save to file (.txt)", saveToFile);
-                    editor.addShortcut("access+m", "Open Menu", toggleExpandedMenu);
-                    editor.addShortcut("meta+0", "Opacity", toggleOpacity);
-                    editor.addShortcut("meta+i", "Font Size", changeFontSize);
-                    editor.addShortcut("meta+d", "Dark Theme", darkMode);
-                    editor.addShortcut("meta+b", "Customize Background", function () {
-                        document.body.classList.contains("user-bg") ? removeBg() : changeBg()
-                    });
+                    editor.addShortcut("meta+shift+m", "Open Menu", toggleExpandedMenu);
+                    editor.addShortcut("meta+shift+0", "Opacity", toggleOpacity);
+                    editor.addShortcut("meta+shift+i", "Font Size", changeFontSize);
+                    editor.addShortcut("meta+shift+d", "Dark Theme", darkMode);
+                    // editor.addShortcut("meta+b", "Customize Background", function () {
+                    //     document.body.classList.contains("user-bg") ? removeBg() : changeBg()
+                    // });
                 });
             }
         };
