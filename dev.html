@@ -29,11 +29,12 @@
             plugins: [
                 // 'autolink',
                 // 'link',
-                'lists',
+                // 'lists',
                 // 'visualblocks',
                 // 'powerpaste',
                 'quickbars',
                 // 'paste'
+                // 'searchreplace'
             ],
             valid_classes: {
                 '*': 'quote', // Global classes
@@ -52,15 +53,16 @@
                 editor.on("init",  function() {
                     console.log("on init");
                     // overrides, 1-6 for header, 7 - p, 8 - div, 9 - address
-                    editor.addShortcut("meta+1", "", "");
-                    editor.addShortcut("meta+2", "", "");
-                    editor.addShortcut("meta+3", "", "");
-                    editor.addShortcut("meta+4", "", "");
-                    editor.addShortcut("meta+5", "", "");
-                    editor.addShortcut("meta+6", "", "");
-                    editor.addShortcut("meta+7", "", "");
-                    editor.addShortcut("meta+8", "", "");
-                    editor.addShortcut("meta+9", "", "");
+                    editor.addShortcut("access+1", "", "");
+                    editor.addShortcut("access+2", "", "");
+                    editor.addShortcut("access+3", "", "");
+                    editor.addShortcut("access+4", "", "");
+                    editor.addShortcut("access+5", "", "");
+                    editor.addShortcut("access+6", "", "");
+                    editor.addShortcut("access+7", "", "");
+                    editor.addShortcut("access+8", "", "");
+                    editor.addShortcut("access+9", "", "");
+                    editor.addShortcut("meta+k", "", "");
                     // editor.addShortcut("meta+b", "", "");
                     // editor.addShortcut("meta+i", "", "");
                     editor.addShortcut("meta+u", "", "");
@@ -82,6 +84,7 @@
         };
         tinymce.init(dfreeBodyConfig);
     </script>
+
     <script src="upup.min.js"></script>
     <script>
         UpUp.debug();
@@ -102,7 +105,7 @@
                 '/blog-ui-ajax.js',
                 '/tinymce/icons/default/icons.min.js',
                 // '/tinymce/plugins/autolink/plugin.min.js',
-                '/tinymce/plugins/lists/plugin.min.js',
+                // '/tinymce/plugins/lists/plugin.min.js',
                 // '/tinymce/plugins/visualblocks/plugin.min.js',
                 '/tinymce/plugins/quickbars/plugin.min.js',
                 // '/tinymce/plugins/link/plugin.min.js',
@@ -115,8 +118,8 @@
                 '/icons/app_icon_glassnote2-256.png',
                 '/icons/app_icon_glassnote2-512.png',
                 '/icons/DarkMode.png',
-                '/icons/FontSize.png',
-                '/icons/FontSize_dark.png',
+                // '/icons/FontSize.png',
+                // '/icons/FontSize_dark.png',
                 '/icons/hamburger.png',
                 '/icons/hamburger_dark.png',
                 '/icons/moon.png',
