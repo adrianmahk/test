@@ -5,35 +5,38 @@
     <title>GlassNote 2.0</title>
     <meta charset="UTF-8" />
     <meta content='width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1' name='viewport' />
-    <link href='manifest_glassnote.json' rel='manifest' />
+    <link href='assets/manifest_glassnote.json' rel='manifest' />
     <meta content='yes' name='apple-mobile-web-app-capable' />
     <meta content='black' name='apple-mobile-web-app-status-bar-style' />
     <meta content='GlassNote' name='apple-mobile-web-app-title' />
     <link href='icons/app_icon_glassnote2-256.png' rel='apple-touch-icon' sizes='256x256' />
     <link href='icons/app_icon_glassnote2-512.png' rel='apple-touch-icon' sizes='512x512' />
 
-    <link rel="stylesheet" href="blog.css" />
-    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="assets/blog.css" />
+    <link rel="stylesheet" href="assets/styles.css" />
+    <link rel="stylesheet" href="assets/display-messages.css" />
     <script>
         function loadIndie() {
             // For override
         }
     </script>
-    <script src="blog-ui-ajax.js"></script>
+    <script src="scripts/blog-ui-ajax.js"></script>
     <script src="tinymce/tinymce.min.js"></script>
+    <script src="scripts/display-messages.js"></script>
     <script>
         var dfreeBodyConfig = {
             selector: '.editor-body',
             menubar: false,
             inline: true,
             plugins: [
-                'autolink',
-                'link',
-                'lists',
+                // 'autolink',
+                // 'link',
+                // 'lists',
                 // 'visualblocks',
                 // 'powerpaste',
                 'quickbars',
                 // 'paste'
+                // 'searchreplace'
             ],
             valid_classes: {
                 '*': 'quote', // Global classes
@@ -45,332 +48,71 @@
             contextmenu: 'undo redo cut copy paste',
             element_format: 'xhtml',
             forced_root_block: "div",
-            init_instance_callback: function () {
+            init_instance_callback: function (editor) {
                 loadFromLocalStorage(initEventListeners);
             },
+            setup: function(editor) {
+                editor.on("init",  function() {
+                    // console.log("on init");
+                    // overrides, 1-6 for header, 7 - p, 8 - div, 9 - address
+                    editor.addShortcut("access+1", "", "");
+                    editor.addShortcut("access+2", "", "");
+                    editor.addShortcut("access+3", "", "");
+                    editor.addShortcut("access+4", "", "");
+                    editor.addShortcut("access+5", "", "");
+                    editor.addShortcut("access+6", "", "");
+                    editor.addShortcut("access+7", "", "");
+                    editor.addShortcut("access+8", "", "");
+                    editor.addShortcut("access+9", "", "");
+                    editor.addShortcut("meta+k", "", "");
+                    // editor.addShortcut("meta+b", "", "");
+                    // editor.addShortcut("meta+i", "", "");
+                    editor.addShortcut("meta+u", "", "");
+
+                    // for toolbar functions
+                    // editor.addShortcut("meta+shift+C", "Save to file (.txt)", saveToFile);
+                    // editor.addShortcut("access+a", "Copy to clipboard", copyToClipboard);
+                    // editor.addShortcut("meta+alt+o", "Load from file (.txt)", readFromFile);
+                    editor.addShortcut("meta+s", "Save to file (.txt)", saveToFile);
+                    editor.addShortcut("meta+shift+m", "Open Menu", toggleExpandedMenu);
+                    editor.addShortcut("meta+shift+0", "Opacity", toggleOpacity);
+                    editor.addShortcut("meta+shift+i", "Font Size", changeFontSize);
+                    editor.addShortcut("meta+shift+d", "Dark Theme", darkMode);
+                    // editor.addShortcut("meta+b", "Customize Background", function () {
+                    //     document.body.classList.contains("user-bg") ? removeBg() : changeBg()
+                    // });
+                });
+            }
         };
         tinymce.init(dfreeBodyConfig);
     </script>
-    <style>
-        /* html,body{
-            -webkit-overflow-scrolling : touch !important;
-            overflow: auto !important;
-            height: 100% !important;
-        } */
-        .bg-div-cust {
-            top: 0;
-            left: 0;
-            height: 100vh;
-            width: 100%;
-            position: fixed;
-            background: #aaaaaa url(bg1.jpg) repeat scroll top center;
-            background-size: cover;
-            background-repeat: no-repeat;
-            background-color: transparent;
-        }
 
-        .bg-div {
-            display: block;
-        }
-
-        body.user-bg .bg-div,
-        .bg-div-cust {
-            display: none;
-        }
-
-        body.user-bg .bg-div-cust {
-            display: block;
-        }
-
-        #change-bg-button {
-            display: inline;
-        }
-
-        body.user-bg #change-bg-button,
-        #remove-bg-button {
-            display: none;
-        }
-
-        body.user-bg #remove-bg-button {
-            display: inline;
-        }
-
-        .toolbar {
-            /* background: #dddc;
-            padding: 0 0 1em 0;
-            border-radius: 10px; */
-            /* padding: 5px 5px 15px 0; */
-            display: table;
-            box-sizing: border-box;
-            pointer-events: none;
-            transition: background .5s ease-in-out;
-            position: relative;
-            width: 100%;
-			top: -40px;
-        }
-
-        .toolbar .expanded-menu {
-            width: 0;
-            overflow: hidden;
-            display: table;
-            /* display: none; */
-            opacity: 0;
-            padding: 15px 0;
-            transform: translate(-500px, 0px);
-            transition: transform .2s ease-in-out, opacity .2s ease-in-out, background .2s ease-in-out;
-            background: rgba(240, 240, 240, 0.9);
-            box-shadow: 1px 1px 25px -10px rgba(0, 0, 0, 0.66);
-            border-radius: 10px;
-            vertical-align: top;
-            pointer-events: none;
-            margin: 0;
-            width: 100%;
-        }
-
-        .toolbar .expanded-menu-container {
-            padding: 15px;
-            margin: -15px;
-            overflow: hidden;
-        }
-
-        .toolbar .expanded-menu-items {
-            display: table-cell;
-            width: 100%;
-        }
-
-        .toolbar-overlay {
-            position: fixed;
-            top: 0;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            display: none;
-            z-index: -1;
-            pointer-events: none;
-        }
-
-        body.expanded-menu .toolbar {
-            /* background: rgba(240, 240, 240, 0.9); */
-            border-radius: 10px;
-            /* box-shadow: 1px 1px 25px -10px rgba(0, 0, 0, 0.66); */
-            pointer-events: all;
-        }
-
-        body.expanded-menu .toolbar .expanded-menu {
-            opacity: 1;
-            transform: none;
-            pointer-events: all;
-        }
-
-        body.expanded-menu .toolbar-overlay {
-            display: block;
-            pointer-events: all;
-        }
-
-        .hamburger-button {
-            display: table-cell;
-            width: 24px;
-            height: 24px;
-            border: none;
-            background: none;
-            margin: 8px;
-            padding: 0;
-            pointer-events: all;
-            cursor: pointer;
-            vertical-align: top;
-            position: absolute;
-            float: left;
-        }
-
-        body.expanded-menu .hamburger-button {
-            display: none;
-        }
-
-        .toolbar .expanded-menu .hamburger-button {
-            position: relative;
-            display: table-cell;
-            margin-top: -7px;
-        }
-
-        .toolbar .pill-button,
-        .toolbar a.pill-button {
-            color: #3aacc3 !important;
-            text-shadow: none;
-            background: none;
-            border-color: #202020;
-            box-shadow: none;
-            /* font-weight: 500; */
-            text-transform: none;
-            font-size: 13px;
-            margin: 6px 2px;
-        }
-
-        /* body.expanded-menu .expanded-menu-items {
-            width: 100%;
-        } */
-
-        .font-size-button {
-            display: none;
-        }
-
-        body.f12px .font-size-button:first-child,
-        body.f14px .font-size-button:nth-child(2),
-        body.f16px .font-size-button:nth-child(3),
-        body.f18px .font-size-button:nth-child(4) {
-            display: inline;
-        }
-
-        .opacity-button {
-            display: none;
-        }
-
-        body.opacity-0 .opacity-button:first-child,
-        body.opacity-10 .opacity-button:nth-child(2),
-        body.opacity-20 .opacity-button:nth-child(3),
-        body.opacity-30 .opacity-button:nth-child(4) {
-            display: inline;
-        }
-
-        .dark-mode-button-toolbar,
-        body.dark-mode .dark-mode-button-toolbar:last-child {
-            display: none;
-        }
-        .dark-mode-button-toolbar:last-child,
-        body.dark-mode .dark-mode-button-toolbar:first-child {
-            display: inline;
-        }
-
-        .dark_mode_overlay {
-            display: none;
-        }
-        #editor-body {
-            color: #202020 !important;
-        }
-        body.dark-mode #editor-body {
-            color: #fefdf3 !important;
-        }
-        body.dark-mode .toolbar .expanded-menu {
-            background: rgba(71, 71, 71, 0.9);
-            color: #fefdf3;
-        }
-        body.dark-mode .toolbar .pill-button {
-            border-color: #fefdf3;
-        }
-        body.dark-mode h1, body.dark-mode h2, body.dark-mode h3, 
-        body.dark-mode h4, body.dark-mode h5, body.dark-mode h6,
-        body.dark-mode tbc, body.dark-mode cite, body.dark-mode cm   {
-            color: #3aaac3;
-        }
-
-        body.opacity-0 .post-outer-container {
-            background: rgba(254, 254, 253, 1) !important;
-        }
-
-        body.opacity-10 .post-outer-container {
-            background: rgba(254, 254, 253, .9) !important;
-        }
-
-        body.opacity-20 .post-outer-container {
-            background: rgba(254, 254, 253, .8) !important;
-        }
-
-        body.opacity-30 .post-outer-container {
-            background: rgba(254, 254, 253, .7) !important;
-        }
-
-        body.opacity-0.dark-mode .post-outer-container {
-            background: rgba(20, 20, 20, 1) !important;
-        }
-
-        body.opacity-10.dark-mode .post-outer-container {
-            background: rgba(20, 20, 20, .9) !important;
-        }
-
-        body.opacity-20.dark-mode .post-outer-container {
-            background: rgba(20, 20, 20, .8) !important;
-        }
-
-        body.opacity-30.dark-mode .post-outer-container {
-            background: rgba(20, 20, 20, .7) !important;
-        }
-
-        .fake-editor {
-            color: #202020;
-            background: transparent;
-            /* font-size: 0; */
-            /* color: #202020; */
-            /* width: 0;
-            height: 0;
-            overflow: hidden; */
-        }
-        
-        #editor-body div {
-            margin-top: .1em;
-            margin-bottom: 0em;
-        }
-    </style>
-    <style>
-        /* Only for Standalone Ver. */
-        .page-lower-part .centered {
-            z-index: 20;
-            padding-right: env(safe-area-inset-right);
-			padding-bottom: env(safe-area-inset-bottom);
-			padding-left: env(safe-area-inset-left);
-        }
-
-        .post-outer-container {
-            min-height: 40px;
-            padding: 16px;
-            width: auto;
-            border-radius: 12px;
-            background: rgba(254, 254, 253, 0.95);
-            box-shadow: 0px 0px 15px -5px rgba(0, 0, 0, 0.9);
-            margin-bottom: 16px !important;
-            transition: color .2s ease-in-out, background .2s ease-in-out;
-        }
-
-        @media screen and (max-width: 886px) {
-            .post-outer-container {
-                margin: 0 8px;
-            }
-        }
-
-        .glassnote-about-msg {
-            margin: 1em 0 0 0;
-        }
-
-        @font-face {
-            font-family: 'Roboto';
-            font-style: italic;
-            font-weight: 300;
-            src: url(/assets/roboto.woff2) format('woff2');
-            unicode-range: U + 0000-00FF, U + 0131, U + 0152-0153, U + 02BB-02BC, U + 02C6, U + 02DA, U + 02DC, U + 2000-206F, U + 2074, U + 20AC, U + 2122, U + 2191, U + 2193, U + 2212, U + 2215, U + FEFF, U + FFFD;
-        }
-    </style>
     <script src="upup.min.js"></script>
     <script>
         UpUp.debug();
         UpUp.start({
-            'content-url': 'dev.html',
+            'content-url': 'index.html',
             'assets': [
                 '/',
                 '/index.html',
                 '/dev.html',
                 '/upup.min.js',
                 '/upup.sw.min.js',
-                '/manifest_glassnote.json',
-                '/manifest_glassnote_dev.json',
+                '/assets/manifest_glassnote.json',
+                '/assets/manifest_glassnote_dev.json',
                 '/favicon.ico',
-                '/bg1.jpg',
-                '/styles.css',
-                '/blog.css',
-                '/blog-ui-ajax.js',
+                '/assets/bg1.jpg',
+                '/assets/styles.css',
+                '/assets/blog.css',
+                '/assets/display-messages.css',
+                '/scripts/blog-ui-ajax.js',
+                '/scripts/display-messages.js',
                 '/tinymce/icons/default/icons.min.js',
-                '/tinymce/plugins/autolink/plugin.min.js',
-                '/tinymce/plugins/lists/plugin.min.js',
-                '/tinymce/plugins/visualblocks/plugin.min.js',
+                // '/tinymce/plugins/autolink/plugin.min.js',
+                // '/tinymce/plugins/lists/plugin.min.js',
+                // '/tinymce/plugins/visualblocks/plugin.min.js',
                 '/tinymce/plugins/quickbars/plugin.min.js',
-                '/tinymce/plugins/link/plugin.min.js',
+                // '/tinymce/plugins/link/plugin.min.js',
                 '/tinymce/skins/ui/oxide/skin.min.css',
                 '/tinymce/skins/ui/oxide/content.inline.min.css',
                 '/tinymce/themes/silver/theme.min.js',
@@ -380,8 +122,8 @@
                 '/icons/app_icon_glassnote2-256.png',
                 '/icons/app_icon_glassnote2-512.png',
                 '/icons/DarkMode.png',
-                '/icons/FontSize.png',
-                '/icons/FontSize_dark.png',
+                // '/icons/FontSize.png',
+                // '/icons/FontSize_dark.png',
                 '/icons/hamburger.png',
                 '/icons/hamburger_dark.png',
                 '/icons/moon.png',
@@ -437,6 +179,7 @@
 
                 return false;
             });
+            // showPopupMessage();
         }
 
         ready(function () {
@@ -455,22 +198,6 @@
                 // el.outerHTML = el.outerHTML.replace(/(?:<)p|(?:<\/)p/g,"div");
                 el.outerHTML = el.outerHTML.replace(/(?=<)p/g,"div");
             }
-            // else if (["svg", "img", "video", "iframe"].includes(el.tagName.toLowerCase())) {
-            //     el.parentNode.removeChild(el);
-            // }
-            // el.childNodes.forEach(x => {
-            //     if(x.nodeType == 1) {
-            //         removeStylesAndReplacePToDiv(x)
-            //     }
-            // });
-            
-            // else if (["em", "strong", "i", "b", "span", "blockquote", "a", "hr", "button", "ol", "ul", "li", "h1", "h2", "h3", "h4", "h5", "h6"].includes(el.tagName.toLowerCase())) {
-            //     el.outerHTML = el.innerHTML;
-            // }
-
-            // else if (el.tagName != "DIV" || el.tagName != "div") {
-            //     el.parentNode.removeChild(el);
-            // }
         }
 
         function setAutoSaveTimeout() {
@@ -520,7 +247,7 @@
                 editor.innerHTML = text;
 
                 updateLastSavedMsg();
-                console.log("loaded");
+                console.log("loadedFromStorage");
             }
             if (fn) {
                 fn();
@@ -548,7 +275,7 @@
                 localStorage.removeItem("last-saved-time");
                 var editor = document.getElementById("editor-body");
                 if (editor) {
-                    editor.innerHTML = "";
+                    editor.innerHTML = "<div></div>";
                 }
                 updateLastSavedMsg();
             }
@@ -561,11 +288,8 @@
         }
         function getFirstLine(str) {
             var breakIndice = [str.indexOf("\n"), 100];
-            // console.log(breakIndice, " => ");
             breakIndice = breakIndice.filter(breakIndice => breakIndice >= 0);
-            // console.log(breakIndice);
             var breakIndex = Math.min(...breakIndice);
-            console.log(breakIndex);
             if (breakIndex === -1) {
                 return str;
             }
@@ -664,16 +388,34 @@
             document.body.classList.remove("user-bg");
         }
 
+        function escapeHTML(unsafeText) {
+            let div = document.createElement('div');
+            div.innerText = unsafeText;
+            return div.innerText;
+        }
 
         function readFromFile() {
-            // const bgDivCust = document.getElementById('bg-div-cust');
             const reader = new FileReader();
 
             reader.addEventListener("load", function () {
                 if (confirm("從 txt 檔匯入文字? 現有內容將會被覆寫")) {
-                    var editorBody = document.getElementById("editor-body");
-                    editorBody.innerText = reader.result;
-
+                    const editorBody = document.getElementById("editor-body");
+                    editorBody.innerHTML = "<div></div>";
+                    
+                    let text = escapeHTML(this.result);
+                    // console.log(text);
+                    let htmlContent = "";
+                    const lines = text.split(/\r?\n/);
+                    for(let line of lines){
+                        if (line == "") {
+                            line = "<br />";
+                        }
+                        htmlContent += "<div>" + escapeHTML(line) + "</div>";
+                    }
+                    console.log("readFromFile success");
+                    // console.log(htmlContent);
+                    
+                    editorBody.innerHTML = htmlContent;
                     saveToLocalStorage();
                 }
 
@@ -686,7 +428,7 @@
 			});
             input.addEventListener('change', function () {
                 const file = this.files[0];
-                console.log(file.size);
+                console.log("fileSize: " + file.size);
                 if (file) {
                     if (file.type.match('text/plain') || file.type.match('text/markdown')) {
                         reader.readAsText(file);
@@ -711,41 +453,39 @@
 
             var textFile = null,
                 makeTextFile = function (text) {
-                    // var data = new Blob([text], {type: 'text/plain'});
                     var data = new Blob([text], { encoding: "UTF-8", type: "text/plain;charset=UTF-8" });
-
-
-                    // If we are replacing a previously generated file we need to
-                    // manually revoke the object URL to avoid memory leaks.
                     if (textFile !== null) {
                         window.URL.revokeObjectURL(textFile);
                     }
-
                     textFile = window.URL.createObjectURL(data);
-
-                    // returns a URL you can use as a href
                     return textFile;
                 };
 
             var link = document.createElement('a');
-            // var fileName = getFirstLine(content);
-            // if (!fileName || fileName == "") {
-                // fileName = "GlassNote";
-            // }
-            var date = new Date();
-            var fileName = "GlassNote-"+date.toLocaleDateString("en-GB") + "_" +date.toLocaleTimeString("en-GB", { hour: '2-digit', minute: '2-digit' });
-            fileName = fileName.replaceAll("/","-").replaceAll(":","-");
+            var fileName = getFirstLine(content);
+            if (!fileName || fileName == "") {
+                fileName = "GlassNote";
+                const date = new Date();
+                let ye = new Intl.DateTimeFormat('en', { year: 'numeric'}).format(date);
+                let mo = new Intl.DateTimeFormat('en', { month: '2-digit'}).format(date);
+                let da = new Intl.DateTimeFormat('en', { day: '2-digit' }).format(date);
+                let ho = new Intl.DateTimeFormat('en', { hour: 'numeric', hour12: false}).format(date);
+                let mi = new Intl.DateTimeFormat('en', { minute: 'numeric'}).format(date);
+                fileName = "GlassNote-"+`${ye}${mo}${da}`+'-'+`${ho}${mi}`;
+                // console.log(fileName);
+                // date.getFullYear+date.getMonth+date.getDate+"-" +date.toLocaleTimeString("en-GB", { hour: '2-digit', minute: '2-digit' });
+                // date.toLocaleDateString("en-GB") + "_" +date.toLocaleTimeString("en-GB", { hour: '2-digit', minute: '2-digit' });
+                // fileName = fileName.replaceAll("/","-").replaceAll(":","-");
+            }
+            
             link.setAttribute('download', fileName + ".txt");
-
             link.href = makeTextFile(content);
-
             document.body.appendChild(link);
 
             // wait for the link to be added to the document
             window.requestAnimationFrame(function () {
                 var event = new MouseEvent('click');
                 link.dispatchEvent(event);
-                // link.click();
                 document.body.removeChild(link);
             });
         }
@@ -753,17 +493,11 @@
         function initBodyClassesForOpacityAndFontSize() {
             const element = document.getElementById("left-sidebar");
             const fontSizes = ["f12px", "f14px", "f16px", "f18px"];
-            const result = [...document.body.classList].some(className => fontSizes.indexOf(className) !== -1);
-            // var result = document.body.classList.filter(function(value) {
-            //     // var fontSizes = ["f12px", "f14px", "f16px", "f18px"];
-            //     return (["f12px", "f14px", "f16px", "f18px"].contains(value));
-            // });
-            console.log(result);
-            if (!result) {
+            if (![...document.body.classList].some(className => fontSizes.indexOf(className) !== -1)) {
                 document.body.classList.add("f14px");
             }
 
-            var opacity = getCookie("opacity");
+            let opacity = getCookie("opacity");
             if (opacity != "") {
                 document.body.classList.add(opacity);
             }
@@ -805,6 +539,9 @@
 </head>
 
 <body class="item-view">
+    
+
+
     <script type="text/javascript">changeFontSizeInit(); darkModeInit();</script>
     <div class="bg-div" id="bg-div"></div>
     <div class="bg-div-cust" id="bg-div-cust"></div>
@@ -813,14 +550,6 @@
         <div class="page-upper-part"></div>
         <div class="centered top-bar-container">
             <div class="centered-top-container top-bar" id="top-bar">
-                <!-- <a class="return_link ripple" href="https://www.qingsky.hk" onclick="removeAttribute('href');history.back();" title="上一頁">
-                    <img class="png_icon light" src="https://1.bp.blogspot.com/-4n5BLk_IUMA/YBqsMpIUaBI/AAAAAAAABb4/DDFj4GJnBTAN-FmE7XjIIIx1Oyr6ZueYACNcBGAsYHQ/s0/Return.png">
-                    <img class="png_icon dark" src="https://1.bp.blogspot.com/-IkWxWn7awDQ/YBqsMY8itWI/AAAAAAAABb0/1i9sC0l38UAOqhjiKbgd0WjCKBahkHlNQCNcBGAsYHQ/s0/Return_dark.png">
-                </a>
-                <a class="return_link to_top ripple" onclick="window.scrollTo({top: 0, behavior: 'smooth'});" title="回頁首" target="_blank">
-                    <img class="png_icon light" src="https://1.bp.blogspot.com/-T9gVRKpz_gs/YBqsMrYr8GI/AAAAAAAABb8/tISjSpO1uTMeumsepkb9bHR5_U8MzGbAwCNcBGAsYHQ/s0/ToTop.png">
-                    <img class="png_icon dark" src="https://1.bp.blogspot.com/-0IlychxoYAc/YBqsM-VORDI/AAAAAAAABcA/nftQHsfts8khJc9rM9BLpBch7h8Xa6nVACNcBGAsYHQ/s0/ToTop_dark.png">
-                </a> -->
                 <div class="right-button-container  flat-icon-button ripple">
                     <div class="splash-wrapper"><span class="splash"
                             style="height: 64px; width: 64px; left: 16px; top: 3px;"></span></div>
@@ -829,28 +558,11 @@
                         <img class="png_icon dark" src="icons/moon_dark.png">
                     </a>
                 </div>
-                <!-- <div class="right-button-container flat-icon-button ripple">
-                    <div class="splash-wrapper"><span class="splash"
-                            style="height: 64px; width: 64px; left: 10px; top: -5px;"></span></div>
-                    <a class="return_link font_size" onclick="changeFontSize();" style="" title="字體大小" target="_blank">
-                        <img class="png_icon light" src="icons/FontSize.png">
-                        <img class="png_icon dark" src="icons/FontSize_dark.png">
-                    </a>
-                </div> -->
-                <!-- <div class="subscribe-section-container">
-                <a href="/p/about.html#subscribe" target="_blank" title="訂閱"><button class="subscribe-button pill-button">訂閱</button></a>
-                </div> -->
-                <!--copy
-                    <div class="right-button-container flat-icon-button ripple">
-                        <a class="return_link font_size" onclick="copyToClipboard();" target="_blank">
-                        <img class="png_icon light" src="https://1.bp.blogspot.com/-JPcY6nSjVfo/YEIRr3HstlI/AAAAAAAABjU/wgzAHkF3HOY89bP7cEY-LNuhKGIY_MYTQCNcBGAsYHQ/s100/export.png">
-                        <img class="png_icon dark" src="https://1.bp.blogspot.com/-1vfgnmF5fAw/YEIRr8lCVLI/AAAAAAAABjY/kaC1orvkVF0epoYKwdYoXKLGx7r3wLD2ACNcBGAsYHQ/s100/export_dark.png">
-                        </a>
-                    </div>-->
             </div>
         </div>
 
         <div class="page-lower-part">
+            
             <div class="centered" style="position: relative;">
                 <div class="post-outer-container">
                     <div class="post-outer post">
@@ -872,7 +584,7 @@
                                                     </a>
                                                 <!-- </button> -->
                                                 <div class="expanded-menu-items">
-                                                    <tbc>GlassNote 2.0</tbc><em> - Build: 26 Apr 2021</em>
+                                                    <tbc>GlassNote 2.0</tbc><em> - Build: 14 May 2021</em>
                                                     <br />
                                                     <!-- <h3>上次儲存：<span class='last-saved-msg'>-</span>　　　<a style=""
                                                         href="javascript:void(0)" onclick="clearCurrentAndLocalStorage();">清空</a></h3> -->
@@ -929,20 +641,6 @@
                                         </div>
                                     </div>
                                 </div>
-                                <!--read
-                                <div class="right-button-container flat-icon-button ripple" title="read">
-                                    <a class="return_link font_size" onclick="readFromFile();">
-                                        <img class="png_icon light" src="icons/export.png" />
-                                        <img class="png_icon dark" src="icons/export_dark.png" />
-                                    </a>
-                                </div>-->
-                                <!--save
-                                <div class="right-button-container flat-icon-button ripple" title="save">
-                                    <a class="return_link font_size" onclick="saveToFile();">
-                                        <img class="png_icon light" src="icons/export.png" />
-                                        <img class="png_icon dark" src="icons/export_dark.png" />
-                                    </a>
-                                </div>-->
                             </div>
                             <div class='editor' id='editor'>
                                 <div class="editor-body entry-content" id='editor-body' changing='false' contenteditable="true"
@@ -954,6 +652,15 @@
                     </div>
 
                 </div>
+
+                
+
+                <!-- Top Message will be displayed at bottom instead, but dont use it unless necessary-->
+                <div class="top-message-container centered" id="top-message-container"></div>
+                <div class="top-message-outer demo" id="top-message-outer-demo">
+                    <img src="icons/info.png"/>
+                </div>
+
                 <div id="glassnote-about-msg" class="glassnote-about-msg">
                     <!-- <p><button class="pill-button ripple" id="change-bg-button"
                             onclick="changeBg();">自訂桌布</button><button class="pill-button ripple" id="remove-bg-button"
@@ -966,6 +673,28 @@
                 </div>
             </div>
         </div>
+        
+        <!-- Popup Messages -->
+        <div class="popup-message-container" id="popup-message-container">
+            <div class="dim-overlay" onclick="dismissPopupMessage()"></div>
+            <div class="popup-message-outer centered" id="popup-message-outer">
+                <div style="order: 0; text-align: right;"><a class="flat-button" onclick="dismissPopupMessage()"><img src="icons/cross.png" style="height: 24px; width: 24px"/></a>
+                </div>
+                <div style="order: 3; text-align: center; margin-top: .5em;"><a class="flat-button" id="popup-message-dismiss-button" onclick="addPopupMessageToBlockList()">今天不再顯示</a>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Insert Messages Here -->
+        <!-- <div class="popup-message" key="archive-20210513001" expires="2021-05-20" url="">
+            <p>《昔日的天空》已更新，目前開放 2017 年 5 月：<a href="https://archive.qingsky.hk">https://archive.qingsky.hk</a></p>
+            <p>那年是我寫小說十周年，碰巧我替本站做了第一次大型更新，也是一個值得紀錄的日子</p>
+        </div> -->
+        <!-- <div class="top-message" key="archive-20210513001" >
+            <p>歡迎瀏覽《昔日的天空》，目前開放 2017 年 5 月：<a href="https://archive.qingsky.hk">https://archive.qingsky.hk</a></p>
+        </div> -->
+        
     </div>
 </body>
 
