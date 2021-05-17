@@ -3,11 +3,11 @@
     "name": "GlassNote 2.0",
     "description": "GlassNote 是一個網頁文字編輯器，主打簡潔的頁面以及半透明的設計。請當作寫作的輔助工具使用，可以把文字複製、貼上到這兒修改，再複製、貼上帶走。",
     "icons": [{
-      "src": "icons/app_icon_glassnote2-256.png",
+      "src": "/icons/app_icon_glassnote2-256.png",
       "sizes": "256x256",
       "type": "image/png"
     }, {
-      "src": "icons/app_icon_glassnote2-512.png",
+      "src": "/icons/app_icon_glassnote2-512.png",
       "sizes": "512x512",
       "type": "image/png"
     }],
