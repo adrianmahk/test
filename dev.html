@@ -394,12 +394,6 @@
             document.body.classList.remove("user-bg");
         }
 
-        // function escapeHTML(unsafeText) {
-        //     let div = document.createElement('div');
-        //     div.innerText = unsafeText;
-        //     return div.innerText;
-        // }
-
         function escapeHTML(html) {
             var fn = function(tag) {
                 var charsToReplace = {
@@ -465,13 +459,31 @@
         }
 
         function saveToFile() {
-            var editorBody = document.getElementById("editor-body");
-            var content = editorBody.innerText;
+            // let content = document.getElementById("editor-body").innerText;
+
+            // move all texts into a single div with brs, to avoid Chrome on9 behaviour
+            let fakeEditor = document.createElement("div");
+            fakeEditor.innerHTML = document.getElementById("editor-body").innerHTML;
+            fakeEditor.setAttribute("id", "fake-editor");
+            fakeEditor.setAttribute("class", "fake-editor editor-body entry-content");
+            document.body.appendChild(fakeEditor);
+            
+            let emptyDivBrs = fakeEditor.querySelectorAll("div > br:only-child");
+            for (let item of emptyDivBrs) {
+                item.parentNode.outerHTML = "<br />";
+            }
+            fakeEditor.innerHTML = fakeEditor.innerHTML.replaceAll("</div>", "<br />");
+            fakeEditor.innerHTML = fakeEditor.innerHTML.replaceAll("<div>", "");
+            
+            
+            let content = fakeEditor.innerText;
             if (content.slice(-1) == "\n") {
                 content = content.slice(0, -1);
             }
+            document.body.removeChild(fakeEditor);
+            // console.log(content);
 
-            var textFile = null,
+            let textFile = null,
                 makeTextFile = function (text) {
                     var data = new Blob([text], { encoding: "UTF-8", type: "text/plain;charset=UTF-8" });
                     if (textFile !== null) {
@@ -481,8 +493,8 @@
                     return textFile;
                 };
 
-            var link = document.createElement('a');
-            var fileName = getFirstLine(content);
+            let link = document.createElement('a');
+            let fileName = getFirstLine(content);
             if (!fileName || fileName == "") {
                 fileName = "GlassNote";
                 const date = new Date();
@@ -493,9 +505,6 @@
                 let mi = new Intl.DateTimeFormat('en', { minute: 'numeric'}).format(date);
                 fileName = "GlassNote-"+`${ye}${mo}${da}`+'-'+`${ho}${mi}`;
                 // console.log(fileName);
-                // date.getFullYear+date.getMonth+date.getDate+"-" +date.toLocaleTimeString("en-GB", { hour: '2-digit', minute: '2-digit' });
-                // date.toLocaleDateString("en-GB") + "_" +date.toLocaleTimeString("en-GB", { hour: '2-digit', minute: '2-digit' });
-                // fileName = fileName.replaceAll("/","-").replaceAll(":","-");
             }
             
             link.setAttribute('download', fileName + ".txt");
