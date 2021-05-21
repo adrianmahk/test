@@ -15,6 +15,18 @@
     <link rel="stylesheet" href="assets/blog.css" />
     <link rel="stylesheet" href="assets/styles.css" />
     <link rel="stylesheet" href="assets/display-messages.css" />
+	<style>
+		.bg-safe-area-top {
+		top: 0;
+	    left: 0;
+		right: 0;
+	    height: 0;
+	    width: 100%;
+	    padding-top: env(safe-area-inset-top);
+	    position: fixed;
+		background: rgba(0,0,0,.66);
+	}
+	</style>
     <script>
         function loadIndie() {
             // For override
@@ -566,6 +578,7 @@
 
 
     <script type="text/javascript">changeFontSizeInit(); darkModeInit();</script>
+	<div class="bg-safe-area-top"></div>
     <div class="bg-div" id="bg-div"></div>
     <div class="bg-div-cust" id="bg-div-cust"></div>
     <div class="dark_mode_overlay" id="dark_mode_overlay"></div>
