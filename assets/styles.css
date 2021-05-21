@@ -1,4 +1,15 @@
 /* For glassnote */
+.bg-safe-area-top {
+	top: 0;
+    left: 0;
+	right: 0;
+    height: 0;
+    width: 100%;
+    padding-top: env(safe-area-inset-top);
+    position: fixed;
+	background: rgba(0,0,0,.66);
+}
+
 .bg-div-cust {
     top: 0;
     left: 0;
