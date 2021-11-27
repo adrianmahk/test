@@ -66,6 +66,10 @@
                     editor.addShortcut("access+8", "", "");
                     editor.addShortcut("access+9", "", "");
                     editor.addShortcut("meta+k", "", "");
+                    editor.addShortcut("meta+shift+13", "", function (){
+                        editor.execCommand('mceInsertContent', false, '\u2028\n');
+                        editor.execCommand('mceInsertNewLine');
+                    });
                     // editor.addShortcut("meta+b", "", "");
                     // editor.addShortcut("meta+i", "", "");
                     editor.addShortcut("meta+u", "", "");
