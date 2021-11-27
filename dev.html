@@ -160,9 +160,8 @@
                 // IE
                 editorBody.attachEvent('DOMSubtreeModified', setAutoSaveTimeout);
             }
-
+            editorBody.addEventListener("copy", handleCopyEvent);
             editorBody.addEventListener("paste", function (e){
-                // console.log("pasted");
                 e.preventDefault();
                 var text = '';
                 if (e.clipboardData || e.originalEvent.clipboardData) {
@@ -170,14 +169,12 @@
                 } else if (window.clipboardData) {
                     text = window.clipboardData.getData('Text');
                 }
-                text = text.replaceAll('\u2028', '\n');
+                text = text.replaceAll(/\u2028(?=[^\n])/g, '\u2028\n');
                 if (document.queryCommandSupported('insertText')) {
                     document.execCommand('insertText', false, text);
                 } else {
                     document.execCommand('paste', false, text);
                 }
-                // console.log(text);
-                // removeStylesAndReplacePToDiv(this);
 
                 return false;
             });
@@ -190,6 +187,13 @@
             loadBg();
             initBodyClassesForOpacityAndFontSize();
         });
+        
+        function handleCopyEvent(e) {
+            console.log("copy");
+            event.preventDefault();
+            const selection = document.getSelection();
+            event.clipboardData.setData('text/plain', selection.toString().replaceAll("\u2028\n", "\u2028"));
+        }
 
         function removeStylesAndReplacePToDiv(el) {
             // el.removeAttribute('style');
@@ -246,7 +250,7 @@
             var text = localStorage.getItem('content');
             if (text) {
                 var editor = document.getElementById("editor-body");
-                editor.innerHTML = text.replaceAll('\u2028', '<br />');
+                editor.innerHTML = text.replaceAll(/\u2028(?!<br \/>|<br>)/g, '\u2028<br />');
 
                 updateLastSavedMsg();
                 console.log("loadedFromStorage");
@@ -303,14 +307,13 @@
 
             fakeEditor.innerHTML = document.getElementById("editor-body").innerHTML;
             fakeEditor.setAttribute("class", "fake-editor editor-body entry-content");
+            fakeEditor.addEventListener('copy', handleCopyEvent);
             document.body.appendChild(fakeEditor);
 
             var range = document.createRange();
             range.selectNodeContents(fakeEditor);
-            // range.selectNodeContents(document.getElementById("editor-body"));
             window.getSelection().removeAllRanges();
             window.getSelection().addRange(range);
-            // console.log(window.getSelection().toString());
 
             var result = document.execCommand('copy');
             fakeEditor.parentNode.removeChild(fakeEditor);
@@ -410,11 +413,12 @@
                 if (confirm("從 txt 檔匯入文字? 現有內容將會被覆寫")) {
                     const editorBody = document.getElementById("editor-body");
                     editorBody.innerHTML = "<div></div>";
-                    // console.log(this.result);
+                    console.log(this.result);
                     let text = escapeHTML(this.result);
-                    text = text.replaceAll('\u2028', '\n');
+                    // text = text.replaceAll(/\u2028(?=.)/g, '\u2028\n');
+                    text = text.replaceAll(/  \n/g, '\u2028\n');
                     // let text = this.result;
-                    // console.log(text);
+                    console.log(text);
                     let htmlContent = "";
                     const lines = text.split(/\r?\n/);
                     for(let line of lines){
@@ -467,13 +471,13 @@
             
             let emptyDivBrs = fakeEditor.querySelectorAll("div > br:only-child");
             for (let item of emptyDivBrs) {
-                item.parentNode.outerHTML = "<br />";
+                item.parentNode.outerHTML = item.parentNode.innerText.match('\u2028\n') ? '\u2028' : '' + "<br />";
             }
             fakeEditor.innerHTML = fakeEditor.innerHTML.replaceAll("</div>", "<br />");
             fakeEditor.innerHTML = fakeEditor.innerHTML.replaceAll("<div>", "");
             
             
-            let content = fakeEditor.innerText;
+            let content = fakeEditor.innerText.replaceAll('\u2028\n', '\u2028');
             if (content.slice(-1) == "\n") {
                 content = content.slice(0, -1);
             }
