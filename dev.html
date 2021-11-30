@@ -66,10 +66,27 @@
                     editor.addShortcut("access+8", "", "");
                     editor.addShortcut("access+9", "", "");
                     editor.addShortcut("meta+k", "", "");
-                    editor.addShortcut("meta+shift+13", "", function (){
-                        editor.execCommand('mceInsertContent', false, '\u2028\n');
-                        editor.execCommand('mceInsertNewLine');
-                    });
+                    // editor.addShortcut("meta+shift+13", "", function (){
+                    //     // editor.execCommand('mceAddUndoLevel');
+                    //     let sel = tinymce.activeEditor.selection.getSel();
+                    //     if (sel.focusOffset == 0) {
+                    //         editor.execCommand('mceInsertContent', false, '\u2B90');
+                    //         editor.execCommand('mceInsertNewLine');
+                    //     }
+                    //     else if (sel.focusOffset < sel.anchorNode.length) {
+                    //         editor.execCommand('mceInsertNewLine');
+                    //         editor.execCommand('mceInsertContent', false, '\u2B90');
+                    //         editor.execCommand('mceInsertNewLine');
+                    //     }
+                    //     else {
+                    //         editor.execCommand('mceInsertNewLine');
+                    //         editor.execCommand('mceInsertContent', false, '\u2B90');
+                    //     }
+                        
+                        
+                    //     // changeLS();
+                    //     // editor.execCommand('mceEndUndoLevel');
+                    // });
                     // editor.addShortcut("meta+b", "", "");
                     // editor.addShortcut("meta+i", "", "");
                     editor.addShortcut("meta+u", "", "");
@@ -173,13 +190,16 @@
                 } else if (window.clipboardData) {
                     text = window.clipboardData.getData('Text');
                 }
-                text = text.replaceAll(/\u2028(?=[^\n])/g, '\u2028\n');
+                // text = text.replaceAll(/\u2028(?=[^\n])/g, '\u2B90\n');
+                // text = text.replaceAll(/\u2028/g, '\u2B90\n');
+                text = replaceLS(text);
                 if (document.queryCommandSupported('insertText')) {
                     document.execCommand('insertText', false, text);
                 } else {
                     document.execCommand('paste', false, text);
                 }
 
+                changeLS();
                 return false;
             });
             // showPopupMessage();
@@ -254,8 +274,9 @@
             var text = localStorage.getItem('content');
             if (text) {
                 var editor = document.getElementById("editor-body");
-                editor.innerHTML = text.replaceAll(/\u2028(?!<br \/>|<br>)/g, '\u2028<br />');
-
+                // editor.innerHTML = text;
+                editor.innerHTML = replaceLS(text);
+                // changeLS();
                 updateLastSavedMsg();
                 console.log("loadedFromStorage");
             }
@@ -410,6 +431,26 @@
             return html.replace(/[&<>"]/g, fn);
         }
 
+        function replaceLS(text){
+            // return text;
+            //                 replaceAll(/\u2028(?!<br \/>|<br>)/g, '\u2B90<br />');
+            return text.replaceAll(/\u2028/g, '\u2028\n').replaceAll(/  \n/g, '\u2028\n');
+            // return text.replaceAll(/\u2028/g, '\n').replaceAll(/  \n/g, '\n');
+        }
+
+        function changeLS() {
+            let editor = document.getElementById("editor-body");
+            // let ls = editor.getElementsByTagName("div");//querySelectorAll("div > br:only-child");
+            // for (let i = 0; i < ls.length; i++) {
+            //     if (ls[i].innerHTML.indexOf("\u2B90") != -1) {
+            //         ls[i].innerHTML = "<br />";
+            //         ls[i].classList.add("ls");
+            //         // ls[i].setAttribute('contenteditable', false);
+            //     }
+            // }
+            editor.innerHTML = editor.innerHTML.replaceAll('<div>\u2028</div>', "<div contenteditable='false'><br class='ls'><span class='ls'>\u2028</span></div>");
+        }
+
         function readFromFile() {
             const reader = new FileReader();
 
@@ -419,8 +460,8 @@
                     editorBody.innerHTML = "<div></div>";
                     console.log(this.result);
                     let text = escapeHTML(this.result);
-                    text = text.replaceAll(/\u2028(?=.)/g, '\u2028\n');
-                    text = text.replaceAll(/  \n/g, '\u2028\n');
+                    // text = text.replaceAll(/\u2028(?=.)/g, '\u2B90\n');
+                    text = replaceLS(text);
                     // let text = this.result;
                     console.log(text);
                     let htmlContent = "";
@@ -435,6 +476,7 @@
                     // console.log(htmlContent);
                     
                     editorBody.innerHTML = htmlContent;
+                    // changeLS();
                     saveToLocalStorage();
                 }
 
@@ -476,13 +518,13 @@
             
             let emptyDivBrs = fakeEditor.querySelectorAll("div > br:only-child");
             for (let item of emptyDivBrs) {
-                item.parentNode.outerHTML = item.parentNode.innerText.match('\u2028\n') ? '\u2028' : '' + "<br />";
+                item.parentNode.outerHTML = item.parentNode.innerText.match('\u2B90\n') ? '\u2028' : '' + "<br />";
             }
             fakeEditor.innerHTML = fakeEditor.innerHTML.replaceAll("</div>", "<br />");
             fakeEditor.innerHTML = fakeEditor.innerHTML.replaceAll("<div>", "");
             
             
-            let content = fakeEditor.innerText.replaceAll('\u2028\n', '\u2028');
+            let content = fakeEditor.innerText.replaceAll('\u2B90\n', '\u2028');
             if (content.slice(-1) == "\n") {
                 content = content.slice(0, -1);
             }

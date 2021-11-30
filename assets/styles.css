@@ -423,3 +423,41 @@ body.opacity-30.dark-mode .post-outer-container {
     padding-right: 10px;
     margin-right: 10px; */
 }
+.editor-body div::selection {
+    background: rgba(58, 172, 195, 0.3);
+}
+div.ls {
+    color:rgba(240, 240, 240, 0);
+}
+.editor-body div.ls::selection {
+    color:#888 !important;
+}
+div.ls {
+    color: rgba(0,0,0,0);
+}
+div.ls::selection {
+    color: rgba(132,132,132,0.4);
+}
+br.ls {
+    content: '';
+    display: inline-block;
+}
+br.ls::before {
+    content: '\2B90';
+    display: block;
+    color: rgba(136,136,136, 0.4);
+}
+.editor-body div hr.ls:only-child::before {
+    display: none;
+}
+/* .editor-body div.ls::selection {
+    color: #888 !important;
+    opacity: 1;
+} */
+span.ls {
+    display: inline-block;
+    width: calc(100% - 3ch);
+}
+/* div br:only-child {
+    line-height: 2;
+} */
