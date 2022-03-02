@@ -3056,17 +3056,20 @@ body.dark-mode .dark_mode_overlay {
 opacity: 1;
 }
 /* Font Size */
-body.f12px .post-body.entry-content{
-font-size: 12px;
+body.f12px .post-body.entry-content, body.f13px .post-body.entry-content {
+font-size: 13px;
 }
-body.f14px .post-body.entry-content{
+body.f14px .post-body.entry-content {
 font-size: 14px;
 }
-body.f16px .post-body.entry-content{
+body.f15px .post-body.entry-content {
+font-size: 15px;
+}
+body.f16px .post-body.entry-content {
 font-size: 16px;
 }
-body.f18px .post-body.entry-content{
-font-size: 18px;
+body.f17px .post-body.entry-content, body.f18px .post-body.entry-content {
+font-size: 17px;
 }
 /* Adsense */
 .widget.AdSense {

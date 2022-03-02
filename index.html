@@ -15,6 +15,11 @@
     <link rel="stylesheet" href="assets/blog.css" />
     <link rel="stylesheet" href="assets/styles.css" />
     <link rel="stylesheet" href="assets/display-messages.css" />
+    <style>
+        body {
+            background-color: #1d9f97;
+        }
+    </style>
     <script>
         function loadIndie() {
             // For override
@@ -535,7 +540,7 @@
 
         function initBodyClassesForOpacityAndFontSize() {
             const element = document.getElementById("left-sidebar");
-            const fontSizes = ["f12px", "f14px", "f16px", "f18px"];
+            const fontSizes = ["f12px", "f14px", "f15px", "f16px", "f18px"];
             if (![...document.body.classList].some(className => fontSizes.indexOf(className) !== -1)) {
                 document.body.classList.add("f14px");
             }
@@ -627,7 +632,7 @@
                                                     </a>
                                                 <!-- </button> -->
                                                 <div class="expanded-menu-items">
-                                                    <tbc>GlassNote 2.0</tbc><em> - Build: 27 Nov 2021</em>
+                                                    <tbc>GlassNote 2.0</tbc><em> - Build: 3 Mar 2021</em>
                                                     <br />
                                                     <!-- <h3>上次儲存：<span class='last-saved-msg'>-</span>　　　<a style=""
                                                         href="javascript:void(0)" onclick="clearCurrentAndLocalStorage();">清空</a></h3> -->
@@ -657,13 +662,15 @@
                                                     </span>
                                                     <span>
                                                         <button class="pill-button ripple font-size-button"
-                                                            onclick="changeFontSize();">字體：12px</button>
+                                                            onclick="changeFontSize();">字體：13px</button>
                                                         <button class="pill-button ripple font-size-button"
                                                             onclick="changeFontSize();">字體：14px</button>
                                                         <button class="pill-button ripple font-size-button"
+                                                            onclick="changeFontSize();">字體：15px</button>
+                                                        <button class="pill-button ripple font-size-button"
                                                             onclick="changeFontSize();">字體：16px</button>
                                                         <button class="pill-button ripple font-size-button"
-                                                            onclick="changeFontSize();">字體：18px</button>
+                                                            onclick="changeFontSize();">字體：17px</button>
                                                     </span>
                                                     <span>
                                                         <button class="pill-button ripple dark-mode-button-toolbar" onclick="darkMode();">黑夜主題：開</button>
