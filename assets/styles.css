@@ -166,11 +166,11 @@ body.expanded-menu .hamburger-button {
     display: none;
 }
 
-body.f12px .font-size-button:first-child,
+body.f12px .font-size-button:first-child, body.f13px .font-size-button:first-child,
 body.f14px .font-size-button:nth-child(2),
 body.f15px .font-size-button:nth-child(3),
 body.f16px .font-size-button:nth-child(4),
-body.f18px .font-size-button:nth-child(5) {
+body.f17px .font-size-button:nth-child(5), body.f18px .font-size-button:nth-child(5) {
     display: inline;
 }
 
