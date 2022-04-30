@@ -19,6 +19,9 @@
         body {
             background-color: #1d9f97;
         }
+        .bg-div {
+            background-position: center center;
+        }
     </style>
     <script>
         function loadIndie() {
@@ -54,6 +57,7 @@
             contextmenu: 'undo redo cut copy paste',
             element_format: 'xhtml',
             forced_root_block: "div",
+            block_unsupported_drop: false,
             init_instance_callback: function (editor) {
                 loadFromLocalStorage(initEventListeners);
             },
@@ -187,6 +191,7 @@
 
                 return false;
             });
+            document.body.addEventListener("drop", handleDragEvent);
             // showPopupMessage();
         }
 
@@ -197,6 +202,32 @@
             initBodyClassesForOpacityAndFontSize();
         });
         
+        function handleDragEvent(e) {
+            console.log(e);
+            e.preventDefault();
+
+            let items = null;
+            if (e.dataTransfer.items) {
+                items = e.dataTransfer.items;
+            }
+            else if (e.dataTransfer.files) {
+                items = e.dataTransfer.files;
+            }
+            if (items) {
+                for (let item of items) {
+                    if (item.kind === 'file' && (item.type.match('text/plain') || item.type.match('text/markdown'))) {
+                        let file = item.getAsFile();
+                        const reader = new FileReader();
+    
+                        reader.addEventListener("load", readFileCallBack, false);
+                        reader.readAsText(file);
+                    }
+                    else {
+                        alert("不支援的格式");
+                    }
+                }
+            }
+        }
         function handleCopyEvent(e) {
             console.log("copy");
             event.preventDefault();
@@ -415,35 +446,34 @@
             return html.replace(/[&<>"]/g, fn);
         }
 
+        function readFileCallBack() {
+            if (confirm("從 txt 檔匯入文字? 現有內容將會被覆寫")) {
+                const editorBody = document.getElementById("editor-body");
+                editorBody.innerHTML = "<div></div>";
+                console.log(this.result);
+                let text = escapeHTML(this.result);
+                text = text.replaceAll(/\u2028(?=.)/g, '\u2028\n');
+                text = text.replaceAll(/  \n/g, '\u2028\n');
+                console.log(text);
+                let htmlContent = "";
+                const lines = text.split(/\r?\n/);
+                for(let line of lines){
+                    if (line == "") {
+                        line = "<br />";
+                    }
+                    htmlContent += "<div>" + line + "</div>";
+                }
+                console.log("readFromFile success");
+                
+                editorBody.innerHTML = htmlContent;
+                saveToLocalStorage();
+            }
+        }
+
         function readFromFile() {
             const reader = new FileReader();
 
-            reader.addEventListener("load", function () {
-                if (confirm("從 txt 檔匯入文字? 現有內容將會被覆寫")) {
-                    const editorBody = document.getElementById("editor-body");
-                    editorBody.innerHTML = "<div></div>";
-                    console.log(this.result);
-                    let text = escapeHTML(this.result);
-                    text = text.replaceAll(/\u2028(?=.)/g, '\u2028\n');
-                    text = text.replaceAll(/  \n/g, '\u2028\n');
-                    // let text = this.result;
-                    console.log(text);
-                    let htmlContent = "";
-                    const lines = text.split(/\r?\n/);
-                    for(let line of lines){
-                        if (line == "") {
-                            line = "<br />";
-                        }
-                        htmlContent += "<div>" + line + "</div>";
-                    }
-                    console.log("readFromFile success");
-                    // console.log(htmlContent);
-                    
-                    editorBody.innerHTML = htmlContent;
-                    saveToLocalStorage();
-                }
-
-            }, false);
+            reader.addEventListener("load", readFileCallBack, false);
             var input = document.createElement("input");
             input.setAttribute("type", "file");
             input.setAttribute("accept", "text/plain, text/markdown");
