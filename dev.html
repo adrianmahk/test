@@ -191,7 +191,10 @@
 
                 return false;
             });
-            document.body.addEventListener("drop", handleDragEvent);
+            window.addEventListener("dragover", (e) => {
+                e.preventDefault();
+            });
+            window.addEventListener("drop", handleDragEvent);
             // showPopupMessage();
         }
 
@@ -203,8 +206,9 @@
         });
         
         function handleDragEvent(e) {
-            console.log(e);
+            // console.log(e);
             e.preventDefault();
+            e.stopPropagation();
 
             let items = null;
             if (e.dataTransfer.items) {
@@ -215,6 +219,7 @@
             }
             if (items) {
                 for (let item of items) {
+                    console.log(item.type);
                     if (item.kind === 'file' && (item.type.match('text/plain') || item.type.match('text/markdown'))) {
                         let file = item.getAsFile();
                         const reader = new FileReader();
