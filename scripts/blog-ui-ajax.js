@@ -124,15 +124,15 @@ function handleLink(anchorEl) {
 
 function init() {
   if (!document.body.getAttribute("inited")) {
-    document.body.setAttribute("orientation", getOrientation());
+    document.body.setAttribute("orientation", getOrientation);
     if (detectmob()) {
       fixBgHeight();
-      makeCmUnfocusable();
+      // makeCmUnfocusable();
     }
     if (!document.body.getAttribute("loaded-main") && !document.body.className.match("item-view")) {
-      if (!checkNeedRefresh()) {
-        loadMain();
-      }
+      // if (!checkNeedRefresh()) {
+      //   loadMain();
+      // }
       //loadMainAlready = 1;
       document.body.setAttribute("loaded-main", true);
     }
@@ -146,7 +146,6 @@ function init() {
       }
 
       const link = findLink(e.target);
-      console.log(link);
       if (link == null) {
         return;
       }
@@ -156,28 +155,26 @@ function init() {
       }
     }, false);
     
-    window.addEventListener("scroll", function (e) {
-      handleScrollEvent(e);
-    });
-    window.addEventListener("pagehide", function () {
-      if (!document.body.className.match("item-view")) {
-        saveMain();
-        //saveScrollPosOld();
-      } else {
-        setFlag();
-      }  
-      hidePageLoading(0);
-      saveScrollPos();
-    });
-    window.addEventListener("pageshow", function (event) {
-      if (event.persisted) {
-        darkModeInit();
-        changeFontSizeInit();
-        hidePageLoading(0);
-        loadScrollPos();
-      }
-      loadReadingProgress();
-    });
+    window.addEventListener("scroll", handleScrollEvent);
+    // window.addEventListener("pagehide", function () {
+    //   if (!document.body.className.match("item-view")) {
+    //     saveMain();
+    //     //saveScrollPosOld();
+    //   } else {
+    //     setFlag();
+    //   }  
+    //   hidePageLoading(0);
+    //   saveScrollPos();
+    // });
+    // window.addEventListener("pageshow", function (event) {
+    //   if (event.persisted) {
+    //     darkModeInit();
+    //     changeFontSizeInit();
+    //     hidePageLoading(0);
+    //     loadScrollPos();
+    //   }
+    //   loadReadingProgress();
+    // });
     window.addEventListener("resize", function () {
       var ori_old = document.body.getAttribute("orientation");
       var ori = getOrientation();
@@ -193,14 +190,14 @@ function init() {
         }
       }
     });
-    loadIndie();
-    loadScrollPos();
+    // loadIndie();
+    // loadScrollPos();
   
     document.body.setAttribute("inited", true);
 
     //Obselete
-    getStars();
-    getStarsYear();
+    // getStars();
+    // getStarsYear();
   }
   console.log("init");
 }
