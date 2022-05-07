@@ -640,7 +640,7 @@
                                                     </a>
                                                 <!-- </button> -->
                                                 <div class="expanded-menu-items">
-                                                    <tbc>GlassNote 2.0</tbc><em> - Build: 30 Apr 2022</em>
+                                                    <tbc>GlassNote 2.0</tbc><em> - Build: 7 May 2022</em>
                                                     <br />
                                                     <!-- <h3>上次儲存：<span class='last-saved-msg'>-</span>　　　<a style=""
                                                         href="javascript:void(0)" onclick="clearCurrentAndLocalStorage();">清空</a></h3> -->
