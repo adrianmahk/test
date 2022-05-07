@@ -5,22 +5,23 @@
     <title>GlassNote 2.0</title>
     <meta charset="UTF-8" />
     <meta content='width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1' name='viewport' />
-    <link href='assets/manifest_glassnote.json' rel='manifest' />
+    <link href="/assets/manifest_glassnote<?php echo (strpos(__FILE__, 'dev') > 0) ? '_dev.json' : '.json' ?>" rel='manifest' />
     <meta content='yes' name='apple-mobile-web-app-capable' />
     <meta content='black' name='apple-mobile-web-app-status-bar-style' />
     <meta content='GlassNote' name='apple-mobile-web-app-title' />
-    <link href='icons/app_icon_glassnote2-256.png' rel='apple-touch-icon' sizes='256x256' />
-    <link href='icons/app_icon_glassnote2-512.png' rel='apple-touch-icon' sizes='512x512' />
+    <link href='/icons/app_icon_glassnote2-256.png' rel='apple-touch-icon' sizes='256x256' />
+    <link href='/icons/app_icon_glassnote2-512.png' rel='apple-touch-icon' sizes='512x512' />
 
-    <link rel="stylesheet" href="assets/blog.css" />
-    <link rel="stylesheet" href="assets/styles.css" />
-    <link rel="stylesheet" href="assets/display-messages.css" />
+    <link rel="stylesheet" href="/assets/blog.css?t=<?php echo filemtime($_SERVER['DOCUMENT_ROOT'] . '/assets/blog.css')?>" />
+    <link rel="stylesheet" href="/assets/styles.css?t=<?php echo filemtime($_SERVER['DOCUMENT_ROOT'] . '/assets/styles.css')?>" />
+    <link rel="stylesheet" href="/assets/display-messages.css?t=<?php echo filemtime($_SERVER['DOCUMENT_ROOT'] . '/assets/display-messages.css')?>" />
     <style>
         body {
             background-color: #1d9f97;
         }
         .bg-div {
             background-position: center center;
+            background-image: url(/assets/bg1.jpg<?php echo '?t='. filemtime($_SERVER['DOCUMENT_ROOT'] . '/assets/bg1.jpg')?>);
         }
     </style>
     <script>
@@ -28,9 +29,9 @@
             // For override
         }
     </script>
-    <script src="scripts/blog-ui-ajax.js"></script>
-    <script src="tinymce/tinymce.min.js"></script>
-    <script src="scripts/display-messages.js"></script>
+    <script src="/scripts/blog-ui-ajax.js?t=<?php echo filemtime($_SERVER['DOCUMENT_ROOT'] . '/scripts/blog-ui-ajax.js')?>""></script>
+    <script src="/tinymce/tinymce.min.js?t=<?php echo filemtime($_SERVER['DOCUMENT_ROOT'] . '/tinymce/tinymce.min.js')?>""></script>
+    <script src="/scripts/display-messages.js?t=<?php echo filemtime($_SERVER['DOCUMENT_ROOT'] . '/scripts/display-messages.js')?>""></script>
     <script>
         var dfreeBodyConfig = {
             selector: '.editor-body',
@@ -101,51 +102,23 @@
         tinymce.init(dfreeBodyConfig);
     </script>
 
-    <script src="upup.min.js"></script>
-    <script>
-        UpUp.debug();
-        UpUp.start({
-            'content-url': 'index.html',
-            'assets': [
-                '/',
-                '/index.html',
-                '/dev.html',
-                '/upup.min.js',
-                '/upup.sw.min.js',
-                '/assets/manifest_glassnote.json',
-                '/assets/manifest_glassnote_dev.json',
-                '/favicon.ico',
-                '/assets/bg1.jpg',
-                '/assets/styles.css',
-                '/assets/blog.css',
-                '/assets/display-messages.css',
-                '/scripts/blog-ui-ajax.js',
-                '/scripts/display-messages.js',
-                '/tinymce/icons/default/icons.min.js',
-                // '/tinymce/plugins/autolink/plugin.min.js',
-                // '/tinymce/plugins/lists/plugin.min.js',
-                // '/tinymce/plugins/visualblocks/plugin.min.js',
-                '/tinymce/plugins/quickbars/plugin.min.js',
-                // '/tinymce/plugins/link/plugin.min.js',
-                '/tinymce/skins/ui/oxide/skin.min.css',
-                '/tinymce/skins/ui/oxide/content.inline.min.css',
-                '/tinymce/themes/silver/theme.min.js',
-                '/tinymce/tinymce.min.js',
-                '/icons/export.png',
-                '/icons/export_dark.png',
-                '/icons/app_icon_glassnote2-256.png',
-                '/icons/app_icon_glassnote2-512.png',
-                '/icons/DarkMode.png',
-                // '/icons/FontSize.png',
-                // '/icons/FontSize_dark.png',
-                '/icons/hamburger.png',
-                '/icons/hamburger_dark.png',
-                '/icons/moon.png',
-                '/icons/moon_dark.png',
-                '/assets/roboto.woff2'
-            ]
-        });
-    </script>
+	<script>
+		function setupServiceWorker() {
+			if (!document.body.classList.contains('error404')) {
+				if ('serviceWorker' in navigator) {
+					navigator.serviceWorker.register("/sw.js?t=<?php echo filemtime(__FILE__); ?>", {scope: "/"}).then(function(registration) {
+						console.log('Service worker registration succeeded:', registration);
+					}, /*catch*/ function(error) {
+						console.log('Service worker registration failed:', error);
+					});
+				}
+				navigator.serviceWorker.addEventListener('message', event => {
+					console.log(`The service worker sent me a message: ${event.data}`);
+				});
+			}
+		}
+		ready(setupServiceWorker);
+	</script>
 
     <script>
         var timer = 0;
@@ -637,8 +610,8 @@
                     <div class="splash-wrapper"><span class="splash"
                             style="height: 64px; width: 64px; left: 16px; top: 3px;"></span></div>
                     <a class="return_link dark_mode_button" onclick="darkMode();" title="黑夜主題" href="javascript:void(0)">
-                        <img class="png_icon light" src="icons/moon.png">
-                        <img class="png_icon dark" src="icons/moon_dark.png">
+                        <img class="png_icon light" src="/icons/moon.png">
+                        <img class="png_icon dark" src="/icons/moon_dark.png">
                     </a>
                 </div>
             </div>
@@ -655,15 +628,15 @@
                             <div class="editor-buttons" id="editor-buttons">
                                 <div class="toolbar">
                                         <a class="return_link hamburger-button" href="javascript:void(0)" onclick="toggleExpandedMenu();" title="選單">
-                                            <img class="png_icon light" src="icons/hamburger.png" />
-                                            <img class="png_icon dark" src="icons/hamburger_dark.png" />
+                                            <img class="png_icon light" src="/icons/hamburger.png" />
+                                            <img class="png_icon dark" src="/icons/hamburger_dark.png" />
                                         </a>
                                     <div class="expanded-menu-container">
                                         <div class="expanded-menu">
                                             <div style="display: table-row;">
                                                     <a class="return_link hamburger-button" href="javascript:void(0)" onclick="toggleExpandedMenu();" title="選單">
-                                                        <img class="png_icon light" src="icons/hamburger.png" />
-                                                        <img class="png_icon dark" src="icons/hamburger_dark.png" />
+                                                        <img class="png_icon light" src="/icons/hamburger.png" />
+                                                        <img class="png_icon dark" src="/icons/hamburger_dark.png" />
                                                     </a>
                                                 <!-- </button> -->
                                                 <div class="expanded-menu-items">
@@ -743,7 +716,7 @@
                 <!-- Top Message will be displayed at bottom instead, but dont use it unless necessary-->
                 <div class="top-message-container centered" id="top-message-container"></div>
                 <div class="top-message-outer demo" id="top-message-outer-demo">
-                    <img src="icons/info.png"/>
+                    <img src="/icons/info.png"/>
                 </div>
 
                 <div id="glassnote-about-msg" class="glassnote-about-msg">
@@ -755,6 +728,7 @@
                     <p><em>GlassNote 2.0，<a href="https://qingsky.hk/glassnote-about" 
                                 target="_blank">按這裡了解更多</a></em></p>
                     <!-- <p><em>GlassNote 2.0</em></p> -->
+
                 </div>
             </div>
         </div>
@@ -763,7 +737,7 @@
         <div class="popup-message-container" id="popup-message-container">
             <div class="dim-overlay" onclick="dismissPopupMessage()"></div>
             <div class="popup-message-outer centered" id="popup-message-outer">
-                <div style="order: 0; text-align: right;"><a class="flat-button" onclick="dismissPopupMessage()"><img src="icons/cross.png" style="height: 24px; width: 24px"/></a>
+                <div style="order: 0; text-align: right;"><a class="flat-button" onclick="dismissPopupMessage()"><img src="/icons/cross.png" style="height: 24px; width: 24px"/></a>
                 </div>
                 <div style="order: 3; text-align: center; margin-top: .5em;"><a class="flat-button" id="popup-message-dismiss-button" onclick="addPopupMessageToBlockList()">今天不再顯示</a>
                 </div>

@@ -1,0 +1,7 @@
+# glassnotephp
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteBase /
+RewriteRule ^index\.html/?(\?.*)? index.php
+RewriteRule ^dev(\/|\.html)?$ dev.php [L]
+</IfModule>
