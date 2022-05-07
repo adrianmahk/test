@@ -30,7 +30,7 @@
         }
     </script>
     <script src="/scripts/blog-ui-ajax.js?t=<?php echo filemtime($_SERVER['DOCUMENT_ROOT'] . '/scripts/blog-ui-ajax.js')?>""></script>
-    <script src="/tinymce/tinymce.min.js?t=<?php echo filemtime($_SERVER['DOCUMENT_ROOT'] . '/tinymce/tinymce.min.js')?>""></script>
+    <script src="/tinymce/tinymce.min.js"></script>
     <script src="/scripts/display-messages.js?t=<?php echo filemtime($_SERVER['DOCUMENT_ROOT'] . '/scripts/display-messages.js')?>""></script>
     <script>
         var dfreeBodyConfig = {
