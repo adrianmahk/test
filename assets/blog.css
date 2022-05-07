@@ -9,7 +9,6 @@ padding-top: constant(safe-area-inset-top);
 padding-right: constant(safe-area-inset-right);
 padding-bottom: constant(safe-area-inset-bottom);
 padding-left: constant(safe-area-inset-left);
-scroll-behaviour: smooth;
 }
 .skip-navigation {
 background-color: #fff;
@@ -1462,7 +1461,7 @@ position: relative;
 overflow: -moz-scrollbars-none;
 -ms-overflow-style: none;
 height: auto;
-scroll-behaviour: smooth;
+scroll-behavior: smooth;
 }
 body.item-view #top_widget .label-container{
 height: 50px;

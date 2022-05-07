@@ -16,7 +16,7 @@
     height: 100vh;
     width: 100%;
     position: fixed;
-    background: #aaaaaa url(assets/bg1.jpg) repeat scroll top center;
+    background: #aaaaaa url(/assets/bg1.jpg) repeat scroll top center;
     background-size: cover;
     background-repeat: no-repeat;
     background-color: transparent;
@@ -304,7 +304,7 @@ body.opacity-30.dark-mode .post-outer-container {
 
 /* From Blog */
 .bg-div {
-    background: #aaaaaa url(bg1.jpg) repeat scroll top center;
+    background: #aaaaaa url(/assets/bg1.jpg) repeat scroll top center;
     background-size: cover;
 }
 
