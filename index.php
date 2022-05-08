@@ -169,6 +169,7 @@
             });
             window.addEventListener("drop", handleDragEvent);
             // showPopupMessage();
+            document.body.classList.remove("tiny-loading");
         }
 
         ready(function () {
@@ -594,7 +595,7 @@
     </script>
 </head>
 
-<body class="item-view">
+<body class="item-view tiny-loading">
     
 
 
@@ -602,7 +603,7 @@
     <div class="bg-div" id="bg-div"></div>
     <div class="bg-div-cust" id="bg-div-cust"></div>
     <div class="dark_mode_overlay" id="dark_mode_overlay"></div>
-    <div class="page_body">
+    <div class="page_body" id="page">
         <div class="page-upper-part"></div>
         <div class="centered top-bar-container">
             <div class="centered-top-container top-bar" id="top-bar">
@@ -701,7 +702,7 @@
                                 </div>
                             </div>
                             <div class='editor' id='editor'>
-                                <div class="editor-body entry-content" id='editor-body' changing='false' contenteditable="true"
+                                <div class="editor-body entry-content" id='editor-body' changing='false'
                                     style="position: relative;" spellcheck="false">
                                 </div>
                             </div>

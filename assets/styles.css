@@ -424,3 +424,14 @@ body.opacity-30.dark-mode .post-outer-container {
     padding-right: 10px;
     margin-right: 10px; */
 }
+
+#page {
+    opacity: 1;
+    transition: opacity .5s ease-in-out;
+    -webkit-transition: opacity .5s ease-in-out;
+}
+
+body.tiny-loading #page {
+    opacity: 0.5;
+    /* transform: translate(-50px, 0); */
+}
