@@ -53,6 +53,13 @@ function getParam(name) {
     
   });
   
+  async function deleteCacheEntriesMatching(cacheName, regexp) {
+    const cache = await caches.open(cacheName);
+    const cachedRequests = await cache.keys();
+    // request.url is a full URL, not just a path, so use an appropriate RegExp!
+    const requestsToDelete = cachedRequests.filter(request => request.url.match(regexp));
+    return Promise.all(requestsToDelete.map(request => cache.delete(request)));
+  }
   // The activate handler takes care of cleaning up old caches.
   self.addEventListener('activate', event => {
     const currentCaches = [PRECACHE, HOME_VERSION, RUNTIME];
@@ -66,6 +73,7 @@ function getParam(name) {
         }));
       }).then(() => self.clients.claim())
     );
+    deleteCacheEntriesMatching(RUNTIME, new RegExp('\/cdn-cgi'));
   });
   
   // The fetch handler serves responses for same-origin resources from a cache.
@@ -94,7 +102,7 @@ function getParam(name) {
     }
     
     // Skip wp-admin and stuff
-    if ( event.request.url.match( /(wp-admin)|(wp-login)|(phpmyadmin)/i) ) {
+    if ( event.request.url.match( /(wp-admin)|(wp-login)|(phpmyadmin)|(cdn-cgi)/i) ) {
       return false;
     }
   
@@ -123,9 +131,16 @@ function getParam(name) {
                 return cachedResponse;
               }
               // Put a copy of the response in the runtime cache.
-              return cache.put(event.request, response.clone()).then(() => {
+              if (response.status == 200) {
+                return cache.delete(event.request, {ignoreSearch: true}).then(() => {
+                  return cache.put(event.request, response.clone()).then(() => {
+                    return response;
+                  });
+                });
+              }
+              else {
                 return response;
-              });
+              }
             }).catch(error => {
               console.log(error);
               if (cachedResponse) {
