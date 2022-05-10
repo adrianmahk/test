@@ -174,7 +174,7 @@
         }
 
         ready(function () {
-            addButtonToTopBar();
+            // addButtonToTopBar();
             //moveAboutMessageToAboveFooter();
             loadBg();
             initBodyClassesForOpacityAndFontSize();
@@ -617,6 +617,79 @@
                         <img class="png_icon dark" src="/icons/moon_dark.png">
                     </a>
                 </div>
+                <div class="toolbar">
+                    <a class="return_link hamburger-button" href="javascript:void(0)" onclick="toggleExpandedMenu();" title="選單">
+                        <img class="png_icon light" src="/icons/hamburger.png" />
+                        <img class="png_icon dark" src="/icons/hamburger_dark.png" />
+                    </a>
+                    <div class="expanded-menu-container">
+                        <div class="expanded-menu">
+                            <div style="display: table-row;">
+                                    <a class="return_link hamburger-button" href="javascript:void(0)" onclick="toggleExpandedMenu();" title="選單">
+                                        <img class="png_icon light" src="/icons/hamburger.png" />
+                                        <img class="png_icon dark" src="/icons/hamburger_dark.png" />
+                                    </a>
+                                <!-- </button> -->
+                                <div class="expanded-menu-items">
+                                    <tbc>GlassNote 2.0</tbc><em> - Build: 7 May 2022</em>
+                                    <br />
+                                    <!-- <h3>上次儲存：<span class='last-saved-msg'>-</span>　　　<a style=""
+                                        href="javascript:void(0)" onclick="clearCurrentAndLocalStorage();">清空</a></h3> -->
+                                    <button class="pill-button ripple"
+                                        onclick="readFromFile();">從檔案匯入</button>
+                                    <button class="pill-button ripple"
+                                        onclick="saveToFile();">儲存至檔案</button>
+                                    <button class="pill-button ripple"
+                                        onclick="copyToClipboard();">複製至剪貼簿</button>
+                                    <span>
+                                        <button class="pill-button ripple" id="change-bg-button"
+                                            onclick="changeBg();">自訂桌布</button>
+                                        <button class="pill-button ripple" id="remove-bg-button"
+                                            onclick="removeBg();">移除桌布</button>
+                                    </span>
+                                    <!-- <button class="pill-button ripple" onclick="">字數：</button> -->
+                                    <!--<br />-->
+                                    <span>
+                                        <button class="pill-button ripple opacity-button"
+                                            onclick="toggleOpacity();">透明度：0%</button>
+                                        <button class="pill-button ripple opacity-button"
+                                            onclick="toggleOpacity();">透明度：10%</button>
+                                        <button class="pill-button ripple opacity-button"
+                                            onclick="toggleOpacity();">透明度：20%</button>
+                                        <button class="pill-button ripple opacity-button"
+                                            onclick="toggleOpacity();">透明度：30%</button>
+                                    </span>
+                                    <span>
+                                        <button class="pill-button ripple font-size-button"
+                                            onclick="changeFontSize();">字體：13px</button>
+                                        <button class="pill-button ripple font-size-button"
+                                            onclick="changeFontSize();">字體：14px</button>
+                                        <button class="pill-button ripple font-size-button"
+                                            onclick="changeFontSize();">字體：15px</button>
+                                        <button class="pill-button ripple font-size-button"
+                                            onclick="changeFontSize();">字體：16px</button>
+                                        <button class="pill-button ripple font-size-button"
+                                            onclick="changeFontSize();">字體：17px</button>
+                                    </span>
+                                    <span>
+                                        <button class="pill-button ripple dark-mode-button-toolbar" onclick="darkMode();">黑夜主題：開</button>
+                                        <button class="pill-button ripple dark-mode-button-toolbar" onclick="darkMode();">黑夜主題：關</button>
+                                    </span>
+                                    <br />
+                                    <span style="display:table-row; font-style: italic;">
+                                        <span style="display: table-cell;">上次儲存：<span class='last-saved-msg'>-</span></span>
+                                        <a style="display: table-cell; min-width: 50px; padding: 0 5px; text-align: center;" href="javascript:void(0)" onclick="clearCurrentAndLocalStorage();">清空</a>
+                                    </span>
+                                    <!-- <span style="float:right; margin-right: 2em;">
+                                        <a href="https://qingsky.hk/p/glassnote-about.html" target="_blank">關於
+                                        GlassNote 2.0</a>
+                                    </span> -->
+                                </div>
+                                <div class="toolbar-overlay" onclick="toggleExpandedMenu()"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -629,79 +702,7 @@
                             <!-- <h3>上次儲存：<span class='last-saved-msg'>-</span>　　　<a style="float: right"
                                     href="javascript:void(0)" onclick="clearCurrentAndLocalStorage();">清空</a></h3> -->
                             <div class="editor-buttons" id="editor-buttons">
-                                <div class="toolbar">
-                                        <a class="return_link hamburger-button" href="javascript:void(0)" onclick="toggleExpandedMenu();" title="選單">
-                                            <img class="png_icon light" src="/icons/hamburger.png" />
-                                            <img class="png_icon dark" src="/icons/hamburger_dark.png" />
-                                        </a>
-                                    <div class="expanded-menu-container">
-                                        <div class="expanded-menu">
-                                            <div style="display: table-row;">
-                                                    <a class="return_link hamburger-button" href="javascript:void(0)" onclick="toggleExpandedMenu();" title="選單">
-                                                        <img class="png_icon light" src="/icons/hamburger.png" />
-                                                        <img class="png_icon dark" src="/icons/hamburger_dark.png" />
-                                                    </a>
-                                                <!-- </button> -->
-                                                <div class="expanded-menu-items">
-                                                    <tbc>GlassNote 2.0</tbc><em> - Build: 7 May 2022</em>
-                                                    <br />
-                                                    <!-- <h3>上次儲存：<span class='last-saved-msg'>-</span>　　　<a style=""
-                                                        href="javascript:void(0)" onclick="clearCurrentAndLocalStorage();">清空</a></h3> -->
-                                                    <button class="pill-button ripple"
-                                                        onclick="readFromFile();">從檔案匯入</button>
-                                                    <button class="pill-button ripple"
-                                                        onclick="saveToFile();">儲存至檔案</button>
-                                                    <button class="pill-button ripple"
-                                                        onclick="copyToClipboard();">複製至剪貼簿</button>
-                                                    <span>
-                                                        <button class="pill-button ripple" id="change-bg-button"
-                                                            onclick="changeBg();">自訂桌布</button>
-                                                        <button class="pill-button ripple" id="remove-bg-button"
-                                                            onclick="removeBg();">移除桌布</button>
-                                                    </span>
-                                                    <!-- <button class="pill-button ripple" onclick="">字數：</button> -->
-                                                    <!--<br />-->
-                                                    <span>
-                                                        <button class="pill-button ripple opacity-button"
-                                                            onclick="toggleOpacity();">透明度：0%</button>
-                                                        <button class="pill-button ripple opacity-button"
-                                                            onclick="toggleOpacity();">透明度：10%</button>
-                                                        <button class="pill-button ripple opacity-button"
-                                                            onclick="toggleOpacity();">透明度：20%</button>
-                                                        <button class="pill-button ripple opacity-button"
-                                                            onclick="toggleOpacity();">透明度：30%</button>
-                                                    </span>
-                                                    <span>
-                                                        <button class="pill-button ripple font-size-button"
-                                                            onclick="changeFontSize();">字體：13px</button>
-                                                        <button class="pill-button ripple font-size-button"
-                                                            onclick="changeFontSize();">字體：14px</button>
-                                                        <button class="pill-button ripple font-size-button"
-                                                            onclick="changeFontSize();">字體：15px</button>
-                                                        <button class="pill-button ripple font-size-button"
-                                                            onclick="changeFontSize();">字體：16px</button>
-                                                        <button class="pill-button ripple font-size-button"
-                                                            onclick="changeFontSize();">字體：17px</button>
-                                                    </span>
-                                                    <span>
-                                                        <button class="pill-button ripple dark-mode-button-toolbar" onclick="darkMode();">黑夜主題：開</button>
-                                                        <button class="pill-button ripple dark-mode-button-toolbar" onclick="darkMode();">黑夜主題：關</button>
-                                                    </span>
-													<br />
-                                                    <span style="display:table-row; font-style: italic;">
-                                                        <span style="display: table-cell;">上次儲存：<span class='last-saved-msg'>-</span></span>
-                                                        <a style="display: table-cell; min-width: 50px; padding: 0 5px; text-align: center;" href="javascript:void(0)" onclick="clearCurrentAndLocalStorage();">清空</a>
-                                                    </span>
-													<!-- <span style="float:right; margin-right: 2em;">
-                                                        <a href="https://qingsky.hk/p/glassnote-about.html" target="_blank">關於
-                                                        GlassNote 2.0</a>
-                                                    </span> -->
-                                                </div>
-                                                <div class="toolbar-overlay" onclick="toggleExpandedMenu()"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                
                             </div>
                             <div class='editor' id='editor'>
                                 <div class="editor-body entry-content" id='editor-body' changing='false'
