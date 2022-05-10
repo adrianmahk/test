@@ -137,9 +137,9 @@ function init() {
       document.body.setAttribute("loaded-main", true);
     }
     
-    window.addEventListener('load', function (e) {
-      hidePageLoading();
-    });
+    // window.addEventListener('load', function (e) {
+    //   hidePageLoading();
+    // });
     window.addEventListener('click', function(e) {
       if (e.metaKey || e.ctrlKey) {
         return;

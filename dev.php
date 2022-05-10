@@ -169,6 +169,7 @@
             });
             window.addEventListener("drop", handleDragEvent);
             // showPopupMessage();
+            hidePageLoading();
             document.body.classList.remove("tiny-loading");
         }
 
@@ -595,13 +596,14 @@
     </script>
 </head>
 
-<body class="item-view tiny-loading">
+<body class="item-view tiny-loading page-loading">
     
 
 
     <script type="text/javascript">changeFontSizeInit(); darkModeInit();</script>
     <div class="bg-div" id="bg-div"></div>
     <div class="bg-div-cust" id="bg-div-cust"></div>
+    <div class="loading-bar" id="loading-bar"></div>
     <div class="dark_mode_overlay" id="dark_mode_overlay"></div>
     <div class="page_body" id="page">
         <div class="page-upper-part"></div>
