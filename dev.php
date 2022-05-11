@@ -170,6 +170,7 @@
             });
             window.addEventListener("drop", handleDragEvent);
             window.addEventListener("keydown", handleKeypressEvent);
+            // window.addEventListener("keypress", handleKeypressEvent);
             // showPopupMessage();
             hidePageLoading();
             document.body.classList.remove("tiny-loading");
@@ -217,30 +218,33 @@
             event.clipboardData.setData('text/plain', selection.toString().replaceAll("\u2028\n", "\u2028"));
         }
         function handleKeypressEvent(event){
+            console.log(event);
+            // console.log('keypress: ', event.which);
             if (event.metaKey || event.controlKey) {
-                console.log('keypress: ', event.which);
-                let key = event.which;
+                let key = event.key.toUpperCase();
+                console.log(key);
 
                 if (!event.shiftKey) {
-                    let controlKeys = [83, 79]; //s, o
+                    let controlKeys = ['S', 'O']; //s, o
                     if (controlKeys.includes(key)) {
+                        // if (event)
+                        event.preventDefault();
                         switch (key) {
-                            case 83: setTimeout(() => {
+                            case 'S': setTimeout(() => {
                                 saveToFile();
                             }, 1000);  break;
-                            case 79: readFromFile(); break;
+                            case 'O': readFromFile(); break;
                         }
-                        event.preventDefault();
                     }
                 }
                 else {
-                    let controlShiftKeys = [79, 77, 73, 68]; //o, m, i, d
+                    let controlShiftKeys = ['O', 'M', 'I', 'D']; //o, m, i, d
                     if (controlShiftKeys.includes(key)) {
                         switch (key) {
-                            case 79: toggleOpacity(); break;
-                            case 77: toggleExpandedMenu(); break;
-                            case 73: changeFontSize(); break;
-                            case 68: darkMode(); break;
+                            case 'O': toggleOpacity(); break;
+                            case 'M': toggleExpandedMenu(); break;
+                            case 'I': changeFontSize(); break;
+                            case 'D': darkMode(); break;
                         }
                         event.preventDefault();
                     }
