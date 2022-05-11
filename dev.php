@@ -217,11 +217,8 @@
             event.clipboardData.setData('text/plain', selection.toString().replaceAll("\u2028\n", "\u2028"));
         }
         function handleKeypressEvent(event){
-            // console.log(event);
-            // console.log('keypress: ', event.which);
             if (event.metaKey || event.controlKey) {
                 let key = event.key.toUpperCase();
-                console.log(key);
 
                 if (!event.shiftKey) {
                     let controlKeys = ['S', 'O']; //s, o
