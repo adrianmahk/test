@@ -124,7 +124,7 @@ function handleLink(anchorEl) {
 
 function init() {
   if (!document.body.getAttribute("inited")) {
-    document.body.setAttribute("orientation", getOrientation);
+    document.body.setAttribute("orientation", getOrientation());
     if (detectmob()) {
       fixBgHeight();
       // makeCmUnfocusable();
