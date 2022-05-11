@@ -229,24 +229,27 @@
                     if (controlKeys.includes(key)) {
                         // if (event)
                         event.preventDefault();
-                        switch (key) {
-                            case 'S': setTimeout(() => {
-                                saveToFile();
-                            }, 1000);  break;
-                            case 'O': readFromFile(); break;
+                        if (!event.repeat) {
+                            switch (key) {
+                                case 'S': saveToFile();  break;
+                                case 'O': readFromFile(); break;
+                            }
                         }
                     }
                 }
                 else {
                     let controlShiftKeys = ['O', 'M', 'I', 'D']; //o, m, i, d
                     if (controlShiftKeys.includes(key)) {
-                        switch (key) {
-                            case 'O': toggleOpacity(); break;
-                            case 'M': toggleExpandedMenu(); break;
-                            case 'I': changeFontSize(); break;
-                            case 'D': darkMode(); break;
-                        }
                         event.preventDefault();
+                        if (!event.repeat) {
+                            switch (key) {
+                                case 'O': toggleOpacity(); break;
+                                case 'M': toggleExpandedMenu(); break;
+                                case 'I': changeFontSize(); break;
+                                case 'D': darkMode(); break;
+                            }
+                        }
+                        
                     }
                 }
             }
