@@ -132,8 +132,8 @@ function getParam(name) {
         caches.match(event.request).then(cachedResponse => {
           return caches.open(RUNTIME).then(cache => {
             // return new Response('no network', {status: 200, statusText: "OK"});
-            // if (cachedResponse && event.request.url.match( /(\.jpg|\.gif|\.png|\.jpeg|\.mov|\.mp4|\.woff)$/i) ) {
-            if (cachedResponse) {
+            if (cachedResponse && event.request.url.match( /(\.jpg|\.gif|\.png|\.jpeg|\.mov|\.mp4|\.woff)$/i) ) {
+            // if (cachedResponse) {
               return cachedResponse;
             }
             if (!navigator.onLine){
@@ -160,10 +160,9 @@ function getParam(name) {
               // Put a copy of the response in the runtime cache.
               if (response.status == 200) {
                 return cache.delete(event.request, {ignoreSearch: true}).then(() => {
-                //   return cache.put(event.request, response.clone()).then(() => {
-                //     return response;
-                //   });
+                  return cache.put(event.request, response.clone()).then(() => {
                     return response;
+                  });
                 });
               }
               else {
