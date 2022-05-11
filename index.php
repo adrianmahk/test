@@ -28,7 +28,7 @@
         function loadIndie() {
             // For override
         }
-    </script>
+    </script> 
     <script src="/scripts/blog-ui-ajax.js?t=<?php echo filemtime($_SERVER['DOCUMENT_ROOT'] . '/scripts/blog-ui-ajax.js')?>""></script>
     <script src="/tinymce/tinymce.min.js"></script>
     <script src="/scripts/display-messages.js?t=<?php echo filemtime($_SERVER['DOCUMENT_ROOT'] . '/scripts/display-messages.js')?>""></script>
@@ -106,7 +106,8 @@
 		function setupServiceWorker() {
 			if (!document.body.classList.contains('error404')) {
 				if ('serviceWorker' in navigator) {
-					navigator.serviceWorker.register("/sw.js?t=<?php echo filemtime(__FILE__); ?>", {scope: "/"}).then(function(registration) {
+					// navigator.serviceWorker.register("/sw.js?t=<?php echo filemtime(__FILE__); ?>", {scope: "/"}).then(function(registration) {
+					navigator.serviceWorker.register("<?php echo ((strpos(__FILE__, 'dev') > 0) ? '/sw-dev.js' : '/sw.js') . '?t=' . filemtime(__FILE__); ?>", {scope: "/"}).then(function(registration) {
 						console.log('Service worker registration succeeded:', registration);
 					}, /*catch*/ function(error) {
 						console.log('Service worker registration failed:', error);

@@ -12,13 +12,21 @@ function getParam(name) {
   // Change to v2, etc. when you update any of the local resources, which will
   // in turn trigger the install event again.
   const PRECACHE = 'precache-v1';
+  const TINY_MCE = 'tinymce-v5.7.1';
   const HOME_VERSION = 'home-t=' + (getParam('t') ? getParam('t') : '');
   const RUNTIME = 'runtime';
   
   const HOME_URL = [
     './', // Alias for index.html
-    './dev',
+    // './dev',
+  ];
+  const TINY_MCE_URL = [
     '/tinymce/tinymce.min.js',
+    '/tinymce/icons/default/icons.min.js',
+    '/tinymce/plugins/quickbars/plugin.min.js',
+    '/tinymce/skins/ui/oxide/content.inline.min.css',
+    '/tinymce/skins/ui/oxide/skin.min.css',
+    '/tinymce/themes/silver/theme.min.js'
   ];
   // A list of local resources we always want to be cached.
   const PRECACHE_URLS = [
@@ -27,8 +35,6 @@ function getParam(name) {
     '/favicon.ico',
     '/icons/export.png',
     '/icons/export_dark.png',
-    '/icons/app_icon_glassnote2-256.png',
-    '/icons/app_icon_glassnote2-512.png',
     '/icons/DarkMode.png',
     '/icons/hamburger.png',
     '/icons/hamburger_dark.png',
@@ -50,7 +56,11 @@ function getParam(name) {
       .then(cache => cache.addAll(HOME_URL))
         .then(self.skipWaiting())
     );
-    
+    event.waitUntil(
+      caches.open(TINY_MCE)
+      .then(cache => cache.addAll(TINY_MCE_URL))
+        .then(self.skipWaiting())
+    );
   });
   
   async function deleteCacheEntriesMatching(cacheName, regexp) {
@@ -62,7 +72,7 @@ function getParam(name) {
   }
   // The activate handler takes care of cleaning up old caches.
   self.addEventListener('activate', event => {
-    const currentCaches = [PRECACHE, HOME_VERSION, RUNTIME];
+    const currentCaches = [PRECACHE, HOME_VERSION, RUNTIME, TINY_MCE];
     event.waitUntil(
       caches.keys().then(cacheNames => {
         return cacheNames.filter(cacheName => !currentCaches.includes(cacheName));
@@ -113,7 +123,8 @@ function getParam(name) {
         caches.match(event.request).then(cachedResponse => {
           return caches.open(RUNTIME).then(cache => {
             // return new Response('no network', {status: 200, statusText: "OK"});
-            if (cachedResponse && event.request.url.match( /(\.jpg|\.gif|\.png|\.jpeg|\.mov|\.mp4|\.woff)$/i) ) {
+            // if (cachedResponse && event.request.url.match( /(\.jpg|\.gif|\.png|\.jpeg|\.mov|\.mp4|\.woff)$/i) ) {
+            if (cachedResponse) {
               return cachedResponse;
             }
             if (!navigator.onLine){
