@@ -169,7 +169,7 @@
                 e.preventDefault();
             });
             window.addEventListener("drop", handleDragEvent);
-            // window.addEventListener("keypress", handleKeypressEvent);
+            window.addEventListener("keydown", handleKeypressEvent);
             // showPopupMessage();
             hidePageLoading();
             document.body.classList.remove("tiny-loading");
@@ -217,7 +217,7 @@
             event.clipboardData.setData('text/plain', selection.toString().replaceAll("\u2028\n", "\u2028"));
         }
         function handleKeypressEvent(event){
-            console.log(event);
+            // console.log(event);
             // console.log('keypress: ', event.which);
             if (event.metaKey || event.controlKey) {
                 let key = event.key.toUpperCase();
@@ -691,7 +691,7 @@
                                     </a>
                                 <!-- </button> -->
                                 <div class="expanded-menu-items">
-                                    <tbc>GlassNote 2.0</tbc><em> - Build: 7 May 2022</em>
+                                    <tbc>GlassNote 2.0</tbc><em> - Build: 11 May 2022</em>
                                     <br />
                                     <!-- <h3>上次儲存：<span class='last-saved-msg'>-</span>　　　<a style=""
                                         href="javascript:void(0)" onclick="clearCurrentAndLocalStorage();">清空</a></h3> -->
