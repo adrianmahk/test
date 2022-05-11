@@ -231,7 +231,7 @@
                         event.preventDefault();
                         if (!event.repeat) {
                             switch (key) {
-                                case 'S': saveToFile();  break;
+                                case 'S': setTimeout(saveToFile, 1000);  break;
                                 case 'O': readFromFile(); break;
                             }
                         }
