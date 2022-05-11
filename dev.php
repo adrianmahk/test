@@ -96,7 +96,9 @@
                 });
             }
         };
-        tinymce.init(dfreeBodyConfig);
+        // tinymce.init(dfreeBodyConfig);
+        document.body.classList.remove("tiny-loading");
+        hidePageLoading();
     </script>
 
 	<script>
@@ -779,7 +781,7 @@
                                 
                             </div>
                             <div class='editor' id='editor'>
-                                <div class="editor-body entry-content" id='editor-body' changing='false'
+                                <div class="editor-body entry-content" id='editor-body' changing='false' contenteditable="true"
                                     style="position: relative;" spellcheck="false">
                                 </div>
                             </div>
