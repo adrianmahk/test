@@ -36,7 +36,8 @@
         var dfreeBodyConfig = {
             selector: '.editor-body',
             menubar: false,
-            inline: true,
+            // inline: true,
+            inline: false,
             plugins: [
                 // 'autolink',
                 // 'link',
@@ -94,7 +95,7 @@
                 });
             }
         };
-        tinymce.init(dfreeBodyConfig);
+        // tinymce.init(dfreeBodyConfig);
     </script>
 
 	<script>
@@ -180,6 +181,8 @@
             //moveAboutMessageToAboveFooter();
             loadBg();
             initBodyClassesForOpacityAndFontSize();
+            initEventListeners();
+            loadFromLocalStorage();
         });
         
         function handleDragEvent(e) {
@@ -264,10 +267,15 @@
                 el.outerHTML = el.outerHTML.replace(/(?=<)p/g,"div");
             }
         }
+        function textAreaAdjust(element) {
+            element.style.height = "1px";
+            element.style.height = (25+element.scrollHeight)+"px";
+        }
 
         function setAutoSaveTimeout() {
             // this function will run each time the content of the DIV changes
             // console.log('changed');
+            textAreaAdjust(document.getElementById("editor-body"));
             clearTimeout(timer);
             timer = setTimeout(() => {
                 saveToLocalStorage();    
@@ -777,9 +785,9 @@
                                 
                             </div>
                             <div class='editor' id='editor'>
-                                <div class="editor-body entry-content" id='editor-body' changing='false'
+                                <textarea class="editor-body entry-content" id='editor-body' changing='false'
                                     style="position: relative;" spellcheck="false">
-                                </div>
+                                </textarea>
                             </div>
                             <hr />
                         </div>

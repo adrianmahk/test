@@ -3054,6 +3054,11 @@ pointer-events: none;
 body.dark-mode .dark_mode_overlay {
 opacity: 1;
 }
+textarea {
+  font: inherit;
+  resize: none;
+}
+
 /* Font Size */
 body.f12px .post-body.entry-content, body.f13px .post-body.entry-content {
 font-size: 13px;

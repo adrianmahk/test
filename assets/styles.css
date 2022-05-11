@@ -422,7 +422,7 @@ body.opacity-90.dark-mode .post-outer-container {
     text-decoration: underline;
 }
 .editor textarea {
-    display: none;
+    /* display: none; */
 }
 .editor .dfree-header {
     font-size: 2.4em;
@@ -434,6 +434,9 @@ body.opacity-90.dark-mode .post-outer-container {
     padding-top: 0px;
     outline: none;
     min-height: 60vh;
+    width: 100%;
+    background: transparent;
+    border: none;
 }
 /* .editor .editor-body p {
     margin-bottom: 10px;
