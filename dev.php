@@ -546,6 +546,7 @@
                 };
 
             let link = document.createElement('a');
+            link.setAttribute('target', '_blank');
             let fileName = '';
             if (document.body.getAttribute('filename')) {
                 fileName = document.body.getAttribute('filename');
@@ -569,14 +570,19 @@
             
             link.setAttribute('download', fileName);
             link.href = makeTextFile(content);
-            document.body.appendChild(link);
-
-            // wait for the link to be added to the document
-            window.requestAnimationFrame(function () {
-                var event = new MouseEvent('click');
-                link.dispatchEvent(event);
+            link.addEventListener('click', function () {
                 document.body.removeChild(link);
             });
+            document.body.appendChild(link);
+            setTimeout(() => {
+                link.click();
+            }, 1000);
+
+            // wait for the link to be added to the document
+            // window.requestAnimationFrame(function () {
+            //     var event = new MouseEvent('click');
+            //     link.dispatchEvent(event);
+            // });
         }
 
         function initBodyClassesForOpacityAndFontSize() {
