@@ -571,22 +571,37 @@
             var next_opacity = "opacity-20";
 
             if (body.classList.contains("opacity-0")) {
-                next_opacity = "opacity-10";
+                next_opacity = "opacity-20";
             }
             else if (body.classList.contains("opacity-10")) {
                 next_opacity = "opacity-20";
             }
             else if (body.classList.contains("opacity-20")) {
-                next_opacity = "opacity-30";
+                next_opacity = "opacity-40";
             }
             else if (body.classList.contains("opacity-30")) {
+                next_opacity = "opacity-40";
+            }
+            else if (body.classList.contains("opacity-40")) {
+                next_opacity = "opacity-60";
+            }
+            else if (body.classList.contains("opacity-50")) {
+                next_opacity = "opacity-60";
+            }
+            else if (body.classList.contains("opacity-60")) {
+                next_opacity = "opacity-0";
+            }
+            else if (body.classList.contains("opacity-70")) {
+                next_opacity = "opacity-0";
+            }
+            else if (body.classList.contains("opacity-80")) {
+                next_opacity = "opacity-0";
+            }
+            else if (body.classList.contains("opacity-90")) {
                 next_opacity = "opacity-0";
             }
 
-            body.classList.remove("opacity-0");
-            body.classList.remove("opacity-10");
-            body.classList.remove("opacity-20");
-            body.classList.remove("opacity-30");
+            body.classList.remove("opacity-0", "opacity-10", "opacity-20", "opacity-30", "opacity-40", "opacity-50", "opacity-60", "opacity-70", "opacity-80", "opacity-90" );
             body.classList.add(next_opacity);
             writeCookie("opacity", next_opacity);
         }
@@ -659,6 +674,18 @@
                                             onclick="toggleOpacity();">透明度：20%</button>
                                         <button class="pill-button ripple opacity-button"
                                             onclick="toggleOpacity();">透明度：30%</button>
+                                        <button class="pill-button ripple opacity-button"
+                                            onclick="toggleOpacity();">透明度：40%</button>
+                                        <button class="pill-button ripple opacity-button"
+                                        onclick="toggleOpacity();">透明度：50%</button>
+                                        <button class="pill-button ripple opacity-button"
+                                        onclick="toggleOpacity();">透明度：60%</button>
+                                        <button class="pill-button ripple opacity-button"
+                                        onclick="toggleOpacity();">透明度：70%</button>
+                                        <button class="pill-button ripple opacity-button"
+                                        onclick="toggleOpacity();">透明度：80%</button>
+                                        <button class="pill-button ripple opacity-button"
+                                        onclick="toggleOpacity();">透明度：90%</button>
                                     </span>
                                     <span>
                                         <button class="pill-button ripple font-size-button"
