@@ -88,11 +88,6 @@
                     // editor.addShortcut("meta+shift+C", "Save to file (.txt)", saveToFile);
                     // editor.addShortcut("access+a", "Copy to clipboard", copyToClipboard);
                     // editor.addShortcut("meta+alt+o", "Load from file (.txt)", readFromFile);
-                    editor.addShortcut("meta+s", "Save to file (.txt)", saveToFile);
-                    editor.addShortcut("meta+shift+m", "Open Menu", toggleExpandedMenu);
-                    editor.addShortcut("meta+shift+o", "Opacity", toggleOpacity);
-                    editor.addShortcut("meta+shift+i", "Font Size", changeFontSize);
-                    editor.addShortcut("meta+shift+d", "Dark Theme", darkMode);
                     // editor.addShortcut("meta+b", "Customize Background", function () {
                     //     document.body.classList.contains("user-bg") ? removeBg() : changeBg()
                     // });
@@ -174,6 +169,7 @@
                 e.preventDefault();
             });
             window.addEventListener("drop", handleDragEvent);
+            window.addEventListener("keydown", handleKeypressEvent);
             // showPopupMessage();
             hidePageLoading();
             document.body.classList.remove("tiny-loading");
@@ -219,6 +215,35 @@
             event.preventDefault();
             const selection = document.getSelection();
             event.clipboardData.setData('text/plain', selection.toString().replaceAll("\u2028\n", "\u2028"));
+        }
+        function handleKeypressEvent(event){
+            if (event.metaKey || event.controlKey) {
+                console.log('keypress: ', event.which);
+                let key = event.which;
+
+                if (!event.shiftKey) {
+                    let controlKeys = [83, 79]; //s, o
+                    if (controlKeys.includes(key)) {
+                        switch (key) {
+                            case 83: saveToFile(); break;
+                            case 79: readFromFile(); break;
+                        }
+                        event.preventDefault();
+                    }
+                }
+                else {
+                    let controlShiftKeys = [79, 77, 73, 68]; //o, m, i, d
+                    if (controlShiftKeys.includes(key)) {
+                        switch (key) {
+                            case 79: toggleOpacity(); break;
+                            case 77: toggleExpandedMenu(); break;
+                            case 73: changeFontSize(); break;
+                            case 68: darkMode(); break;
+                        }
+                        event.preventDefault();
+                    }
+                }
+            }
         }
 
         function removeStylesAndReplacePToDiv(el) {
