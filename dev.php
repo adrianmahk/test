@@ -140,9 +140,14 @@
             });
 
             var editorBody = document.getElementById('editor-body');
-            if(window.addEventListener) {
+            const observer = new MutationObserver(setAutoSaveTimeout);
+            if (editorBody && observer) {
+                observer.observe(editorBody, { attributes: true, childList: true, subtree: true });
+            }
+            else if(window.addEventListener) {
             // Normal browsers
                 editorBody.addEventListener('DOMSubtreeModified', setAutoSaveTimeout);
+                // editorBody.addEventListener('DOMSubtreeModified', setAutoSaveTimeout);
             } else if(window.attachEvent) {
                 // IE
                 editorBody.attachEvent('DOMSubtreeModified', setAutoSaveTimeout);
