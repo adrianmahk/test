@@ -12,9 +12,7 @@
     <link href='/icons/app_icon_glassnote2-256.png' rel='apple-touch-icon' sizes='256x256' />
     <link href='/icons/app_icon_glassnote2-512.png' rel='apple-touch-icon' sizes='512x512' />
 
-    <!-- <link rel="stylesheet" href="/assets/blog.css" /> -->
     <link rel="stylesheet" href="/assets/blog.css?t=<?php echo filemtime($_SERVER['DOCUMENT_ROOT'] . '/assets/blog.css')?>" />
-    <!-- <link rel="stylesheet" href="/assets/styles.css" /> -->
     <link rel="stylesheet" href="/assets/styles.css?t=<?php echo filemtime($_SERVER['DOCUMENT_ROOT'] . '/assets/styles.css')?>" />
     <link rel="stylesheet" href="/assets/display-messages.css?t=<?php echo filemtime($_SERVER['DOCUMENT_ROOT'] . '/assets/display-messages.css')?>" />
     <style>
