@@ -88,11 +88,6 @@
                     // editor.addShortcut("meta+shift+C", "Save to file (.txt)", saveToFile);
                     // editor.addShortcut("access+a", "Copy to clipboard", copyToClipboard);
                     // editor.addShortcut("meta+alt+o", "Load from file (.txt)", readFromFile);
-                    editor.addShortcut("meta+s", "Save to file (.txt)", saveToFile);
-                    editor.addShortcut("meta+shift+m", "Open Menu", toggleExpandedMenu);
-                    editor.addShortcut("meta+shift+o", "Opacity", toggleOpacity);
-                    editor.addShortcut("meta+shift+i", "Font Size", changeFontSize);
-                    editor.addShortcut("meta+shift+d", "Dark Theme", darkMode);
                     // editor.addShortcut("meta+b", "Customize Background", function () {
                     //     document.body.classList.contains("user-bg") ? removeBg() : changeBg()
                     // });
@@ -140,9 +135,14 @@
             });
 
             var editorBody = document.getElementById('editor-body');
-            if(window.addEventListener) {
+            const observer = new MutationObserver(setAutoSaveTimeout);
+            if (editorBody && observer) {
+                observer.observe(editorBody, { attributes: true, childList: true, subtree: true });
+            }
+            else if(window.addEventListener) {
             // Normal browsers
                 editorBody.addEventListener('DOMSubtreeModified', setAutoSaveTimeout);
+                // editorBody.addEventListener('DOMSubtreeModified', setAutoSaveTimeout);
             } else if(window.attachEvent) {
                 // IE
                 editorBody.attachEvent('DOMSubtreeModified', setAutoSaveTimeout);
@@ -169,6 +169,7 @@
                 e.preventDefault();
             });
             window.addEventListener("drop", handleDragEvent);
+            window.addEventListener("keydown", handleKeypressEvent);
             // showPopupMessage();
             hidePageLoading();
             document.body.classList.remove("tiny-loading");
@@ -214,6 +215,37 @@
             event.preventDefault();
             const selection = document.getSelection();
             event.clipboardData.setData('text/plain', selection.toString().replaceAll("\u2028\n", "\u2028"));
+        }
+        function handleKeypressEvent(event){
+            if (event.metaKey || event.controlKey) {
+                console.log('keypress: ', event.which);
+                let key = event.which;
+
+                if (!event.shiftKey) {
+                    let controlKeys = [83, 79]; //s, o
+                    if (controlKeys.includes(key)) {
+                        switch (key) {
+                            case 83: setTimeout(() => {
+                                saveToFile();
+                            }, 1000);  break;
+                            case 79: readFromFile(); break;
+                        }
+                        event.preventDefault();
+                    }
+                }
+                else {
+                    let controlShiftKeys = [79, 77, 73, 68]; //o, m, i, d
+                    if (controlShiftKeys.includes(key)) {
+                        switch (key) {
+                            case 79: toggleOpacity(); break;
+                            case 77: toggleExpandedMenu(); break;
+                            case 73: changeFontSize(); break;
+                            case 68: darkMode(); break;
+                        }
+                        event.preventDefault();
+                    }
+                }
+            }
         }
 
         function removeStylesAndReplacePToDiv(el) {
@@ -516,6 +548,7 @@
                 };
 
             let link = document.createElement('a');
+            link.setAttribute('target', '_blank');
             let fileName = '';
             if (document.body.getAttribute('filename')) {
                 fileName = document.body.getAttribute('filename');
@@ -539,14 +572,19 @@
             
             link.setAttribute('download', fileName);
             link.href = makeTextFile(content);
-            document.body.appendChild(link);
-
-            // wait for the link to be added to the document
-            window.requestAnimationFrame(function () {
-                var event = new MouseEvent('click');
-                link.dispatchEvent(event);
+            link.addEventListener('click', function () {
                 document.body.removeChild(link);
             });
+            document.body.appendChild(link);
+            // setTimeout(() => {
+                link.click();
+            // }, 1000);
+
+            // wait for the link to be added to the document
+            // window.requestAnimationFrame(function () {
+            //     var event = new MouseEvent('click');
+            //     link.dispatchEvent(event);
+            // });
         }
 
         function initBodyClassesForOpacityAndFontSize() {
@@ -571,22 +609,37 @@
             var next_opacity = "opacity-20";
 
             if (body.classList.contains("opacity-0")) {
-                next_opacity = "opacity-10";
+                next_opacity = "opacity-20";
             }
             else if (body.classList.contains("opacity-10")) {
                 next_opacity = "opacity-20";
             }
             else if (body.classList.contains("opacity-20")) {
-                next_opacity = "opacity-30";
+                next_opacity = "opacity-40";
             }
             else if (body.classList.contains("opacity-30")) {
+                next_opacity = "opacity-40";
+            }
+            else if (body.classList.contains("opacity-40")) {
+                next_opacity = "opacity-60";
+            }
+            else if (body.classList.contains("opacity-50")) {
+                next_opacity = "opacity-60";
+            }
+            else if (body.classList.contains("opacity-60")) {
+                next_opacity = "opacity-0";
+            }
+            else if (body.classList.contains("opacity-70")) {
+                next_opacity = "opacity-0";
+            }
+            else if (body.classList.contains("opacity-80")) {
+                next_opacity = "opacity-0";
+            }
+            else if (body.classList.contains("opacity-90")) {
                 next_opacity = "opacity-0";
             }
 
-            body.classList.remove("opacity-0");
-            body.classList.remove("opacity-10");
-            body.classList.remove("opacity-20");
-            body.classList.remove("opacity-30");
+            body.classList.remove("opacity-0", "opacity-10", "opacity-20", "opacity-30", "opacity-40", "opacity-50", "opacity-60", "opacity-70", "opacity-80", "opacity-90" );
             body.classList.add(next_opacity);
             writeCookie("opacity", next_opacity);
         }
@@ -659,6 +712,18 @@
                                             onclick="toggleOpacity();">透明度：20%</button>
                                         <button class="pill-button ripple opacity-button"
                                             onclick="toggleOpacity();">透明度：30%</button>
+                                        <button class="pill-button ripple opacity-button"
+                                            onclick="toggleOpacity();">透明度：40%</button>
+                                        <button class="pill-button ripple opacity-button"
+                                        onclick="toggleOpacity();">透明度：50%</button>
+                                        <button class="pill-button ripple opacity-button"
+                                        onclick="toggleOpacity();">透明度：60%</button>
+                                        <button class="pill-button ripple opacity-button"
+                                        onclick="toggleOpacity();">透明度：70%</button>
+                                        <button class="pill-button ripple opacity-button"
+                                        onclick="toggleOpacity();">透明度：80%</button>
+                                        <button class="pill-button ripple opacity-button"
+                                        onclick="toggleOpacity();">透明度：90%</button>
                                     </span>
                                     <span>
                                         <button class="pill-button ripple font-size-button"
@@ -732,7 +797,7 @@
                             onclick="clearCurrentAndLocalStorage();">清空</a></h3> -->
                     <p><em>GlassNote 2.0，<a href="https://qingsky.hk/glassnote-about" 
                                 target="_blank">按這裡了解更多</a></em></p>
-                    <!-- <p><em>GlassNote 2.0</em></p> --> 
+                    <!-- <p><em>GlassNote 2.0</em></p> -->
                 </div>
             </div>
         </div>
