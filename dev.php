@@ -225,7 +225,9 @@
                     let controlKeys = [83, 79]; //s, o
                     if (controlKeys.includes(key)) {
                         switch (key) {
-                            case 83: saveToFile(); break;
+                            case 83: setTimeout(() => {
+                                saveToFile();
+                            }, 1000);  break;
                             case 79: readFromFile(); break;
                         }
                         event.preventDefault();
@@ -574,9 +576,9 @@
                 document.body.removeChild(link);
             });
             document.body.appendChild(link);
-            setTimeout(() => {
+            // setTimeout(() => {
                 link.click();
-            }, 1000);
+            // }, 1000);
 
             // wait for the link to be added to the document
             // window.requestAnimationFrame(function () {
