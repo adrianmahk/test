@@ -169,7 +169,6 @@
                 e.preventDefault();
             });
             window.addEventListener("drop", handleDragEvent);
-            window.addEventListener("keydown", handleKeypressEvent);
             // window.addEventListener("keypress", handleKeypressEvent);
             // showPopupMessage();
             hidePageLoading();
