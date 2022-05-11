@@ -21,7 +21,8 @@
         }
         .bg-div {
             background-position: center bottom;
-            background-image: url(/assets/bg1.jpg<?php echo '?t='. filemtime($_SERVER['DOCUMENT_ROOT'] . '/assets/bg1.jpg')?>);
+            /* background-image: url(/assets/bg1.jpg<?php echo '?t='. filemtime($_SERVER['DOCUMENT_ROOT'] . '/assets/bg1.jpg')?>); */
+            background-image: 0;
         }
     </style>
     <script>
@@ -60,9 +61,7 @@
             forced_root_block: "div",
             block_unsupported_drop: false,
             init_instance_callback: function (editor) {
-                // loadFromLocalStorage(initEventListeners);
-                document.body.classList.remove("tiny-loading");
-                hidePageLoading();
+                loadFromLocalStorage(initEventListeners);
             },
             setup: function(editor) {
                 editor.on("init",  function() {
@@ -96,9 +95,7 @@
                 });
             }
         };
-        // tinymce.init(dfreeBodyConfig);
-        document.body.classList.remove("tiny-loading");
-        hidePageLoading();
+        tinymce.init(dfreeBodyConfig);
     </script>
 
 	<script>
@@ -781,7 +778,7 @@
                                 
                             </div>
                             <div class='editor' id='editor'>
-                                <div class="editor-body entry-content" id='editor-body' changing='false' contenteditable="true"
+                                <div class="editor-body entry-content" id='editor-body' changing='false'
                                     style="position: relative;" spellcheck="false">
                                 </div>
                             </div>
