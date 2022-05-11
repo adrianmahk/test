@@ -60,7 +60,9 @@
             forced_root_block: "div",
             block_unsupported_drop: false,
             init_instance_callback: function (editor) {
-                loadFromLocalStorage(initEventListeners);
+                // loadFromLocalStorage(initEventListeners);
+                document.body.classList.remove("tiny-loading");
+                hidePageLoading();
             },
             setup: function(editor) {
                 editor.on("init",  function() {
@@ -94,7 +96,7 @@
                 });
             }
         };
-        // tinymce.init(dfreeBodyConfig);
+        tinymce.init(dfreeBodyConfig);
     </script>
 
 	<script>
