@@ -19,6 +19,12 @@ function getParam(name) {
   const HOME_URL = [
     './', // Alias for index.html
     './dev',
+    '/assets/blog.css',
+    '/assets/styles.css',
+    '/assets/display-messages.css',
+    '/assets/bg1.jpg',
+    '/scripts/blog-ui-ajax.js',
+    '/scripts/display-messages.js'
   ];
   const TINY_MCE_URL = [
     '/tinymce/tinymce.min.js',
@@ -40,6 +46,8 @@ function getParam(name) {
     '/icons/hamburger_dark.png',
     '/icons/moon.png',
     '/icons/moon_dark.png',
+    '/icons/info.png',
+    '/icons/cross.png',
     '/assets/roboto.woff2'
   ];
   
@@ -120,6 +128,7 @@ function getParam(name) {
     // Skip cross-origin requests
     if (isSameOrigin(event.request.url)) {
       event.respondWith(
+        // caches.match(event.request, {ignoreSearch: true}).then(cachedResponse => {
         caches.match(event.request).then(cachedResponse => {
           return caches.open(RUNTIME).then(cache => {
             // return new Response('no network', {status: 200, statusText: "OK"});
@@ -133,32 +142,32 @@ function getParam(name) {
               }
               else {
                 // return new Response('no network', {status: 200, statusText: "OK"});
-                return new Response('No network!', {status: 408, statusText: "Service Worker: No Network & no cache."});
+                return caches.match(event.request, {ignoreSearch: true}).then(cachedResponse => {
+                    if (cachedResponse) {
+                        return cachedResponse;
+                    }
+                    else {
+                        return new Response('No network!', {status: 408, statusText: "Service Worker: No Network & no cache."});
+                    }
+                });
               }
             }
             
             return fetch(event.request).then(response => {
-              if (!response) {
+              if (!response && cachedResponse) {
                 return cachedResponse;
               }
               // Put a copy of the response in the runtime cache.
               if (response.status == 200) {
                 return cache.delete(event.request, {ignoreSearch: true}).then(() => {
-                  return cache.put(event.request, response.clone()).then(() => {
+                //   return cache.put(event.request, response.clone()).then(() => {
+                //     return response;
+                //   });
                     return response;
-                  });
                 });
               }
               else {
                 return response;
-              }
-            }).catch(error => {
-              console.log(error);
-              if (cachedResponse) {
-                return cachedResponse;
-              }
-              else {
-                return new Response('no network', {status: 200, statusText: "OK"});
               }
             });
           });
