@@ -865,7 +865,7 @@
                     <p><em>GlassNote 2.0，<a href="https://qingsky.hk/glassnote-about" 
                                 target="_blank">按這裡了解更多</a></em></p>
                     <!-- <p><em>GlassNote 2.0</em></p> -->
-                    <?php echo 'dev';?>
+                    <?php if (strpos($_SERVER['SERVER_NAME'], '-dev')) echo 'dev';?>
                 </div>
             </div>
         </div>
