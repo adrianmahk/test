@@ -118,6 +118,17 @@
 
     <script>
         var timer = 0;
+
+        function supportsPlainText() {
+            var d = document.createElement("div");
+            try {
+                d.contentEditable="PLAINtext-onLY";
+            } catch(e) {
+                return false;
+            }
+            return d.contentEditable=="plaintext-only";
+        }
+
         function initEventListeners() {
             window.addEventListener("pagehide", function () {
                 saveToLocalStorage();
@@ -135,6 +146,9 @@
             });
 
             var editorBody = document.getElementById('editor-body');
+            if (supportsPlainText()) {
+                editorBody.setAttribute('contenteditable', 'plaintext-only');
+            } 
             const observer = new MutationObserver(setAutoSaveTimeout);
             if (editorBody && observer) {
                 observer.observe(editorBody, { attributes: true, childList: true, subtree: true });
