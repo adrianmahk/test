@@ -30,7 +30,7 @@
         }
     </script> 
     <script src="/scripts/blog-ui-ajax.js?t=<?php echo filemtime($_SERVER['DOCUMENT_ROOT'] . '/scripts/blog-ui-ajax.js')?>""></script>
-    <script src="/tinymce/tinymce.min.js"></script>
+    <script src="/tinymce6/tinymce.min.js"></script>
     <script src="/scripts/display-messages.js?t=<?php echo filemtime($_SERVER['DOCUMENT_ROOT'] . '/scripts/display-messages.js')?>""></script>
     <script>
         var dfreeBodyConfig = {
@@ -149,7 +149,7 @@
 
             var editorBody = document.getElementById('editor-body');
             if (supportsPlainText()) {
-                editorBody.setAttribute('contenteditable', 'plaintext-only');
+                // editorBody.setAttribute('contenteditable', 'plaintext-only');
             } 
             const observer = new MutationObserver(setAutoSaveTimeout);
             if (editorBody && observer) {
@@ -233,8 +233,17 @@
             event.clipboardData.setData('text/plain', selection.toString().replaceAll("\u2028\n", "\u2028"));
         }
         function handleKeypressEvent(event){
+            console.log(event.key);
+            let key = event.key.toUpperCase();
+            // if (key == 'BACKSPACE') {
+            //     // event.shiftKey;
+            //     let editor = document.getElementById("editor-body");
+            //     editor.dispatchEvent(new Event('focus'));
+            //     editor.dispatchEvent(new KeyboardEvent('keydown',{'key':'Shift'}));
+            //     editor.dispatchEvent(new KeyboardEvent('keypress',{'key':'Backspace'}));
+            //     event.preventDefault();
+            // }
             if (event.metaKey || event.controlKey) {
-                let key = event.key.toUpperCase();
                 // console.log(key);
 
                 if (!event.shiftKey) {
@@ -246,7 +255,7 @@
                             switch (key) {
                                 case 'S': setTimeout(saveToFile, 1000);  break;
                                 case 'O': readFromFile(); break;
-                                case 'A': selectAll(); break;
+                                // case 'A': selectAll(); break;
                             }
                         }
                     }

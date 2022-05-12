@@ -12,7 +12,7 @@ function getParam(name) {
   // Change to v2, etc. when you update any of the local resources, which will
   // in turn trigger the install event again.
   const PRECACHE = 'precache-v1';
-  const TINY_MCE = 'tinymce-v5.7.1';
+  const TINY_MCE = 'tinymce-v6.0.1trail';
   const HOME_VERSION = 'home-t=' + (getParam('t') ? getParam('t') : '');
   const RUNTIME = 'runtime';
   
@@ -27,12 +27,12 @@ function getParam(name) {
     '/scripts/display-messages.js'
   ];
   const TINY_MCE_URL = [
-    '/tinymce/tinymce.min.js',
-    '/tinymce/icons/default/icons.min.js',
-    '/tinymce/plugins/quickbars/plugin.min.js',
-    '/tinymce/skins/ui/oxide/content.inline.min.css',
-    '/tinymce/skins/ui/oxide/skin.min.css',
-    '/tinymce/themes/silver/theme.min.js'
+    '/tinymce6/tinymce.min.js',
+    '/tinymce6/icons/default/icons.min.js',
+    '/tinymce6/plugins/quickbars/plugin.min.js',
+    '/tinymce6/skins/ui/oxide/content.inline.min.css',
+    '/tinymce6/skins/ui/oxide/skin.min.css',
+    '/tinymce6/themes/silver/theme.min.js'
   ];
   // A list of local resources we always want to be cached.
   const PRECACHE_URLS = [
