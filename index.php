@@ -76,10 +76,10 @@
                     editor.addShortcut("access+8", "", "");
                     editor.addShortcut("access+9", "", "");
                     editor.addShortcut("meta+k", "", "");
-                    editor.addShortcut("meta+shift+13", "", function (){
-                        editor.execCommand('mceInsertContent', false, '\u2028\n');
-                        editor.execCommand('mceInsertNewLine');
-                    });
+                    // editor.addShortcut("meta+shift+13", "", function (){
+                    //     editor.execCommand('mceInsertContent', false, '\u2028\n');
+                    //     editor.execCommand('mceInsertNewLine');
+                    // });
                     // editor.addShortcut("meta+b", "", "");
                     // editor.addShortcut("meta+i", "", "");
                     editor.addShortcut("meta+u", "", "");
@@ -118,6 +118,19 @@
 
     <script>
         var timer = 0;
+
+        function supportsPlainText() {
+            var d = document.createElement("div");
+            document.body.appendChild(d);
+            try {
+                d.contentEditable="PLAINtext-onLY";
+            } catch(e) {
+                return false;
+            }
+            d.parentElement.removeChild(d);
+            return d.contentEditable=="plaintext-only";
+        }
+
         function initEventListeners() {
             window.addEventListener("pagehide", function () {
                 saveToLocalStorage();
@@ -135,6 +148,9 @@
             });
 
             var editorBody = document.getElementById('editor-body');
+            if (supportsPlainText()) {
+                editorBody.setAttribute('contenteditable', 'plaintext-only');
+            } 
             const observer = new MutationObserver(setAutoSaveTimeout);
             if (editorBody && observer) {
                 observer.observe(editorBody, { attributes: true, childList: true, subtree: true });
@@ -219,9 +235,10 @@
         function handleKeypressEvent(event){
             if (event.metaKey || event.controlKey) {
                 let key = event.key.toUpperCase();
+                // console.log(key);
 
                 if (!event.shiftKey) {
-                    let controlKeys = ['S', 'O']; //s, o
+                    let controlKeys = ['S', 'O', 'A']; //s, o
                     if (controlKeys.includes(key)) {
                         // if (event)
                         event.preventDefault();
@@ -229,6 +246,7 @@
                             switch (key) {
                                 case 'S': setTimeout(saveToFile, 1000);  break;
                                 case 'O': readFromFile(); break;
+                                case 'A': selectAll(); break;
                             }
                         }
                     }
@@ -357,6 +375,14 @@
             }
 
             return str.substr(0, breakIndex);
+        }
+        function selectAll() {
+            // console.log('select all');
+            let editorBody = document.getElementById("editor-body");
+            var range = document.createRange();
+            range.selectNodeContents(editorBody);
+            window.getSelection().removeAllRanges();
+            window.getSelection().addRange(range);
         }
         function copyToClipboard() {
             var fakeEditor = document.createElement("div");
@@ -801,6 +827,7 @@
                     <p><em>GlassNote 2.0，<a href="https://qingsky.hk/glassnote-about" 
                                 target="_blank">按這裡了解更多</a></em></p>
                     <!-- <p><em>GlassNote 2.0</em></p> -->
+                    <?php if (strpos(__FILE__, 'dev') > 0) echo 'dev';?>
                 </div>
             </div>
         </div>
