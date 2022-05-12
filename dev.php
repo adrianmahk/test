@@ -95,7 +95,7 @@
                 });
             }
         };
-        // tinymce.init(dfreeBodyConfig);
+        tinymce.init(dfreeBodyConfig);
     </script>
 
 	<script>
