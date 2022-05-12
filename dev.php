@@ -136,7 +136,7 @@
             });
 
             var editorBody = document.getElementById('editor-body');
-            // editorBody.addEventListener('input', setAutoSaveTimeout);
+            editorBody.addEventListener('input', setAutoSaveTimeout);
             // const observer = new MutationObserver(setAutoSaveTimeout);
             // if (editorBody && observer) {
             //     observer.observe(editorBody, { attributes: false, childList: false, subtree: false});
