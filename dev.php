@@ -327,7 +327,7 @@
                 temp.setAttribute("class", "fake-editor editor-body entry-content");
                 document.body.appendChild(temp);
                 // editor.innerHTML = text.replaceAll(/\u2028(?!<br \/>|<br>)/g, '\u2028<br />');
-                editor.value = temp.textContent;
+                editor.value = temp.innerText;
                 document.body.removeChild(temp);
                 textAreaAdjust();
                 updateLastSavedMsg();
