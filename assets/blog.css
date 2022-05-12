@@ -3057,6 +3057,9 @@ opacity: 1;
 textarea {
   font: inherit;
   resize: none;
+  letter-spacing: inherit;
+  line-height: calc(1.5em + .25vw);
+  padding: 0;
 }
 
 /* Font Size */

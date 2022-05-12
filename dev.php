@@ -285,6 +285,7 @@
         }
 
         function saveToLocalStorage() {
+            return;
             var editor = document.getElementById("editor-body");
             var lastVer = localStorage.getItem('content');
             // var currentVer = editor.innerHTML;
