@@ -327,7 +327,10 @@
         function saveToLocalStorage() {
             // return;
             var editor = document.getElementById("editor-body");
-            var lastVer = localStorage.getItem('content');
+            var lastVer = localStorage.getItem('content-plaintext');
+            if (!lastVer) {
+                lastVer = localStorage.getItem('content')
+            }
             // var currentVer = editor.innerHTML;
             var currentVer = editor.value;
 
@@ -338,11 +341,12 @@
             }
 
             if (editor) {
-                var textContent = editor.textContent;
+                // var textContent = editor.innerText;
                 var textContent = editor.value;
+                console.log(textContent);
                 if (textContent != "") {
                     try {
-                        localStorage.setItem('content', currentVer);
+                        localStorage.setItem('content-plaintext', currentVer);
                         var date = new Date();
                         localStorage.setItem('last-saved-time', date.toLocaleDateString("en-GB") + " " +date.toLocaleTimeString("en-GB", { hour: '2-digit', minute: '2-digit' }));
                     }
@@ -359,18 +363,25 @@
             }
         }
         function loadFromLocalStorage(fn = null) {
-            var text = localStorage.getItem('content');
+            var text = localStorage.getItem('content-plaintext');
+            const editor = document.getElementById("editor-body");
+            if (!text) {
+                text = localStorage.getItem('content');
+                if (text) {
+                    let temp = document.createElement("div");
+                    temp.innerHTML = text.replaceAll(/\u2028(?!<br \/>|<br>)/g, '\u2028<br />');
+                    temp.setAttribute("class", "fake-editor editor-body entry-content");
+                    document.body.appendChild(temp);
+                    // editor.innerHTML = text.replaceAll(/\u2028(?!<br \/>|<br>)/g, '\u2028<br />');
+                    text = temp.innerText;
+                    document.body.removeChild(temp);
+                }
+            }
+            
             if (text) {
-                var editor = document.getElementById("editor-body");
-                let temp = document.createElement("div");
-                temp.innerHTML = text.replaceAll(/\u2028(?!<br \/>|<br>)/g, '\u2028<br />');
-                temp.setAttribute("class", "fake-editor editor-body entry-content");
-                document.body.appendChild(temp);
-                // editor.innerHTML = text.replaceAll(/\u2028(?!<br \/>|<br>)/g, '\u2028<br />');
-                editor.value = temp.innerText;
-                document.body.removeChild(temp);
                 textAreaAdjust();
                 updateLastSavedMsg();
+                editor.value = text;
                 console.log("loadedFromStorage");
             }
             if (fn) {
