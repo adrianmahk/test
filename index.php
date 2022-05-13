@@ -36,7 +36,8 @@
         var dfreeBodyConfig = {
             selector: '.editor-body',
             menubar: false,
-            inline: true,
+            // inline: true,
+            inline: false,
             plugins: [
                 // 'autolink',
                 // 'link',
@@ -94,7 +95,7 @@
                 });
             }
         };
-        tinymce.init(dfreeBodyConfig);
+        // tinymce.init(dfreeBodyConfig);
     </script>
 
 	<script>
@@ -135,18 +136,19 @@
             });
 
             var editorBody = document.getElementById('editor-body');
-            const observer = new MutationObserver(setAutoSaveTimeout);
-            if (editorBody && observer) {
-                observer.observe(editorBody, { attributes: true, childList: true, subtree: true });
-            }
-            else if(window.addEventListener) {
-            // Normal browsers
-                editorBody.addEventListener('DOMSubtreeModified', setAutoSaveTimeout);
-                // editorBody.addEventListener('DOMSubtreeModified', setAutoSaveTimeout);
-            } else if(window.attachEvent) {
-                // IE
-                editorBody.attachEvent('DOMSubtreeModified', setAutoSaveTimeout);
-            }
+            editorBody.addEventListener('input', setAutoSaveTimeout);
+            // const observer = new MutationObserver(setAutoSaveTimeout);
+            // if (editorBody && observer) {
+            //     observer.observe(editorBody, { attributes: false, childList: false, subtree: false});
+            // }
+            // else if(window.addEventListener) {
+            // // Normal browsers
+            //     editorBody.addEventListener('DOMSubtreeModified', setAutoSaveTimeout);
+            //     // editorBody.addEventListener('DOMSubtreeModified', setAutoSaveTimeout);
+            // } else if(window.attachEvent) {
+            //     // IE
+            //     editorBody.attachEvent('DOMSubtreeModified', setAutoSaveTimeout);
+            // }
             editorBody.addEventListener("copy", handleCopyEvent);
             editorBody.addEventListener("paste", function (e){
                 e.preventDefault();
@@ -180,6 +182,8 @@
             //moveAboutMessageToAboveFooter();
             loadBg();
             initBodyClassesForOpacityAndFontSize();
+            initEventListeners();
+            loadFromLocalStorage();
         });
         
         function handleDragEvent(e) {
@@ -264,10 +268,16 @@
                 el.outerHTML = el.outerHTML.replace(/(?=<)p/g,"div");
             }
         }
+        function textAreaAdjust() {
+            let element = document.getElementById("editor-body");
+            element.style.height = "1px";
+            element.style.height = (25+element.scrollHeight)+"px";
+        }
 
         function setAutoSaveTimeout() {
             // this function will run each time the content of the DIV changes
             // console.log('changed');
+            textAreaAdjust();
             clearTimeout(timer);
             timer = setTimeout(() => {
                 saveToLocalStorage();    
@@ -275,9 +285,11 @@
         }
 
         function saveToLocalStorage() {
+            return;
             var editor = document.getElementById("editor-body");
             var lastVer = localStorage.getItem('content');
-            var currentVer = editor.innerHTML;
+            // var currentVer = editor.innerHTML;
+            var currentVer = editor.value;
 
             if (lastVer) {
                 if (lastVer == currentVer) {
@@ -287,6 +299,7 @@
 
             if (editor) {
                 var textContent = editor.textContent;
+                var textContent = editor.value;
                 if (textContent != "") {
                     try {
                         localStorage.setItem('content', currentVer);
@@ -309,8 +322,14 @@
             var text = localStorage.getItem('content');
             if (text) {
                 var editor = document.getElementById("editor-body");
-                editor.innerHTML = text.replaceAll(/\u2028(?!<br \/>|<br>)/g, '\u2028<br />');
-
+                let temp = document.createElement("div");
+                temp.innerHTML = text.replaceAll(/\u2028(?!<br \/>|<br>)/g, '\u2028<br />');
+                temp.setAttribute("class", "fake-editor editor-body entry-content");
+                document.body.appendChild(temp);
+                // editor.innerHTML = text.replaceAll(/\u2028(?!<br \/>|<br>)/g, '\u2028<br />');
+                editor.value = temp.innerText;
+                document.body.removeChild(temp);
+                textAreaAdjust();
                 updateLastSavedMsg();
                 console.log("loadedFromStorage");
             }
@@ -519,6 +538,50 @@
         }
 
         function saveToFile() {
+            let textFile = null,
+                makeTextFile = function (text) {
+                    var data = new Blob([text], { encoding: "UTF-8", type: "text/plain;charset=UTF-8" });
+                    if (textFile !== null) {
+                        window.URL.revokeObjectURL(textFile);
+                    }
+                    textFile = window.URL.createObjectURL(data);
+                    return textFile;
+                };
+
+            let link = document.createElement('a');
+            link.setAttribute('target', '_blank');
+            let fileName = '';
+            if (document.body.getAttribute('filename')) {
+                fileName = document.body.getAttribute('filename');
+            }
+            else {
+                fileName = getFirstLine(content);
+            
+                if (!fileName || fileName == "") {
+                    fileName = "GlassNote";
+                    const date = new Date();
+                    let ye = new Intl.DateTimeFormat('en', { year: 'numeric'}).format(date);
+                    let mo = new Intl.DateTimeFormat('en', { month: '2-digit'}).format(date);
+                    let da = new Intl.DateTimeFormat('en', { day: '2-digit' }).format(date);
+                    let ho = new Intl.DateTimeFormat('en', { hour: 'numeric', hour12: false}).format(date);
+                    let mi = new Intl.DateTimeFormat('en', { minute: 'numeric'}).format(date);
+                    fileName = "GlassNote-"+`${ye}${mo}${da}`+'-'+`${ho}${mi}`;
+                    // console.log(fileName);
+                }
+                fileName = fileName + ".txt";
+            }
+            
+            link.setAttribute('download', fileName);
+            link.href = makeTextFile(content);
+            link.addEventListener('click', function () {
+                document.body.removeChild(link);
+            });
+            document.body.appendChild(link);
+
+            link.click();
+        }
+
+        function saveToFileOld() {
             // let content = document.getElementById("editor-body").innerText;
 
             // move all texts into a single div with brs, to avoid Chrome on9 behaviour
@@ -777,9 +840,7 @@
                                 
                             </div>
                             <div class='editor' id='editor'>
-                                <div class="editor-body entry-content" id='editor-body' changing='false'
-                                    style="position: relative;" spellcheck="false">
-                                </div>
+                                <textarea class="editor-body entry-content" id='editor-body' changing='false' style="position: relative;" spellcheck="false"></textarea>
                             </div>
                             <hr />
                         </div>
@@ -804,6 +865,7 @@
                     <p><em>GlassNote 2.0，<a href="https://qingsky.hk/glassnote-about" 
                                 target="_blank">按這裡了解更多</a></em></p>
                     <!-- <p><em>GlassNote 2.0</em></p> -->
+                    <?php if (strpos($_SERVER['SERVER_NAME'], '-dev')) echo 'dev';?>
                 </div>
             </div>
         </div>
