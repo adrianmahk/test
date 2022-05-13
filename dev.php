@@ -5,7 +5,7 @@
     <title>GlassNote 2.0</title>
     <meta charset="UTF-8" />
     <meta content='width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1' name='viewport' />
-    <link href="/assets/manifest_glassnote<?php echo (strpos(__FILE__, 'dev') > 0) ? '_dev.json' : '.json' ?>" rel='manifest' />
+    <link href="/assets/manifest_glassnote<?php echo (basename(__FILE__) == 'dev.php') ? '_dev.json' : '.json' ?>" rel='manifest' />
     <meta content='yes' name='apple-mobile-web-app-capable' />
     <meta content='black' name='apple-mobile-web-app-status-bar-style' />
     <meta content='GlassNote' name='apple-mobile-web-app-title' />
@@ -988,6 +988,7 @@
                                 target="_blank">按這裡了解更多</a></em></p>
                     <!-- <p><em>GlassNote 2.0</em></p> -->
                     <?php if (strpos($_SERVER['SERVER_NAME'], '-dev')) echo 'dev';?>
+                    <?php if (basename(__FILE__) == 'dev.php') echo 'dev';?>
                 </div>
             </div>
         </div>
