@@ -184,6 +184,8 @@
             });
             window.addEventListener("drop", handleDragEvent);
             window.addEventListener("keydown", handleKeypressEvent);
+            window.addEventListener("keyup", showFloatButtons);
+            window.addEventListener("mouseup", showFloatButtons);
             // showPopupMessage();
             hidePageLoading();
             document.body.classList.remove("tiny-loading");
@@ -235,6 +237,7 @@
         function handleKeypressEvent(event){
             // console.log(event);
             // console.log('keypress: ', event.which);
+            // showFloatButtons();
             if (event.metaKey || event.controlKey) {
                 let key = event.key.toUpperCase();
                 // console.log(key);
@@ -314,6 +317,66 @@
                 }
             }
         }
+
+        function getCursorXY(input, selectionPoint) {
+            const {
+                offsetLeft: inputX,
+                offsetTop: inputY,
+            } = input
+            // create a dummy element that will be a clone of our input
+            const div = document.createElement('div')
+            // get the computed style of the input and clone it onto the dummy element
+            const copyStyle = getComputedStyle(input)
+            for (const prop of copyStyle) {
+                div.style[prop] = copyStyle[prop]
+            }
+            // we need a character that will replace whitespace when filling our dummy element if it's a single line <input/>
+            const swap = '.'
+            const inputValue = input.tagName === 'INPUT' ? input.value.replace(/ /g, swap) : input.value
+            // set the div content to that of the textarea up until selection
+            const textContent = inputValue.substr(0, selectionPoint)
+            // set the text content of the dummy element div
+            div.textContent = textContent
+            if (input.tagName === 'TEXTAREA') div.style.height = 'auto'
+            // if a single line input then the div needs to be single line and not break out like a text area
+            if (input.tagName === 'INPUT') div.style.width = 'auto'
+            // create a marker element to obtain caret position
+            const span = document.createElement('span')
+            // give the span the textContent of remaining content so that the recreated dummy element is as close as possible
+            span.textContent = inputValue.substr(selectionPoint) || '.'
+            // append the span marker to the div
+            div.appendChild(span)
+            // append the dummy element to the body
+            document.body.appendChild(div)
+            // get the marker position, this is the caret position top and left relative to the input
+            const { offsetLeft: spanX, offsetTop: spanY } = span
+            // lastly, remove that dummy element
+            // NOTE:: can comment this out for debugging purposes if you want to see where that span is rendered
+            document.body.removeChild(div)
+            // return an object with the x and y of the caret. account for input positioning so that you don't need to wrap the input
+            return {
+                x: inputX + spanX,
+                y: inputY + spanY,
+            }
+        }
+
+        function showFloatButtons() {
+            let selection = window.getSelection();
+            let editorBody = document.getElementById('editor-body');
+            if (selection != "" ||  (editorBody.value.length == editorBody.selectionStart || editorBody.value.charCodeAt(editorBody.selectionStart) == 10) && editorBody.value.charCodeAt(editorBody.selectionStart - 1) == 10) {
+                let floatButtons = document.getElementById("float-buttons");
+                floatButtons.style.display = "block";
+                const range = selection.getRangeAt(0);
+                rect = range.getBoundingClientRect();
+                let xy = getCursorXY(editorBody, Math.max(editorBody.selectionStart, editorBody.selectionEnd - 1));
+            
+                floatButtons.style.left = (xy.x + editorBody.getBoundingClientRect().x - 50) + 'px';
+                floatButtons.style.top = (xy.y + editorBody.getBoundingClientRect().y + 50) + 'px';
+            }
+            else {
+                document.getElementById("float-buttons").style.display = "none";
+            }
+        }
         
         function setAutoSaveTimeout() {
             // this function will run each time the content of the DIV changes
@@ -343,7 +406,7 @@
             if (editor) {
                 // var textContent = editor.innerText;
                 var textContent = editor.value;
-                console.log(textContent);
+                // console.log(textContent);
                 if (textContent != "") {
                     try {
                         localStorage.setItem('content-plaintext', currentVer);
@@ -861,12 +924,6 @@
                                         <button class="pill-button ripple dark-mode-button-toolbar" onclick="darkMode();">黑夜主題：開</button>
                                         <button class="pill-button ripple dark-mode-button-toolbar" onclick="darkMode();">黑夜主題：關</button>
                                     </span>
-                                    <span>
-                                    <button class="pill-button ripple"
-                                            onclick="undoRedoCallback(true);">UNDO</button>
-                                        <button class="pill-button ripple"
-                                        onclick="undoRedoCallback(false);">REDO</button>
-                                    </span>
                                     <br />
                                     <span style="display:table-row; font-style: italic;">
                                         <span style="display: table-cell;">上次儲存：<span class='last-saved-msg'>-</span></span>
@@ -898,6 +955,14 @@
                             </div>
                             <div class='editor' id='editor'>
                                 <textarea class="editor-body entry-content" id='editor-body' changing='false' style="position: relative;" spellcheck="false"></textarea>
+                                <div class="float-buttons" id="float-buttons">
+                                <span> 
+                                    <button class="pill-button ripple"
+                                            onclick="undoRedoCallback(true);">UNDO</button>
+                                        <button class="pill-button ripple"
+                                        onclick="undoRedoCallback(false);">REDO</button>
+                                    </span>
+                                </div>
                             </div>
                             <hr />
                         </div>

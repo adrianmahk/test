@@ -302,6 +302,16 @@ body.opacity-90.dark-mode .post-outer-container {
     margin-bottom: 0em;
 }
 
+.float-buttons {
+    position: fixed;
+    background: #fefdf3;
+    padding: 5px;
+    border-radius: 5%;
+    display: none;
+    left: 0;
+    top: 0;
+}
+
 /* Only for Standalone Ver. */
 .page-lower-part .centered {
     z-index: 20;
