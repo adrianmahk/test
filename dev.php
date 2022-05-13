@@ -243,7 +243,7 @@
                 // console.log(key);
 
                 if (!event.shiftKey) {
-                    let controlKeys = ['S', 'O']; //s, o
+                    let controlKeys = ['S', 'O', 'Z', ]; //s, o
                     if (controlKeys.includes(key)) {
                         // if (event)
                         event.preventDefault();
@@ -251,12 +251,14 @@
                             switch (key) {
                                 case 'S': setTimeout(saveToFile, 1000);  break;
                                 case 'O': readFromFile(); break;
+                                case 'Z': undoRedoCallback(true); break;
+                                case 'Y': undoRedoCallback(false); break;
                             }
                         }
                     }
                 }
                 else {
-                    let controlShiftKeys = ['O', 'M', 'I', 'D']; //o, m, i, d
+                    let controlShiftKeys = ['O', 'M', 'I', 'D', 'Z']; //o, m, i, d
                     if (controlShiftKeys.includes(key)) {
                         event.preventDefault();
                         if (!event.repeat) {
@@ -265,6 +267,7 @@
                                 case 'M': toggleExpandedMenu(); break;
                                 case 'I': changeFontSize(); break;
                                 case 'D': darkMode(); break;
+                                case 'Z': undoRedoCallback(false); break;
                             }
                         }
                         
@@ -284,23 +287,24 @@
             }
         }
         function textAreaAdjust() {
-            let element = document.getElementById("editor-body");
-            element.style.height = "1px";
-            element.style.height = (25+element.scrollHeight)+"px";
+            requestAnimationFrame(() => {
+                let element = document.getElementById("editor-body");
+                let elementClone = document.getElementById("editor-body-clone");
+                elementClone.value = element.value;
+                element.style.height = (50 + elementClone.scrollHeight) +"px";
+            });
         }
 
+        var undoRedoTimer = 0;
         function handleUndoRedo(textarea) {
-            if (txtHistory.current() !== textarea.value) {
-            // Check for pastes, auto corrects..
-            if ((textarea.value.length - txtHistory.current().length) > 1 || (textarea.value.length - txtHistory.current().length) < -1 || (textarea.value.length - txtHistory.current().length) === 0) {
-            // Record the textarea value and force to bypass cooldown
-            txtHistory.record(textarea.value, true);
-            // Check for single key press, single chacacter paste..
-            } else {
-            // Record the textarea value
-            txtHistory.record(textarea.value);
-            }
-        }
+            let callback = () => {
+                let textarea = document.getElementById("editor-body");
+                if (txtHistory.current() !== textarea.value) {
+                    txtHistory.record(textarea.value, true);
+                }
+            };
+            clearTimeout(undoRedoTimer);
+            undoRedoTimer = setTimeout(callback, 250);
         }
 
         function undoRedoCallback(isUndo = true) {
@@ -954,6 +958,7 @@
                                 
                             </div>
                             <div class='editor' id='editor'>
+                                <textarea class="editor-body entry-content" style="visibility: hidden; position: absolute; top: 0; left: 0; height: 1px" id='editor-body-clone' changing='false' style="position: relative;" spellcheck="false"></textarea>
                                 <textarea class="editor-body entry-content" id='editor-body' changing='false' style="position: relative;" spellcheck="false"></textarea>
                                 <div class="float-buttons" id="float-buttons">
                                 <span> 
