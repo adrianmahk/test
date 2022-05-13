@@ -32,12 +32,13 @@
     <script src="/scripts/blog-ui-ajax.js?t=<?php echo filemtime($_SERVER['DOCUMENT_ROOT'] . '/scripts/blog-ui-ajax.js')?>""></script>
     <script src="/tinymce/tinymce.min.js"></script>
     <script src="/scripts/display-messages.js?t=<?php echo filemtime($_SERVER['DOCUMENT_ROOT'] . '/scripts/display-messages.js')?>""></script>
+    <script src="/scripts/undo-redo.js"></script>
     <script>
         var dfreeBodyConfig = {
             selector: '.editor-body',
             menubar: false,
             // inline: true,
-            inline: false,
+            // inline: false,
             plugins: [
                 // 'autolink',
                 // 'link',
@@ -95,7 +96,7 @@
                 });
             }
         };
-        tinymce.init(dfreeBodyConfig);
+        // tinymce.init(dfreeBodyConfig);
     </script>
 
 	<script>
@@ -119,6 +120,7 @@
 
     <script>
         var timer = 0;
+        var txtHistory = 0;
         function initEventListeners() {
             window.addEventListener("pagehide", function () {
                 saveToLocalStorage();
@@ -136,7 +138,13 @@
             });
 
             var editorBody = document.getElementById('editor-body');
-            editorBody.addEventListener('input', setAutoSaveTimeout);
+            txtHistory = new window.UndoRedojs(5);
+            txtHistory.current(editorBody.value);
+            editorBody.addEventListener('input', () => {
+                textAreaAdjust();
+                handleUndoRedo(editorBody);
+                setAutoSaveTimeout();
+            });
             // const observer = new MutationObserver(setAutoSaveTimeout);
             // if (editorBody && observer) {
             //     observer.observe(editorBody, { attributes: false, childList: false, subtree: false});
@@ -149,6 +157,7 @@
             //     // IE
             //     editorBody.attachEvent('DOMSubtreeModified', setAutoSaveTimeout);
             // }
+            
             editorBody.addEventListener("copy", handleCopyEvent);
             editorBody.addEventListener("paste", function (e){
                 e.preventDefault();
@@ -182,8 +191,8 @@
             //moveAboutMessageToAboveFooter();
             loadBg();
             initBodyClassesForOpacityAndFontSize();
-            initEventListeners();
             loadFromLocalStorage();
+            initEventListeners();
         });
         
         function handleDragEvent(e) {
@@ -274,10 +283,38 @@
             element.style.height = (25+element.scrollHeight)+"px";
         }
 
+        function handleUndoRedo(textarea) {
+            if (txtHistory.current() !== textarea.value) {
+            // Check for pastes, auto corrects..
+            if ((textarea.value.length - txtHistory.current().length) > 1 || (textarea.value.length - txtHistory.current().length) < -1 || (textarea.value.length - txtHistory.current().length) === 0) {
+            // Record the textarea value and force to bypass cooldown
+            txtHistory.record(textarea.value, true);
+            // Check for single key press, single chacacter paste..
+            } else {
+            // Record the textarea value
+            txtHistory.record(textarea.value);
+            }
+        }
+        }
+
+        function undoRedoCallback(isUndo = true) {
+            if (isUndo) {
+                if (txtHistory.undo(true) !== undefined) {
+                    let textarea = document.getElementById("editor-body");
+                    textarea.value = txtHistory.undo();
+                }
+            }
+            else {
+                if (txtHistory.redo(true) !== undefined) {
+                    let textarea = document.getElementById("editor-body");
+                textarea.value = txtHistory.redo();
+                }
+            }
+        }
+        
         function setAutoSaveTimeout() {
             // this function will run each time the content of the DIV changes
             // console.log('changed');
-            textAreaAdjust();
             clearTimeout(timer);
             timer = setTimeout(() => {
                 saveToLocalStorage();    
@@ -809,6 +846,12 @@
                                     <span>
                                         <button class="pill-button ripple dark-mode-button-toolbar" onclick="darkMode();">黑夜主題：開</button>
                                         <button class="pill-button ripple dark-mode-button-toolbar" onclick="darkMode();">黑夜主題：關</button>
+                                    </span>
+                                    <span>
+                                    <button class="pill-button ripple"
+                                            onclick="undoRedoCallback(true);">UNDO</button>
+                                        <button class="pill-button ripple"
+                                        onclick="undoRedoCallback(false);">REDO</button>
                                     </span>
                                     <br />
                                     <span style="display:table-row; font-style: italic;">
