@@ -130,6 +130,9 @@
                 if (document.visibilityState === 'hidden') {
                     saveToLocalStorage();
                 }
+                else {
+                    document.getElementById("editor-body").focus();
+                }
             });
             window.addEventListener("pageshow", function (event) {
                 if (event.persisted) {
@@ -234,7 +237,7 @@
             // console.log('keypress: ', event.which);
             if (event.metaKey || event.controlKey) {
                 let key = event.key.toUpperCase();
-                console.log(key);
+                // console.log(key);
 
                 if (!event.shiftKey) {
                     let controlKeys = ['S', 'O']; //s, o
@@ -322,7 +325,7 @@
         }
 
         function saveToLocalStorage() {
-            return;
+            // return;
             var editor = document.getElementById("editor-body");
             var lastVer = localStorage.getItem('content');
             // var currentVer = editor.innerHTML;
