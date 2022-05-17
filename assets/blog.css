@@ -181,22 +181,35 @@ body.item-view .blog-posts.hfeed.container{
 margin: 0 8px;
 }
 }
-.post {
-padding-left : 5%;
-padding-right : 5%;
-padding-top : 5%;
-}
 img.post-title-pin-icon {
 float: right;
 width: 25px;
 height: 25px;
 margin: 0 8px;
 }
-@media screen and (min-width: 480px) {
 .post {
-padding-left: 11%;
-padding-right: 11%;
+padding-left : 4%;
+padding-right : 4%;
+padding-top : 4%;
 }
+@media screen and (min-width: 480px) {
+  .post {
+  padding-left: 8%;
+  padding-left: min(8%, calc(4% + ((100vw - 480px) * 0.2)));
+  padding-right: 8%;
+  padding-right: min(8%, calc(4% + ((100vw - 480px) * 0.2)));
+  }
+  }
+  @media screen and (min-width: 871px) {
+  body.item-view .post, .post.intro {
+  padding-left: 10%;
+  padding-left: min(10%, calc(8% + ((100vw - 870px) * 0.05)));
+  padding-right: 10%;
+  padding-right: min(10%, calc(8% + ((100vw - 870px) * 0.05)));
+  }
+  body.item-view .post {
+    padding-top: 5%;
+  }
 }
 .post-title {
 font: normal normal 24px  微軟正黑體, 新細明體, 'PingFang HK', 'PingFang TC', 'Heiti TC', sans-serif;
@@ -3046,7 +3059,7 @@ z-index : 50;
 opacity: 0;
 visibility: visible;
 transition: visibility 0s, opacity .5s ease-in-out;
-font-color: #ffffff;
+color: #ffffff;
 font-size: 4em;
 text-align: right;
 pointer-events: none;
