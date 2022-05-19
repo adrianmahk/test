@@ -324,7 +324,7 @@ body.opacity-90.dark-mode .post-outer-container {
 
 @media screen and (max-width: 886px) {
     .post-outer-container {
-        margin: 0 8px;
+        margin: 0 max(8px, 2vw);
     }
 }
 
