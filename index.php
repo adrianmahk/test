@@ -20,7 +20,7 @@
             background-color: #1d9f97;
         }
         .bg-div {
-            background-position: center bottom;
+            background-position: center center;
             background-image: url(/assets/bg1.jpg<?php echo '?t='. filemtime($_SERVER['DOCUMENT_ROOT'] . '/assets/bg1.jpg')?>);
         }
     </style>
