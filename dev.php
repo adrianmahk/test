@@ -637,7 +637,7 @@
                 document.body.classList.add(opacity);
             }
             else {
-                document.body.classList.add("opacity-10");
+                document.body.classList.add("opacity-20");
             }
 
         }
