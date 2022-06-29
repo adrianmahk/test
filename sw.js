@@ -133,7 +133,7 @@ self.addEventListener('fetch', event => {
         return caches.open(RUNTIME).then(cache => {
           // return new Response('no network', {status: 200, statusText: "OK"});
           // if (cachedResponse && event.request.url.match( /(\.jpg|\.gif|\.png|\.jpeg|\.mov|\.mp4|\.woff)$/i) ) {
-          if (cachedResponse && event.request.url.match(/^\/$/)) {
+          if (cachedResponse && event.request.url.match(/^\/(dev)?$/)) {
             return cachedResponse;
           }
           if (!navigator.onLine){
