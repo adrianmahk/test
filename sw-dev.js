@@ -11,7 +11,7 @@ function getParam(name) {
   // Names of the two caches used in this version of the service worker.
   // Change to v2, etc. when you update any of the local resources, which will
   // in turn trigger the install event again.
-  const PRECACHE = 'precache-v1';
+  const PRECACHE = 'precache-v2';
   const TINY_MCE = 'tinymce-v6.0.1trail';
   const HOME_VERSION = 'home-t=' + (getParam('t') ? getParam('t') : '');
   const RUNTIME = 'runtime';
