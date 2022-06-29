@@ -765,15 +765,15 @@
                                     </span>
                                     <span>
                                         <button class="pill-button ripple font-size-button"
-                                            onclick="changeFontSize();">字體：13px</button>
+                                            onclick="changeFontSize();">字體：極小</button>
                                         <button class="pill-button ripple font-size-button"
-                                            onclick="changeFontSize();">字體：14px</button>
+                                            onclick="changeFontSize();">字體：小</button>
                                         <button class="pill-button ripple font-size-button"
-                                            onclick="changeFontSize();">字體：15px</button>
+                                            onclick="changeFontSize();">字體：中</button>
                                         <button class="pill-button ripple font-size-button"
-                                            onclick="changeFontSize();">字體：16px</button>
+                                            onclick="changeFontSize();">字體：大</button>
                                         <button class="pill-button ripple font-size-button"
-                                            onclick="changeFontSize();">字體：17px</button>
+                                            onclick="changeFontSize();">字體：極大</button>
                                     </span>
                                     <span>
                                         <button class="pill-button ripple dark-mode-button-toolbar" onclick="darkMode();">黑夜主題：開</button>
