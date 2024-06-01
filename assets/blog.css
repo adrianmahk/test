@@ -2806,9 +2806,9 @@ overflow: hidden;
 height: 100vh;
 }*/
 .bg-div{
-top: -50px;
+top: 0;
 left: 0;
-height: calc(100vh + 100px);
+height: 100vh;
 width: 100%;
 position: fixed;
 /* background: #aaaaaa url(//1.bp.blogspot.com/-DweuLmIPO_U/YGWZZpktLPI/AAAAAAAABrE/mMdFVUBLgBIDwTr21JrudDiLIbPGwntSACNcBGAsYHQ/s2048/asoggetti-gdE-5Oui1Y0-unsplash.jpg) repeat scroll top center; */
