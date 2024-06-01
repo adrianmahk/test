@@ -650,6 +650,20 @@
         function toggleExpandedMenu() {
             document.body.classList.toggle("expanded-menu");
         }
+
+        function getScrollPercent(bottomPadding = 580) {
+            const post = document.querySelector(document.body.classList.contains("item-view") ? ".post" : "#page");
+            const top = post.getBoundingClientRect().top;
+            const height = post.getBoundingClientRect().height - window.innerHeight;
+            var percent = 100.0 * (top < 0 ? -top : 0) / height;
+            return Math.min(100, (Math.round(percent * 100) / 100));
+        }
+
+        function handleScrollEvent(e, delay = 500) {
+            var scrollPercent = getScrollPercent();
+            let bgDiv = document.getElementById("bg-div");
+            bgDiv?.style?.setProperty("background-position", "50% calc(50% + 50px - " + scrollPercent + "px)", "important");
+        }
     </script>
 </head>
 
